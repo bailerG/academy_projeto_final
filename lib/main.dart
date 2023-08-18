@@ -1,4 +1,4 @@
-import 'package:desafio_academy_flutter/features/dealer_app/presentation/pages/dealership_inventory_screen.dart';
+import 'package:desafio_academy_flutter/dealer_app/presentation/pages/dealership_inventory_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
