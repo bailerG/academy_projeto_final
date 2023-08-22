@@ -2,6 +2,7 @@ import 'package:desafio_academy_flutter/dealer_app/entities/sale.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+// This method searches for the database's path and opens it
 Future<Database> getDatabase() async {
   final path = join(
     await getDatabasesPath(),
@@ -17,6 +18,7 @@ Future<Database> getDatabase() async {
   );
 }
 
+// This is the database constructor
 class SalesTable {
   static const String createTable = '''
     CREATE TABLE $tableName(
@@ -27,20 +29,25 @@ class SalesTable {
       $priceSold      REAL NOT NULL,
       $dealershipCut  REAL NOT NULL,
       $businessCut    REAL NOT NULL,
-      $safetyCut      REAL NOT NULL
+      $safetyCut      REAL NOT NULL,
+      $vehicleId      INTERGER NOT NULL,
+      $dealershipId   INTEGER NOT NULL
     );
   ''';
 
-  static const tableName = 'sale';
-  static const id = 'id';
-  static const customerCpf = 'customerCpf';
-  static const customerName = 'customerName';
-  static const soldWhen = 'soldWhen';
-  static const priceSold = 'priceSold';
-  static const dealershipCut = 'dealershipCut';
-  static const businessCut = 'businessCut';
-  static const safetyCut = 'safetyCut';
+  static const String tableName = 'sale';
+  static const String id = 'id';
+  static const String customerCpf = 'customerCpf';
+  static const String customerName = 'customerName';
+  static const String soldWhen = 'soldWhen';
+  static const String priceSold = 'priceSold';
+  static const String dealershipCut = 'dealershipCut';
+  static const String businessCut = 'businessCut';
+  static const String safetyCut = 'safetyCut';
+  static const String vehicleId = 'vehicleId';
+  static const String dealershipId = 'dealershipId';
 
+  // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Sale sale) {
     final map = <String, dynamic>{};
 
@@ -52,12 +59,16 @@ class SalesTable {
     map[SalesTable.dealershipCut] = sale.dealershipCut;
     map[SalesTable.businessCut] = sale.businessCut;
     map[SalesTable.safetyCut] = sale.safetyCut;
+    map[SalesTable.vehicleId] = sale.vehicleId;
+    map[SalesTable.dealershipId] = sale.dealershipId;
 
     return map;
   }
 }
 
+// This controller is responsable for manipulating the database
 class SaleController {
+  // Insert method serves for adding new items into the database
   Future<void> insert(Sale sale) async {
     final database = await getDatabase();
     final map = SalesTable.toMap(sale);
@@ -67,11 +78,28 @@ class SaleController {
     return;
   }
 
-  Future<List<Sale>> select() async {
+  // Delete method for deleting a given object from the database
+  Future<void> delete(Sale sale) async {
+    final database = await getDatabase();
+
+    database.delete(
+      SalesTable.tableName,
+      where: '${SalesTable.id} = ?',
+      whereArgs: [sale.id],
+    );
+
+    return;
+  }
+
+  // Select method returns a list of the items
+  // registered on the database with the given dealership id
+  Future<List<Sale>> selectByDealership(int dealershipId) async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
       SalesTable.tableName,
+      where: '${SalesTable.dealershipId} = ?',
+      whereArgs: [dealershipId],
     );
 
     var list = <Sale>[];
@@ -87,6 +115,40 @@ class SaleController {
           dealershipCut: item[SalesTable.dealershipCut],
           businessCut: item[SalesTable.businessCut],
           safetyCut: item[SalesTable.safetyCut],
+          vehicleId: item[SalesTable.vehicleId],
+          dealershipId: item[SalesTable.dealershipId],
+        ),
+      );
+    }
+    return list;
+  }
+
+// Select method returns a list of the items
+// registered on the database with the given vehicle id
+  Future<List<Sale>> selectByVehicle(int vehicleId) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      SalesTable.tableName,
+      where: '${SalesTable.dealershipId} = ?',
+      whereArgs: [vehicleId],
+    );
+
+    var list = <Sale>[];
+
+    for (final item in result) {
+      list.add(
+        Sale(
+          id: item[SalesTable.id],
+          customerCpf: item[SalesTable.customerCpf],
+          customerName: item[SalesTable.customerName],
+          soldWhen: item[SalesTable.soldWhen],
+          priceSold: item[SalesTable.priceSold],
+          dealershipCut: item[SalesTable.dealershipCut],
+          businessCut: item[SalesTable.businessCut],
+          safetyCut: item[SalesTable.safetyCut],
+          vehicleId: item[SalesTable.vehicleId],
+          dealershipId: item[SalesTable.dealershipId],
         ),
       );
     }

@@ -8,14 +8,19 @@ class Sale {
   final double dealershipCut;
   final double businessCut;
   final double safetyCut;
+  final int vehicleId;
+  final int dealershipId;
 
-  Sale(
-      {required this.id,
-      required this.customerCpf,
-      required this.customerName,
-      required this.soldWhen,
-      required this.priceSold,
-      required this.dealershipCut,
-      required this.businessCut,
-      required this.safetyCut});
+  Sale({
+    required this.id,
+    required this.customerCpf,
+    required this.customerName,
+    required this.soldWhen,
+    required this.priceSold,
+    required this.dealershipCut,
+    required this.businessCut,
+    required this.safetyCut,
+    required this.vehicleId,
+    required this.dealershipId,
+  });
 }

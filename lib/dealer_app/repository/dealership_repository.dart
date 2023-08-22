@@ -18,11 +18,12 @@ Future<Database> getDatabase() async {
   );
 }
 
-// This is the Dealership database constructor
+// This is the database constructor
 class DealershipsTable {
   static const String createTable = ''' 
     CREATE TABLE $tableName(
-      $cnpj           INTEGER PRIMARY KEY NOT NULL,
+      $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $cnpj           INTEGER NOT NULL,
       $name           TEXT NOT NULL,
       $autonomyLevel  TEXT NOT NULL,
       $password       TEXT NOT NULL
@@ -30,15 +31,17 @@ class DealershipsTable {
   ''';
 
   static const String tableName = 'dealership';
+  static const String id = 'id';
   static const String cnpj = 'cnpj';
   static const String name = 'name';
   static const String autonomyLevel = 'autonomyLevel';
   static const String password = 'password';
 
-  // This method transforms a given dealership object into a map instance
+  // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Dealership dealership) {
     final map = <String, dynamic>{};
 
+    map[DealershipsTable.id] = dealership.id;
     map[DealershipsTable.cnpj] = dealership.cnpj;
     map[DealershipsTable.name] = dealership.name;
     map[DealershipsTable.autonomyLevel] = dealership.autonomyLevel;
@@ -50,7 +53,7 @@ class DealershipsTable {
 
 // This controller is responsable for manipulating the database
 class DealershipController {
-  // Insert method serves for adding new dealerships into database
+  // Insert method serves for adding new items into the database
   Future<void> insert(Dealership dealership) async {
     final database = await getDatabase();
     final map = DealershipsTable.toMap(dealership);
@@ -60,7 +63,20 @@ class DealershipController {
     return;
   }
 
-  // Select method returns a list of all the Dealerships registered on the database
+  // Delete method for deleting a given object from the database
+  Future<void> delete(Dealership dealership) async {
+    final database = await getDatabase();
+
+    database.delete(
+      DealershipsTable.tableName,
+      where: '${DealershipsTable.id} = ?',
+      whereArgs: [dealership.id],
+    );
+
+    return;
+  }
+
+  // Select method returns a list of all the items registered on the database
   Future<List<Dealership>> select() async {
     final database = await getDatabase();
 
@@ -73,6 +89,7 @@ class DealershipController {
     for (final item in result) {
       list.add(
         Dealership(
+          id: item[DealershipsTable.id],
           cnpj: item[DealershipsTable.cnpj],
           name: item[DealershipsTable.name],
           autonomyLevel: item[DealershipsTable.autonomyLevel],
@@ -81,5 +98,21 @@ class DealershipController {
       );
     }
     return list;
+  }
+
+  // Update method
+  Future<void> update(Dealership dealership) async {
+    final database = await getDatabase();
+
+    final map = DealershipsTable.toMap(dealership);
+
+    await database.update(
+      DealershipsTable.tableName,
+      map,
+      where: '${DealershipsTable.id} = ?',
+      whereArgs: [dealership.id],
+    );
+
+    return;
   }
 }
