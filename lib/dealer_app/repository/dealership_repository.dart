@@ -1,4 +1,6 @@
-import 'package:desafio_academy_flutter/dealer_app/entities/dealership.dart';
+import '../repository/sale_repository.dart';
+import '../repository/vehicle_repository.dart';
+import '../entities/dealership.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -22,11 +24,11 @@ Future<Database> getDatabase() async {
 class DealershipsTable {
   static const String createTable = ''' 
     CREATE TABLE $tableName(
-      $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      $cnpj           INTEGER NOT NULL,
-      $name           TEXT NOT NULL,
-      $autonomyLevel  TEXT NOT NULL,
-      $password       TEXT NOT NULL
+      $id               INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      $cnpj             INTEGER NOT NULL,
+      $name             TEXT NOT NULL,
+      $autonomyLevelId  INTEGER NOT NULL,
+      $password         TEXT NOT NULL
     );
   ''';
 
@@ -34,7 +36,7 @@ class DealershipsTable {
   static const String id = 'id';
   static const String cnpj = 'cnpj';
   static const String name = 'name';
-  static const String autonomyLevel = 'autonomyLevel';
+  static const String autonomyLevelId = 'autonomyLevelId';
   static const String password = 'password';
 
   // This method translates the table's data to a map
@@ -44,7 +46,7 @@ class DealershipsTable {
     map[DealershipsTable.id] = dealership.id;
     map[DealershipsTable.cnpj] = dealership.cnpj;
     map[DealershipsTable.name] = dealership.name;
-    map[DealershipsTable.autonomyLevel] = dealership.autonomyLevel;
+    map[DealershipsTable.autonomyLevelId] = dealership.autonomyLevelId;
     map[DealershipsTable.password] = dealership.password;
 
     return map;
@@ -58,7 +60,18 @@ class DealershipController {
     final database = await getDatabase();
     final map = DealershipsTable.toMap(dealership);
 
-    await database.insert(DealershipsTable.tableName, map);
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.insert(
+          DealershipsTable.tableName,
+          map,
+        );
+
+        await batch.commit();
+      },
+    );
 
     return;
   }
@@ -67,10 +80,30 @@ class DealershipController {
   Future<void> delete(Dealership dealership) async {
     final database = await getDatabase();
 
-    database.delete(
-      DealershipsTable.tableName,
-      where: '${DealershipsTable.id} = ?',
-      whereArgs: [dealership.id],
+    await database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.delete(
+          DealershipsTable.tableName,
+          where: '${DealershipsTable.id} = ?',
+          whereArgs: [dealership.id],
+        );
+
+        batch.delete(
+          SalesTable.tableName,
+          where: '${SalesTable.dealershipId} = ?',
+          whereArgs: [dealership.id],
+        );
+
+        batch.delete(
+          VehiclesTable.tableName,
+          where: '${VehiclesTable.dealershipId} = ?',
+          whereArgs: [dealership.id],
+        );
+
+        await batch.commit();
+      },
     );
 
     return;
@@ -92,7 +125,7 @@ class DealershipController {
           id: item[DealershipsTable.id],
           cnpj: item[DealershipsTable.cnpj],
           name: item[DealershipsTable.name],
-          autonomyLevel: item[DealershipsTable.autonomyLevel],
+          autonomyLevelId: item[DealershipsTable.autonomyLevelId],
           password: item[DealershipsTable.password],
         ),
       );
@@ -100,17 +133,25 @@ class DealershipController {
     return list;
   }
 
-  // Update method
+  // Update method updates the object on the database
   Future<void> update(Dealership dealership) async {
     final database = await getDatabase();
 
     final map = DealershipsTable.toMap(dealership);
 
-    await database.update(
-      DealershipsTable.tableName,
-      map,
-      where: '${DealershipsTable.id} = ?',
-      whereArgs: [dealership.id],
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.update(
+          DealershipsTable.tableName,
+          map,
+          where: '${DealershipsTable.id} = ?',
+          whereArgs: [dealership.id],
+        );
+
+        await batch.commit();
+      },
     );
 
     return;

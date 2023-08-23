@@ -1,4 +1,4 @@
-import 'package:desafio_academy_flutter/dealer_app/entities/sale.dart';
+import '../entities/sale.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -31,7 +31,8 @@ class SalesTable {
       $businessCut    REAL NOT NULL,
       $safetyCut      REAL NOT NULL,
       $vehicleId      INTERGER NOT NULL,
-      $dealershipId   INTEGER NOT NULL
+      $dealershipId   INTEGER NOT NULL,
+      $userId         INTEGER NOT NULL
     );
   ''';
 
@@ -46,6 +47,7 @@ class SalesTable {
   static const String safetyCut = 'safetyCut';
   static const String vehicleId = 'vehicleId';
   static const String dealershipId = 'dealershipId';
+  static const String userId = 'userId';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Sale sale) {
@@ -61,6 +63,7 @@ class SalesTable {
     map[SalesTable.safetyCut] = sale.safetyCut;
     map[SalesTable.vehicleId] = sale.vehicleId;
     map[SalesTable.dealershipId] = sale.dealershipId;
+    map[SalesTable.userId] = sale.userId;
 
     return map;
   }
@@ -73,7 +76,18 @@ class SaleController {
     final database = await getDatabase();
     final map = SalesTable.toMap(sale);
 
-    await database.insert(SalesTable.tableName, map);
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.insert(
+          SalesTable.tableName,
+          map,
+        );
+
+        await batch.commit();
+      },
+    );
 
     return;
   }
@@ -82,10 +96,18 @@ class SaleController {
   Future<void> delete(Sale sale) async {
     final database = await getDatabase();
 
-    database.delete(
-      SalesTable.tableName,
-      where: '${SalesTable.id} = ?',
-      whereArgs: [sale.id],
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.delete(
+          SalesTable.tableName,
+          where: '${SalesTable.id} = ?',
+          whereArgs: [sale.id],
+        );
+
+        await batch.commit();
+      },
     );
 
     return;
@@ -117,6 +139,7 @@ class SaleController {
           safetyCut: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
+          userId: item[SalesTable.userId],
         ),
       );
     }
@@ -130,7 +153,7 @@ class SaleController {
 
     final List<Map<String, dynamic>> result = await database.query(
       SalesTable.tableName,
-      where: '${SalesTable.dealershipId} = ?',
+      where: '${SalesTable.vehicleId} = ?',
       whereArgs: [vehicleId],
     );
 
@@ -149,9 +172,34 @@ class SaleController {
           safetyCut: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
+          userId: item[SalesTable.userId],
         ),
       );
     }
     return list;
+  }
+
+  // Update method updates the object on the database
+  Future<void> update(Sale sale) async {
+    final database = await getDatabase();
+
+    final map = SalesTable.toMap(sale);
+
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.update(
+          SalesTable.tableName,
+          map,
+          where: '${SalesTable.tableName} = ?',
+          whereArgs: [sale.id],
+        );
+
+        await batch.commit();
+      },
+    );
+
+    return;
   }
 }

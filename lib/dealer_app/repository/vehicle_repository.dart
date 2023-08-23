@@ -1,5 +1,5 @@
-import 'package:desafio_academy_flutter/dealer_app/entities/vehicle.dart';
-import 'package:desafio_academy_flutter/dealer_app/repository/sale_repository.dart';
+import '../entities/vehicle.dart';
+import '../repository/sale_repository.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -74,7 +74,18 @@ class VehicleController {
     final database = await getDatabase();
     final map = VehiclesTable.toMap(vehicle);
 
-    await database.insert(VehiclesTable.tableName, map);
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.insert(
+          VehiclesTable.tableName,
+          map,
+        );
+
+        await batch.commit();
+      },
+    );
 
     return;
   }
@@ -83,11 +94,27 @@ class VehicleController {
   Future<void> delete(Vehicle vehicle) async {
     final database = await getDatabase();
 
-    database.delete(
-      VehiclesTable.tableName,
-      where: '${VehiclesTable.id} = ?',
-      whereArgs: [vehicle.id],
+    await database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.delete(
+          VehiclesTable.tableName,
+          where: '${VehiclesTable.id} = ?',
+          whereArgs: [vehicle.id],
+        );
+
+        batch.delete(
+          SalesTable.tableName,
+          where: '${SalesTable.vehicleId} = ?',
+          whereArgs: [vehicle.id],
+        );
+
+        await batch.commit();
+      },
     );
+
+    return;
   }
 
   // Select method returns a list of the items registered on the database with the given dealership id
@@ -119,5 +146,29 @@ class VehicleController {
       );
     }
     return list;
+  }
+
+  // Update method updates the object on the database
+  Future<void> update(Vehicle vehicle) async {
+    final database = await getDatabase();
+
+    final map = VehiclesTable.toMap(vehicle);
+
+    database.transaction(
+      (txn) async {
+        final batch = txn.batch();
+
+        batch.update(
+          VehiclesTable.tableName,
+          map,
+          where: '${VehiclesTable.id} = ?',
+          whereArgs: [vehicle.id],
+        );
+
+        await batch.commit();
+      },
+    );
+
+    return;
   }
 }

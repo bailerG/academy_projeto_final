@@ -10,6 +10,7 @@ class Sale {
   final double safetyCut;
   final int vehicleId;
   final int dealershipId;
+  final int userId;
 
   Sale({
     required this.id,
@@ -22,5 +23,6 @@ class Sale {
     required this.safetyCut,
     required this.vehicleId,
     required this.dealershipId,
+    required this.userId,
   });
 }
