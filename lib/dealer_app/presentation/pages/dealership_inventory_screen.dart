@@ -1,4 +1,4 @@
-import 'package:desafio_academy_flutter/dealer_app/presentation/state/dealership_inventory_controller.dart';
+import '/dealer_app/presentation/state/dealership_inventory_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,5 +1,7 @@
-import 'package:desafio_academy_flutter/dealer_app/presentation/pages/dealership_inventory_screen.dart';
+import '../dealer_app/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
+
+const colorDetail = Color.fromRGBO(134, 46, 46, 1);
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Anderson Automoveis',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: colorDetail,
+        ),
         useMaterial3: true,
       ),
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }
