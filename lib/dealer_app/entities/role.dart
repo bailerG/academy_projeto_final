@@ -1,9 +1,9 @@
 class Role {
-  final int id;
+  final int? id;
   final String roleName;
 
   Role({
-    required this.id,
+    this.id,
     required this.roleName,
   });
 }

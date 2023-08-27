@@ -1,6 +1,6 @@
 // Constructor for the Car object
 class Vehicle {
-  final int id;
+  final int? id;
   final String model;
   final String plate;
   final String brand;
@@ -12,7 +12,7 @@ class Vehicle {
   final int dealershipId;
 
   Vehicle({
-    required this.id,
+    this.id,
     required this.model,
     required this.plate,
     required this.brand,

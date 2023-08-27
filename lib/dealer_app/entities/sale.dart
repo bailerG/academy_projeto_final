@@ -1,6 +1,6 @@
 // Constructor for the Sale object
 class Sale {
-  final int id;
+  final int? id;
   final int customerCpf;
   final String customerName;
   final DateTime soldWhen;
@@ -13,7 +13,7 @@ class Sale {
   final int userId;
 
   Sale({
-    required this.id,
+    this.id,
     required this.customerCpf,
     required this.customerName,
     required this.soldWhen,
