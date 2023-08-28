@@ -1,7 +1,8 @@
-import '../repository/dealership_repository.dart';
-import '../entities/role.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../entities/role.dart';
+import '../repository/dealership_repository.dart';
 
 // This method searches for the database's path and opens it
 Future<Database> getDatabase() async {
@@ -87,7 +88,8 @@ class RoleController {
     return;
   }
 
-  // Select method returns a list of the items registered on the database with the given dealership id
+  // Select method returns a list of the items registered on the database with
+  //the given dealership id
   Future<List<Role>> select() async {
     final database = await getDatabase();
 

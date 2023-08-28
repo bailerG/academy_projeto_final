@@ -1,8 +1,9 @@
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../entities/dealership.dart';
 import '../repository/sale_repository.dart';
 import '../repository/vehicle_repository.dart';
-import '../entities/dealership.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 // This method searches for the database's path and opens it
 Future<Database> getDatabase() async {

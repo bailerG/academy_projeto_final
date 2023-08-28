@@ -1,5 +1,6 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
 import '../entities/user.dart';
 
 // This method searches for the database's path and opens it
@@ -98,7 +99,8 @@ class UserController {
     return;
   }
 
-  // Select method returns a list of the items registered on the database with the given dealership id
+  // Select method returns a list of the items registered on the database with
+  //the given dealership id
   Future<List<User>> select() async {
     final database = await getDatabase();
 

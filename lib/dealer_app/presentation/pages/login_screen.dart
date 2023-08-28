@@ -1,8 +1,9 @@
-import 'package:desafio_academy_flutter/dealer_app/presentation/pages/user_registration_screen.dart';
-import 'package:provider/provider.dart';
-import '/main.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '/main.dart';
 import '../state/login_screen_state.dart';
+import 'user_registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -29,28 +30,16 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => LoginScreenState(),
-      child: Padding(
-        padding: const EdgeInsets.all(40.0),
+      child: const Padding(
+        padding: EdgeInsets.all(40.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //------------------- Welcome title -------------------
-            Padding(
-              padding: const EdgeInsets.only(bottom: 50),
-              child: Title(
-                color: accentColor,
-                child: const Text(
-                  'Welcome!',
-                  textScaleFactor: 2.0,
-                  style: TextStyle(
-                    color: accentColor,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            const Text(
+            //------------------- Welcome title ------------------- //
+            _WelcomeTitle(),
+            // ------------------- Username text field ------------------- //
+            Text(
               'Username',
               textScaleFactor: 1.3,
               style: TextStyle(
@@ -58,15 +47,15 @@ class LoginForm extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(
                 top: 10,
                 bottom: 10,
               ),
-              // ------------------- Username text field -------------------
-              child: UsernameTextField(),
+              child: _UsernameTextField(),
             ),
-            const Text(
+            // ------------------- Password text field ------------------- //
+            Text(
               'Password',
               textScaleFactor: 1.3,
               style: TextStyle(
@@ -74,25 +63,22 @@ class LoginForm extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(
                 top: 10,
-                bottom: 10,
+                bottom: 30,
               ),
-              // ------------------- Password text field -------------------
-              child: PasswordTextField(),
+              child: _PasswordTextField(),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // -------------------- Login button --------------------
-                  LoginButton(),
-                ],
-              ),
+            // -------------------- Login button -------------------- //
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _LoginButton(),
+              ],
             ),
-            const Padding(
+            // ------------------- Register text button ------------------- //
+            Padding(
               padding: EdgeInsets.only(top: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -103,8 +89,7 @@ class LoginForm extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  // ------------------- Register text button -------------------
-                  RegisterButton(),
+                  _RegisterButton(),
                 ],
               ),
             ),
@@ -115,8 +100,30 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-class UsernameTextField extends StatelessWidget {
-  const UsernameTextField({super.key});
+class _WelcomeTitle extends StatelessWidget {
+  const _WelcomeTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50),
+      child: Title(
+        color: accentColor,
+        child: const Text(
+          'Welcome!',
+          textScaleFactor: 2.5,
+          style: TextStyle(
+            color: accentColor,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _UsernameTextField extends StatelessWidget {
+  const _UsernameTextField();
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +147,8 @@ class UsernameTextField extends StatelessWidget {
   }
 }
 
-class PasswordTextField extends StatelessWidget {
-  const PasswordTextField({super.key});
+class _PasswordTextField extends StatelessWidget {
+  const _PasswordTextField();
 
   @override
   Widget build(BuildContext context) {
@@ -174,8 +181,8 @@ class PasswordTextField extends StatelessWidget {
   }
 }
 
-class LoginButton extends StatelessWidget {
-  const LoginButton({super.key});
+class _LoginButton extends StatelessWidget {
+  const _LoginButton();
 
   @override
   Widget build(BuildContext context) {
@@ -201,8 +208,8 @@ class LoginButton extends StatelessWidget {
   }
 }
 
-class RegisterButton extends StatelessWidget {
-  const RegisterButton({super.key});
+class _RegisterButton extends StatelessWidget {
+  const _RegisterButton();
 
   @override
   Widget build(BuildContext context) {
