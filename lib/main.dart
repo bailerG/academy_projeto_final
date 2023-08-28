@@ -1,3 +1,5 @@
+import 'package:desafio_academy_flutter/dealer_app/presentation/pages/user_registration_screen.dart';
+
 import '../dealer_app/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +26,12 @@ class MyApp extends StatelessWidget {
           primary: accentColor,
         ),
       ),
-      home: const LoginScreen(),
+      routes: {
+        LoginScreen.routeName: (context) => const LoginScreen(),
+        UserRegistrationScreen.routeName: (context) =>
+            const UserRegistrationScreen(),
+      },
+      initialRoute: LoginScreen.routeName,
     );
   }
 }

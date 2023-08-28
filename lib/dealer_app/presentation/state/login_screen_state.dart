@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 class LoginScreenState with ChangeNotifier {
   final formState = GlobalKey<FormState>();
 
-  static final usernameController = TextEditingController();
-  static final passwordController = TextEditingController();
-  // static bool _obscureText = false;
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  bool obscureText = true;
+
+  void toggleObscureText() {
+    obscureText = !obscureText;
+    notifyListeners();
+  }
 }
