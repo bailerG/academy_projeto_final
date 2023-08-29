@@ -14,17 +14,32 @@ Future<Database> getDatabase() async {
     await getDatabasesPath(),
     'anderson_automoveis.db',
   );
+  print(path);
 
   return openDatabase(
     path,
     onCreate: (db, version) async {
       await db.execute(AutonomyLevelsTable.createTable);
+
+      await db.rawInsert(AutonomyLevelsTable.starterRawInsert);
+      await db.rawInsert(AutonomyLevelsTable.intermediateRawInsert);
+      await db.rawInsert(AutonomyLevelsTable.advancedRawInsert);
+      await db.rawInsert(AutonomyLevelsTable.specialRawInsert);
+
       await db.execute(DealershipsTable.createTable);
+
+      await db.rawInsert(DealershipsTable.initialDealershipRawInsert);
+
       await db.execute(RolesTable.createTable);
-      await db.rawInsert(RolesTable.adminRawInsert);
-      await db.rawInsert(RolesTable.associateRawInsert);
+
+      await db.rawInsert(RolesTable.adminRoleRawInsert);
+      await db.rawInsert(RolesTable.associateRoleRawInsert);
+
       await db.execute(SalesTable.createTable);
       await db.execute(UsersTable.createTable);
+
+      await db.rawInsert(UsersTable.adminUserRawInsert);
+
       await db.execute(VehiclesTable.createTable);
     },
     version: 1,
@@ -49,6 +64,22 @@ class AutonomyLevelsTable {
   static const String dealershipPercentage = 'dealership_percentage';
   static const String safetyPercentage = 'safety_percentage';
   static const String headquartersPercentage = 'headquarters_percentage';
+
+  static const starterRawInsert =
+      'INSERT INTO $tableName($name,$dealershipPercentage,$safetyPercentage,'
+      '$headquartersPercentage) VALUES("Iniciante",0.74,0.01,0.25)';
+
+  static const intermediateRawInsert =
+      'INSERT INTO $tableName($name,$dealershipPercentage,$safetyPercentage,'
+      '$headquartersPercentage) VALUES("Intermediario",0.79,0.01,0.20)';
+
+  static const advancedRawInsert =
+      'INSERT INTO $tableName($name,$dealershipPercentage,$safetyPercentage,'
+      '$headquartersPercentage) VALUES("Iniciante",0.84,0.01,0.15)';
+
+  static const specialRawInsert =
+      'INSERT INTO $tableName($name,$dealershipPercentage,$safetyPercentage,'
+      '$headquartersPercentage) VALUES("Especial",0.94,0.01,0.05)';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(AutonomyLevel autonomyLevel) {
@@ -178,6 +209,10 @@ class DealershipsTable {
   static const String name = 'name';
   static const String autonomyLevelId = 'autonomy_level_id';
   static const String password = 'password';
+
+  static const initialDealershipRawInsert =
+      'INSERT INTO $tableName($cnpj,$name,$autonomyLevelId,$password) '
+      'VALUES(79558908000175,"Matriz",4,"anderson")';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Dealership dealership) {
@@ -311,10 +346,10 @@ class RolesTable {
   static const String id = 'id';
   static const String roleName = 'role_name';
 
-  static const adminRawInsert =
+  static const adminRoleRawInsert =
       'INSERT INTO $tableName($roleName) VALUES("admin")';
 
-  static const associateRawInsert =
+  static const associateRoleRawInsert =
       'INSERT INTO $tableName($roleName) VALUES("associate")';
 
   // This method translates the table's data to a map
@@ -625,6 +660,10 @@ class UsersTable {
   static const String fullName = 'full_name';
   static const String dealershipId = 'dealership_id';
   static const String roleId = 'role_id';
+
+  static const adminUserRawInsert =
+      'INSERT INTO $tableName($username,$password,$fullName,$dealershipId,'
+      '$roleId) VALUES("admin","admin","Anderson",1,1)';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(User user) {
