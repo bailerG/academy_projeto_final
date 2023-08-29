@@ -162,25 +162,25 @@ class _UsernameTextField extends StatelessWidget {
 class _DealershipDropdown extends StatelessWidget {
   const _DealershipDropdown();
 
-  static const list = ['1', '2', '3', '4'];
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.26,
-      child: DropdownButtonFormField(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
-        ),
-        items: List.generate(
-          list.length,
-          (index) => DropdownMenuItem(
-            value: list[index],
-            child: Text('$index'),
+    return Consumer<UserRegistrationState>(builder: (context, state, child) {
+      return SizedBox(
+        width: MediaQuery.of(context).size.width / 1.26,
+        child: DropdownButtonFormField(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
           ),
+          items: List.generate(
+            state.roleList.length,
+            (index) => DropdownMenuItem(
+              value: state.roleList[index],
+              child: Text(state.roleList[index].roleName),
+            ),
+          ),
+          onChanged: (value) {},
         ),
-        onChanged: (value) {},
-      ),
-    );
+      );
+    });
   }
 }
