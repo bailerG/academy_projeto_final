@@ -17,77 +17,79 @@ class UserRegistrationScreen extends StatelessWidget {
         create: (context) => UserRegistrationState(),
         child:
             Consumer<UserRegistrationState>(builder: (context, state, child) {
-          return Form(
-            key: state.formState,
-            child: const Padding(
-              padding: EdgeInsets.all(40.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ------------------- New Here Title ------------------- //
-                  _NewHereTitle(),
-                  //------------------- Full Name Text Field ------------------- //
-                  Text(
-                    'Full Name',
-                    textScaleFactor: 1.3,
-                    style: TextStyle(
-                      color: accentColor,
-                      fontWeight: FontWeight.w700,
+          return SingleChildScrollView(
+            child: Form(
+              key: state.formState,
+              child: const Padding(
+                padding: EdgeInsets.all(40.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ------------------- New Here Title ------------------- //
+                    _NewHereTitle(),
+                    //------------------- Full Name Text Field ------------------- //
+                    Text(
+                      'Full Name',
+                      textScaleFactor: 1.3,
+                      style: TextStyle(
+                        color: accentColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      child: _FullNameTextField(),
                     ),
-                    child: _FullNameTextField(),
-                  ),
-                  //------------------- Username Text Field ------------------- //
-                  Text(
-                    'Username',
-                    textScaleFactor: 1.3,
-                    style: TextStyle(
-                      color: accentColor,
-                      fontWeight: FontWeight.w700,
+                    //------------------- Username Text Field ------------------- //
+                    Text(
+                      'Username',
+                      textScaleFactor: 1.3,
+                      style: TextStyle(
+                        color: accentColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      child: _UsernameTextField(),
                     ),
-                    child: _UsernameTextField(),
-                  ),
-                  Text(
-                    'Dealership',
-                    textScaleFactor: 1.3,
-                    style: TextStyle(
-                      color: accentColor,
-                      fontWeight: FontWeight.w700,
+                    Text(
+                      'Dealership',
+                      textScaleFactor: 1.3,
+                      style: TextStyle(
+                        color: accentColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 10,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 10,
+                      ),
+                      child: _DealershipDropdown(),
                     ),
-                    child: _DealershipDropdown(),
-                  ),
-                  Text(
-                    'Role',
-                    textScaleFactor: 1.3,
-                    style: TextStyle(
-                      color: accentColor,
-                      fontWeight: FontWeight.w700,
+                    Text(
+                      'Role',
+                      textScaleFactor: 1.3,
+                      style: TextStyle(
+                        color: accentColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 30,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 30,
+                      ),
+                      child: _RoleDropdown(),
                     ),
-                    child: _RoleDropdown(),
-                  ),
-                  _RegisterButton(),
-                ],
+                    _RegisterButton(),
+                  ],
+                ),
               ),
             ),
           );
@@ -152,6 +154,15 @@ class _FullNameTextField extends StatelessWidget {
               ),
             ),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please share the associate's name";
+            }
+            if (value.length < 3) {
+              return 'Name should be at least 3 letters long';
+            }
+            return null;
+          },
         );
       },
     );
@@ -177,6 +188,15 @@ class _UsernameTextField extends StatelessWidget {
               ),
             ),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please write a username';
+            }
+            if (value.length < 4) {
+              return 'Username should be at least 4 letters long';
+            }
+            return null;
+          },
         );
       },
     );
@@ -206,6 +226,12 @@ class _DealershipDropdown extends StatelessWidget {
             onChanged: (value) {
               state.dealershipController = value!.id!;
               state.passwordController = value.password;
+            },
+            validator: (value) {
+              if (value == null) {
+                return 'Please select a Dealership';
+              }
+              return null;
             },
           ),
         );
@@ -237,6 +263,12 @@ class _RoleDropdown extends StatelessWidget {
             onChanged: (value) {
               state.roleController = value!;
             },
+            validator: (value) {
+              if (value == null) {
+                return 'Please select a Role';
+              }
+              return null;
+            },
           ),
         );
       },
@@ -253,7 +285,9 @@ class _RegisterButton extends StatelessWidget {
       builder: (context, state, child) {
         return ElevatedButton(
           onPressed: () {
-            state.insert();
+            if (state.formState.currentState!.validate()) {
+              state.insert();
+            }
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(
