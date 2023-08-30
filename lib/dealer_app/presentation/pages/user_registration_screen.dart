@@ -68,11 +68,25 @@ class UserRegistrationScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: 10,
                       bottom: 10,
                     ),
                     child: _DealershipDropdown(),
                   ),
+                  Text(
+                    'Role',
+                    textScaleFactor: 1.3,
+                    style: TextStyle(
+                      color: accentColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 30,
+                    ),
+                    child: _RoleDropdown(),
+                  ),
+                  _RegisterButton(),
                 ],
               ),
             ),
@@ -89,7 +103,7 @@ class _NewHereTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
+      padding: const EdgeInsets.only(bottom: 30),
       child: Title(
         color: accentColor,
         child: const Column(
@@ -124,17 +138,22 @@ class _FullNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        hintText: "Associate's full name",
-        prefixIcon: Icon(Icons.person),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
+    return Consumer<UserRegistrationState>(
+      builder: (context, state, child) {
+        return TextFormField(
+          controller: state.fullNameController,
+          keyboardType: TextInputType.text,
+          decoration: const InputDecoration(
+            hintText: "Associate's full name",
+            prefixIcon: Icon(Icons.person),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -144,17 +163,22 @@ class _UsernameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        hintText: "Associate's username",
-        prefixIcon: Icon(Icons.person),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
+    return Consumer<UserRegistrationState>(
+      builder: (context, state, child) {
+        return TextFormField(
+          controller: state.usernameController,
+          keyboardType: TextInputType.text,
+          decoration: const InputDecoration(
+            hintText: "Associate's username",
+            prefixIcon: Icon(Icons.person),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -164,23 +188,87 @@ class _DealershipDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserRegistrationState>(builder: (context, state, child) {
-      return SizedBox(
-        width: MediaQuery.of(context).size.width / 1.26,
-        child: DropdownButtonFormField(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(20),
-          ),
-          items: List.generate(
-            state.roleList.length,
-            (index) => DropdownMenuItem(
-              value: state.roleList[index],
-              child: Text(state.roleList[index].roleName),
+    return Consumer<UserRegistrationState>(
+      builder: (context, state, child) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width / 1.26,
+          child: DropdownButtonFormField(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
             ),
+            items: List.generate(
+              state.dealershipList.length,
+              (index) => DropdownMenuItem(
+                value: state.dealershipList[index],
+                child: Text(state.dealershipList[index].name),
+              ),
+            ),
+            onChanged: (value) {
+              state.dealershipController = value!.id!;
+              state.passwordController = value.password;
+            },
           ),
-          onChanged: (value) {},
-        ),
-      );
-    });
+        );
+      },
+    );
+  }
+}
+
+class _RoleDropdown extends StatelessWidget {
+  const _RoleDropdown();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserRegistrationState>(
+      builder: (context, state, child) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width / 1.26,
+          child: DropdownButtonFormField(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
+            items: List.generate(
+              state.roleList.length,
+              (index) => DropdownMenuItem(
+                value: state.roleList[index].id,
+                child: Text(state.roleList[index].roleName),
+              ),
+            ),
+            onChanged: (value) {
+              state.roleController = value!;
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _RegisterButton extends StatelessWidget {
+  const _RegisterButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserRegistrationState>(
+      builder: (context, state, child) {
+        return ElevatedButton(
+          onPressed: () {
+            state.insert();
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(
+              MediaQuery.of(context).size.width / 1.26,
+              MediaQuery.of(context).size.height / 16,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            backgroundColor: accentColor,
+            foregroundColor: Colors.white,
+          ),
+          child: const Text('Register Associate'),
+        );
+      },
+    );
   }
 }

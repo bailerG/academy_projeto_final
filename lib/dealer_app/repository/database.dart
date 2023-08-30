@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -14,7 +16,7 @@ Future<Database> getDatabase() async {
     await getDatabasesPath(),
     'anderson_automoveis.db',
   );
-  print(path);
+  log(path);
 
   return openDatabase(
     path,
@@ -75,7 +77,7 @@ class AutonomyLevelsTable {
 
   static const advancedRawInsert =
       'INSERT INTO $tableName($name,$dealershipPercentage,$safetyPercentage,'
-      '$headquartersPercentage) VALUES("Iniciante",0.84,0.01,0.15)';
+      '$headquartersPercentage) VALUES("Avancado",0.84,0.01,0.15)';
 
   static const specialRawInsert =
       'INSERT INTO $tableName($name,$dealershipPercentage,$safetyPercentage,'
@@ -98,7 +100,7 @@ class AutonomyLevelsTable {
 }
 
 // This controller is responsable for manipulating the database
-class AutonomyLevelsController {
+class AutonomyLevelsTableController {
   // Insert method serves for adding new items into the database
   Future<void> insert(AutonomyLevel autonomyLevel) async {
     final database = await getDatabase();
@@ -229,7 +231,7 @@ class DealershipsTable {
 }
 
 // This controller is responsable for manipulating the database
-class DealershipController {
+class DealershipTableController {
   // Insert method serves for adding new items into the database
   Future<void> insert(Dealership dealership) async {
     final database = await getDatabase();
@@ -347,10 +349,10 @@ class RolesTable {
   static const String roleName = 'role_name';
 
   static const adminRoleRawInsert =
-      'INSERT INTO $tableName($roleName) VALUES("admin")';
+      'INSERT INTO $tableName($roleName) VALUES("Admin")';
 
   static const associateRoleRawInsert =
-      'INSERT INTO $tableName($roleName) VALUES("associate")';
+      'INSERT INTO $tableName($roleName) VALUES("Associado")';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Role role) {
@@ -506,7 +508,7 @@ class SalesTable {
 }
 
 // This controller is responsable for manipulating the database
-class SaleController {
+class SaleTableController {
   // Insert method serves for adding new items into the database
   Future<void> insert(Sale sale) async {
     final database = await getDatabase();
@@ -681,7 +683,7 @@ class UsersTable {
 }
 
 // This controller is responsable for manipulating the database
-class UserController {
+class UsersTableController {
   // Insert method serves for adding new items into the database
   Future<void> insert(User user) async {
     final database = await getDatabase();
@@ -824,7 +826,7 @@ class VehiclesTable {
 }
 
 // This controller is responsable for manipulating the database
-class VehicleController {
+class VehiclesTableController {
   // Insert method serves for adding new items into the database
   Future<void> insert(Vehicle vehicle) async {
     final database = await getDatabase();

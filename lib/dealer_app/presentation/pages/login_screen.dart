@@ -16,15 +16,15 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(),
       body: const Column(
         children: [
-          LoginForm(),
+          _LoginForm(),
         ],
       ),
     );
   }
 }
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+class _LoginForm extends StatelessWidget {
+  const _LoginForm();
 
   @override
   Widget build(BuildContext context) {
