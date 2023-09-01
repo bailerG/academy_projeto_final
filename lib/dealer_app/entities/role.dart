@@ -6,4 +6,9 @@ class Role {
     this.id,
     required this.roleName,
   });
+
+  @override
+  String toString() {
+    return roleName;
+  }
 }

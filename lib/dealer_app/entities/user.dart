@@ -14,4 +14,9 @@ class User {
     required this.dealershipId,
     required this.roleId,
   });
+
+  @override
+  String toString() {
+    return fullName;
+  }
 }

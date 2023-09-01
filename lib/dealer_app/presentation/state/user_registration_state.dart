@@ -16,12 +16,15 @@ class UserRegistrationState with ChangeNotifier {
 
   final _fullNameController = TextEditingController();
   final _usernameController = TextEditingController();
-  late final String passwordController;
-  late final int dealershipController;
-  late final int roleController;
+  late String _passwordController;
+  late int _dealershipController;
+  late int _roleController;
 
   TextEditingController get fullNameController => _fullNameController;
   TextEditingController get usernameController => _usernameController;
+  String get passwordController => _passwordController;
+  int get dealershipController => _dealershipController;
+  int get roleController => _roleController;
 
   Future<void> insert() async {
     final user = User(
@@ -29,7 +32,7 @@ class UserRegistrationState with ChangeNotifier {
       password: passwordController,
       fullName: fullNameController.text,
       dealershipId: dealershipController,
-      roleId: roleController,
+      roleId: _roleController,
     );
 
     await userController.insert(user);
@@ -47,12 +50,24 @@ class UserRegistrationState with ChangeNotifier {
     final listOfRoles = await RolesTableController().select();
     final listOfDealerships = await DealershipTableController().select();
 
-    roleList.clear();
-    dealershipList.clear();
+    roleList
+      ..clear()
+      ..addAll(listOfRoles);
+    dealershipList
+      ..clear()
+      ..addAll(listOfDealerships);
 
-    roleList.addAll(listOfRoles);
-    dealershipList.addAll(listOfDealerships);
+    notifyListeners();
+  }
 
+  void setDealershipValue(Dealership dealership) {
+    _dealershipController = dealership.id!;
+    _passwordController = dealership.password;
+    notifyListeners();
+  }
+
+  void setRoleValue(Role role) {
+    _roleController = role.id!;
     notifyListeners();
   }
 }

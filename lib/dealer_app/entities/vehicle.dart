@@ -23,4 +23,9 @@ class Vehicle {
     required this.purchasedWhen,
     required this.dealershipId,
   });
+
+  @override
+  String toString() {
+    return '$brand $model $modelYear';
+  }
 }

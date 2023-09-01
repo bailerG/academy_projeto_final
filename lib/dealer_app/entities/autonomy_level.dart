@@ -12,4 +12,9 @@ class AutonomyLevel {
     required this.safetyPercentage,
     required this.headquartersPercentage,
   });
+
+  @override
+  String toString() {
+    return name;
+  }
 }

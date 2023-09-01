@@ -25,4 +25,9 @@ class Sale {
     required this.dealershipId,
     required this.userId,
   });
+
+  @override
+  String toString() {
+    return 'Vehicle sold to $customerName at $soldWhen';
+  }
 }

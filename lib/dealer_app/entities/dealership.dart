@@ -13,4 +13,9 @@ class Dealership {
     required this.autonomyLevelId,
     required this.password,
   });
+
+  @override
+  String toString() {
+    return name;
+  }
 }

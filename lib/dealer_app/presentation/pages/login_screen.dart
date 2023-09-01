@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 
 import '/main.dart';
 import '../state/login_screen_state.dart';
+import '../utils/header.dart';
+import '../utils/large_button.dart';
+import '../utils/text_field.dart';
 import 'user_registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -36,48 +39,29 @@ class _LoginForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //------------------- Welcome title ------------------- //
             _WelcomeTitle(),
-            // ------------------- Username text field ------------------- //
-            Text(
-              'Username',
-              textScaleFactor: 1.3,
-              style: TextStyle(
-                color: accentColor,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            AppHeader(header: 'Username'),
             Padding(
               padding: EdgeInsets.only(
-                top: 10,
-                bottom: 10,
+                top: 8,
+                bottom: 8,
               ),
               child: _UsernameTextField(),
             ),
-            // ------------------- Password text field ------------------- //
-            Text(
-              'Password',
-              textScaleFactor: 1.3,
-              style: TextStyle(
-                color: accentColor,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            AppHeader(header: 'Password'),
             Padding(
               padding: EdgeInsets.only(
-                top: 10,
-                bottom: 30,
+                top: 8,
+                bottom: 32,
               ),
               child: _PasswordTextField(),
             ),
-            // -------------------- Login button -------------------- //
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _LoginButton(),
               ],
             ),
-            // ------------------- Register text button ------------------- //
             Padding(
               padding: EdgeInsets.only(top: 5),
               child: Row(
@@ -125,24 +109,19 @@ class _WelcomeTitle extends StatelessWidget {
 class _UsernameTextField extends StatelessWidget {
   const _UsernameTextField();
 
+  String? _validator(String? value) {
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginScreenState>(
-      builder: (context, state, child) {
-        return TextFormField(
-          controller: state.usernameController,
-          keyboardType: TextInputType.text,
-          decoration: const InputDecoration(
-            hintText: 'Type in your username',
-            prefixIcon: Icon(Icons.person),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-          ),
-        );
-      },
+    final state = Provider.of<LoginScreenState>(context, listen: false);
+
+    return AppTextField(
+      controller: state.usernameController,
+      hint: 'Type in your Username',
+      validator: _validator,
+      icon: const Icon(Icons.account_circle),
     );
   }
 }
@@ -150,33 +129,26 @@ class _UsernameTextField extends StatelessWidget {
 class _PasswordTextField extends StatelessWidget {
   const _PasswordTextField();
 
+  String? _validator(String? value) {
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginScreenState>(
-      builder: (context, state, child) {
-        return TextFormField(
-          controller: state.passwordController,
-          keyboardType: TextInputType.text,
-          obscureText: state.obscureText,
-          decoration: InputDecoration(
-            hintText: 'Type in your password',
-            prefixIcon: const Icon(Icons.security),
-            suffixIcon: IconButton(
-              onPressed: () {
-                state.toggleObscureText();
-              },
-              icon: state.obscureText
-                  ? const Icon(Icons.toggle_on_outlined)
-                  : const Icon(Icons.toggle_off_rounded),
-            ),
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-          ),
-        );
-      },
+    final state = Provider.of<LoginScreenState>(context, listen: true);
+
+    return AppTextField(
+      controller: state.passwordController,
+      validator: _validator,
+      hint: 'Type in your password',
+      icon: const Icon(Icons.security),
+      obscureText: state.obscureText,
+      obscureTextButton: IconButton(
+        onPressed: state.toggleObscureText,
+        icon: state.obscureText
+            ? const Icon(Icons.toggle_on_outlined)
+            : const Icon(Icons.toggle_off_rounded),
+      ),
     );
   }
 }
@@ -184,26 +156,17 @@ class _PasswordTextField extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   const _LoginButton();
 
+  void onPressed() {
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginScreenState>(
-      builder: (context, state, child) {
-        return ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size(
-              MediaQuery.of(context).size.width / 1.26,
-              MediaQuery.of(context).size.height / 16,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            backgroundColor: accentColor,
-            foregroundColor: Colors.white,
-          ),
-          child: const Text('Login'),
-        );
-      },
+    // final state = Provider.of<LoginScreenState>(context, listen: false);
+
+    return AppLargeButton(
+      onPressed: onPressed,
+      text: 'Login',
     );
   }
 }
