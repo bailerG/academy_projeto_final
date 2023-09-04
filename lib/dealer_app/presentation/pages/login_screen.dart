@@ -6,6 +6,7 @@ import '../state/login_screen_state.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
+import '../utils/title.dart';
 import 'user_registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -39,7 +40,10 @@ class _LoginForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _WelcomeTitle(),
+            Padding(
+              padding: EdgeInsets.only(bottom: 50),
+              child: AppTitle(title: 'Welcome!'),
+            ),
             AppHeader(header: 'Username'),
             Padding(
               padding: EdgeInsets.only(
@@ -78,28 +82,6 @@ class _LoginForm extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _WelcomeTitle extends StatelessWidget {
-  const _WelcomeTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
-      child: Title(
-        color: accentColor,
-        child: const Text(
-          'Welcome!',
-          textScaleFactor: 2.5,
-          style: TextStyle(
-            color: accentColor,
-            fontWeight: FontWeight.w700,
-          ),
         ),
       ),
     );
