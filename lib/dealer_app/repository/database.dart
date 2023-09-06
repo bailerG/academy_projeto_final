@@ -728,11 +728,37 @@ class UsersTableController {
 
   // Select method returns a list of the items registered on the database with
   //the given dealership id
-  Future<List<User>> select() async {
+  Future<List<User>> selectAll() async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
       UsersTable.tableName,
+    );
+
+    var list = <User>[];
+
+    for (final item in result) {
+      list.add(
+        User(
+          id: item[UsersTable.id],
+          username: item[UsersTable.username],
+          password: item[UsersTable.password],
+          fullName: item[UsersTable.fullName],
+          dealershipId: item[UsersTable.dealershipId],
+          roleId: item[UsersTable.roleId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<User>> selectByUsername(String username) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      UsersTable.tableName,
+      where: '${UsersTable.username} = ?',
+      whereArgs: [username],
     );
 
     var list = <User>[];

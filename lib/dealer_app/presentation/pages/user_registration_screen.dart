@@ -8,8 +8,8 @@ import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
 
-class UserRegistrationScreen extends StatelessWidget {
-  const UserRegistrationScreen({super.key});
+class UserRegisterScreen extends StatelessWidget {
+  const UserRegisterScreen({super.key});
 
   static const routeName = '/registration';
 
@@ -17,13 +17,13 @@ class UserRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const _UserRegistrationForm(),
+      body: const _UserRegistrationStructure(),
     );
   }
 }
 
-class _UserRegistrationForm extends StatelessWidget {
-  const _UserRegistrationForm();
+class _UserRegistrationStructure extends StatelessWidget {
+  const _UserRegistrationStructure();
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +91,10 @@ class _NewHereTitle extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 30),
       child: Title(
         color: accentColor,
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Have a new associate?',
               textScaleFactor: 2.5,
               style: TextStyle(
@@ -106,7 +106,7 @@ class _NewHereTitle extends StatelessWidget {
               'Please fill these fields',
               textScaleFactor: 1.2,
               style: TextStyle(
-                color: Colors.black54,
+                color: Theme.of(context).unselectedWidgetColor,
                 fontWeight: FontWeight.w400,
               ),
             ),

@@ -20,69 +20,78 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(),
       body: const Column(
         children: [
-          _LoginForm(),
+          _LoginScreenStructure(),
         ],
       ),
     );
   }
 }
 
-class _LoginForm extends StatelessWidget {
-  const _LoginForm();
+class _LoginScreenStructure extends StatelessWidget {
+  const _LoginScreenStructure();
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => LoginScreenState(),
-      child: const Padding(
-        padding: EdgeInsets.all(40.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 50),
-              child: AppTitle(title: 'Welcome!'),
-            ),
-            AppHeader(header: 'Username'),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 8,
-                bottom: 8,
-              ),
-              child: _UsernameTextField(),
-            ),
-            AppHeader(header: 'Password'),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 8,
-                bottom: 32,
-              ),
-              child: _PasswordTextField(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _LoginButton(),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account?",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
+      child: Consumer<LoginScreenState>(
+        builder: (context, state, child) {
+          return SingleChildScrollView(
+            child: Form(
+              key: state.formState,
+              child: const Padding(
+                padding: EdgeInsets.all(40.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 50),
+                      child: AppTitle(title: 'Welcome!'),
                     ),
-                  ),
-                  _RegisterButton(),
-                ],
+                    AppHeader(header: 'Username'),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 8,
+                        bottom: 8,
+                      ),
+                      child: _UsernameTextField(),
+                    ),
+                    AppHeader(header: 'Password'),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 8,
+                        bottom: 32,
+                      ),
+                      child: _PasswordTextField(),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _LoginButton(),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          _RegisterButton(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -92,6 +101,9 @@ class _UsernameTextField extends StatelessWidget {
   const _UsernameTextField();
 
   String? _validator(String? value) {
+    if (value == null) {
+      return 'Please type your username';
+    }
     return null;
   }
 
@@ -112,6 +124,9 @@ class _PasswordTextField extends StatelessWidget {
   const _PasswordTextField();
 
   String? _validator(String? value) {
+    if (value == null) {
+      return 'Please type your password';
+    }
     return null;
   }
 
@@ -138,13 +153,28 @@ class _PasswordTextField extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   const _LoginButton();
 
-  void onPressed() {
-    return;
-  }
-
   @override
   Widget build(BuildContext context) {
-    // final state = Provider.of<LoginScreenState>(context, listen: false);
+    final state = Provider.of<LoginScreenState>(context, listen: true);
+
+    void onPressed() async {
+      if (state.formState.currentState!.validate()) {
+        try {
+          await state.login();
+          if (context.mounted) {
+            Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
+          }
+        } on LoginError {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Username/Password incorrect.'),
+              ),
+            );
+          }
+        }
+      }
+    }
 
     return AppLargeButton(
       onPressed: onPressed,
@@ -160,7 +190,7 @@ class _RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        Navigator.of(context).pushNamed(UserRegistrationScreen.routeName);
+        Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
       },
       child: const Text(
         'Register',

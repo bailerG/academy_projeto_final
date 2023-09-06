@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
 
+import '../../entities/user.dart';
+import '../../usecases/login_verification.dart';
+
 class LoginScreenState with ChangeNotifier {
   final formState = GlobalKey<FormState>();
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  late User _loggedUser;
+
+  TextEditingController get usernameController => _usernameController;
+  TextEditingController get passwordController => _passwordController;
+  User get loggedUser => _loggedUser;
+
   bool obscureText = true;
 
   void toggleObscureText() {
     obscureText = !obscureText;
     notifyListeners();
+  }
+
+  Future<void> login() async {
+    final query = LoginVerification();
+    final result = await query.verifyLogin(
+      usernameController.text,
+      passwordController.text,
+    );
+    if (result == null) {
+      throw LoginError();
+    } else {
+      _loggedUser = result;
+    }
+  }
+}
+
+class LoginError implements Exception {
+  @override
+  String toString() {
+    return 'Username/password incorrect.';
   }
 }
