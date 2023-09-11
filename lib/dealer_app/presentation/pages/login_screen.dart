@@ -7,6 +7,7 @@ import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
 import '../utils/title.dart';
+import 'home_screen.dart';
 import 'user_registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -162,7 +163,8 @@ class _LoginButton extends StatelessWidget {
         try {
           await state.login();
           if (context.mounted) {
-            Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName,
+                arguments: state.loggedUser);
           }
         } on LoginError {
           if (context.mounted) {

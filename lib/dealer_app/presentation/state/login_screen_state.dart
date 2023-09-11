@@ -30,8 +30,14 @@ class LoginScreenState with ChangeNotifier {
     if (result == null) {
       throw LoginError();
     } else {
-      _loggedUser = result;
+      setLoggedUser(result);
     }
+  }
+
+  void setLoggedUser(User user) {
+    _loggedUser = user;
+    notifyListeners();
+    return;
   }
 }
 

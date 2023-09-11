@@ -6,9 +6,11 @@ class AppTitle extends StatelessWidget {
   const AppTitle({
     super.key,
     required this.title,
+    this.fontSize,
   });
 
   final String title;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class AppTitle extends StatelessWidget {
       color: accentColor,
       child: Text(
         title,
-        textScaleFactor: 2.5,
+        textScaleFactor: fontSize ?? 2.5,
         style: const TextStyle(
           color: accentColor,
           fontWeight: FontWeight.w700,
