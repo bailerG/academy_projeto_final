@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/main.dart';
 import '../state/login_screen_state.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
 import '../utils/title.dart';
 import 'home_screen.dart';
-import 'user_registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -71,21 +69,6 @@ class _LoginScreenStructure extends StatelessWidget {
                       children: [
                         _LoginButton(),
                       ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          _RegisterButton(),
-                        ],
-                      ),
                     ),
                   ],
                 ),
@@ -181,26 +164,6 @@ class _LoginButton extends StatelessWidget {
     return AppLargeButton(
       onPressed: onPressed,
       text: 'Login',
-    );
-  }
-}
-
-class _RegisterButton extends StatelessWidget {
-  const _RegisterButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
-      },
-      child: const Text(
-        'Register',
-        style: TextStyle(
-          color: accentColor,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
     );
   }
 }
