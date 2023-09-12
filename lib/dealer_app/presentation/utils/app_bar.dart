@@ -26,20 +26,3 @@ PreferredSizeWidget myAppBar(BuildContext context) {
     ],
   );
 }
-
-Widget myDrawer(BuildContext context) {
-  return Drawer(
-    child: Column(
-      children: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.ads_click_rounded),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.access_alarm),
-        ),
-      ],
-    ),
-  );
-}

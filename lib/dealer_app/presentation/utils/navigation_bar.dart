@@ -20,6 +20,14 @@ class AppNavigationBar extends StatelessWidget {
         ),
         NavigationDestination(
           selectedIcon: Icon(
+            Icons.add_box_rounded,
+            color: Colors.white,
+          ),
+          icon: Icon(Icons.add_box_outlined),
+          label: 'Add Vehicle',
+        ),
+        NavigationDestination(
+          selectedIcon: Icon(
             Icons.padding_rounded,
             color: Colors.white,
           ),

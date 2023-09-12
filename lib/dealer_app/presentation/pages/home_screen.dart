@@ -17,8 +17,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: ChangeNotifierProvider(
+        create: (context) => HomeScreenState(),
+        child: const _HomeScreenStructure(),
+      ),
       appBar: myAppBar(context),
-      body: const _HomeScreenStructure(),
       bottomNavigationBar: const AppNavigationBar(),
     );
   }
@@ -30,27 +33,24 @@ class _HomeScreenStructure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loggedUser = ModalRoute.of(context)!.settings.arguments;
-    return ChangeNotifierProvider(
-      create: (context) => HomeScreenState(),
-      child: Consumer<HomeScreenState>(
-        builder: (context, state, child) {
-          state.setLoggedUser(loggedUser as User);
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const _WelcomeTitle(),
-                  state.vehicleList.isEmpty
-                      ? const AppHeader(header: 'There is no vehicle in stock')
-                      : const _CarInventoryListView(),
-                ],
+    return Consumer<HomeScreenState>(
+      builder: (context, state, child) {
+        state.setLoggedUser(loggedUser as User);
+        return SingleChildScrollView(
+          physics: state.vehicleList.isEmpty
+              ? const NeverScrollableScrollPhysics()
+              : const AlwaysScrollableScrollPhysics(),
+          child: const Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(40.0),
+                child: _WelcomeTitle(),
               ),
-            ),
-          );
-        },
-      ),
+              _ListViewContainer(),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -59,13 +59,39 @@ class _WelcomeTitle extends StatelessWidget {
   const _WelcomeTitle();
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<HomeScreenState>(context, listen: false);
+    final state = Provider.of<HomeScreenState>(context, listen: true);
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 160),
       child: AppTitle(
-        title: 'Welcome\n${state.loggedUser.fullName}!',
+        title: 'Welcome\n${state.loggedUser!.fullName}!',
         fontSize: 2.0,
+      ),
+    );
+  }
+}
+
+class _ListViewContainer extends StatelessWidget {
+  const _ListViewContainer();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<HomeScreenState>(context, listen: true);
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(50),
+          topLeft: Radius.circular(50),
+        ),
+        color: Theme.of(context).hoverColor,
+      ),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(36.0),
+        child: state.vehicleList.isEmpty
+            ? const AppHeader(header: 'There is no vehicle in stock')
+            : const _CarInventoryListView(),
       ),
     );
   }

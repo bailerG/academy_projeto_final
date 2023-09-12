@@ -9,8 +9,8 @@ class HomeScreenState with ChangeNotifier {
     getVehicles();
   }
 
-  late User _loggedUser;
-  User get loggedUser => _loggedUser;
+  User? _loggedUser;
+  User? get loggedUser => _loggedUser;
 
   void setLoggedUser(User user) {
     _loggedUser = user;
@@ -21,12 +21,15 @@ class HomeScreenState with ChangeNotifier {
   List<Vehicle> get vehicleList => _vehicleList;
 
   Future<void> getVehicles() async {
-    final result =
-        await VehiclesTableController().select(_loggedUser.dealershipId);
+    if (_loggedUser != null) {
+      final result =
+          await VehiclesTableController().select(_loggedUser!.dealershipId);
 
-    for (final item in result) {
-      _vehicleList.add(item);
+      for (final item in result) {
+        _vehicleList.add(item);
+      }
     }
+
     notifyListeners();
     return;
   }
