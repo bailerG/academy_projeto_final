@@ -5,32 +5,33 @@ import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
 
 class HomeScreenState with ChangeNotifier {
-  HomeScreenState() {
+  HomeScreenState(User user) {
+    init(user);
+  }
+
+  void init(User user) {
+    loggedUser = user;
     getVehicles();
+    loading = false;
+    notifyListeners();
   }
 
-  User? _loggedUser;
-  User? get loggedUser => _loggedUser;
+  late User loggedUser;
+  bool loading = true;
 
-  void setLoggedUser(User user) {
-    _loggedUser = user;
-    return;
-  }
+  User get user => loggedUser;
 
   final _vehicleList = <Vehicle>[];
   List<Vehicle> get vehicleList => _vehicleList;
 
   Future<void> getVehicles() async {
-    if (_loggedUser != null) {
-      final result =
-          await VehiclesTableController().select(_loggedUser!.dealershipId);
+    final result =
+        await VehiclesTableController().select(loggedUser.dealershipId);
 
-      for (final item in result) {
-        _vehicleList.add(item);
-      }
+    for (final item in result) {
+      _vehicleList.add(item);
     }
 
     notifyListeners();
-    return;
   }
 }

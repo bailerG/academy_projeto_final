@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../state/login_screen_state.dart';
+import '../state/main_state.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
 import '../utils/title.dart';
-import 'home_screen.dart';
+import 'main_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -139,15 +140,16 @@ class _LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<LoginScreenState>(context, listen: true);
+    final loginState = Provider.of<LoginScreenState>(context, listen: true);
+    final mainState = Provider.of<MainState>(context, listen: false);
 
     void onPressed() async {
-      if (state.formState.currentState!.validate()) {
+      if (loginState.formState.currentState!.validate()) {
         try {
-          await state.login();
+          await loginState.login();
           if (context.mounted) {
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName,
-                arguments: state.loggedUser);
+            mainState.setLoggedUser(loginState.loggedUser);
+            Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
           }
         } on LoginError {
           if (context.mounted) {

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../dealer_app/presentation/pages/login_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
+import 'dealer_app/presentation/pages/main_screen.dart';
 import 'dealer_app/presentation/pages/user_registration_screen.dart';
 import 'dealer_app/presentation/state/main_state.dart';
 
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
               UserRegisterScreen.routeName: (context) =>
                   const UserRegisterScreen(),
               HomeScreen.routeName: (context) => const HomeScreen(),
+              MainScreen.routeName: (context) => const MainScreen(),
             },
             initialRoute: LoginScreen.routeName,
           );

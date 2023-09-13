@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../state/home_screen_state.dart';
-import '../utils/app_bar.dart';
+import '../state/main_state.dart';
 import '../utils/header.dart';
-import '../utils/navigation_bar.dart';
 import '../utils/title.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,13 +14,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainState = Provider.of<MainState>(context, listen: true);
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => HomeScreenState(),
+        create: (context) => HomeScreenState(mainState.loggedUser!),
         child: const _HomeScreenStructure(),
       ),
-      appBar: myAppBar(context),
-      bottomNavigationBar: const AppNavigationBar(),
     );
   }
 }
@@ -32,10 +29,8 @@ class _HomeScreenStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loggedUser = ModalRoute.of(context)!.settings.arguments;
     return Consumer<HomeScreenState>(
       builder: (context, state, child) {
-        state.setLoggedUser(loggedUser as User);
         return SingleChildScrollView(
           physics: state.vehicleList.isEmpty
               ? const NeverScrollableScrollPhysics()
@@ -64,7 +59,7 @@ class _WelcomeTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 160),
       child: AppTitle(
-        title: 'Welcome\n${state.loggedUser!.fullName}!',
+        title: 'Welcome\n${state.loggedUser.fullName}!',
         fontSize: 2.0,
       ),
     );

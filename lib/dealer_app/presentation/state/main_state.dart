@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../entities/user.dart';
+import '../pages/home_screen.dart';
+import '../pages/report_generation_screen.dart';
+import '../pages/vehicle_register_screen.dart';
+
 const appThemeKey = 'appThemeKey';
 
 class MainState with ChangeNotifier {
@@ -23,6 +28,28 @@ class MainState with ChangeNotifier {
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
     _lightTheme = _sharedPreferences.getBool(appThemeKey) ?? true;
+    notifyListeners();
+  }
+
+  int _selectedIndex = 0;
+  int get selectedIndex => _selectedIndex;
+
+  final List<Widget> widgetOptions = <Widget>[
+    const HomeScreen(),
+    const VehicleRegisterScreen(),
+    const ReportScreen(),
+  ];
+
+  void onItemTapped(int index) {
+    _selectedIndex = index;
+    notifyListeners();
+  }
+
+  User? _loggedUser;
+  User? get loggedUser => _loggedUser;
+
+  void setLoggedUser(User? user) {
+    _loggedUser = user;
     notifyListeners();
   }
 }
