@@ -31,6 +31,9 @@ class _HomeScreenStructure extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeScreenState>(
       builder: (context, state, child) {
+        if (state.loading) {
+          return const CircularProgressIndicator();
+        }
         return SingleChildScrollView(
           physics: state.vehicleList.isEmpty
               ? const NeverScrollableScrollPhysics()

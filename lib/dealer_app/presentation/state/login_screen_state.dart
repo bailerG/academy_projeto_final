@@ -8,11 +8,11 @@ class LoginScreenState with ChangeNotifier {
 
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  late User _loggedUser;
+  User? _loggedUser;
 
   TextEditingController get usernameController => _usernameController;
   TextEditingController get passwordController => _passwordController;
-  User get loggedUser => _loggedUser;
+  User get loggedUser => _loggedUser!;
 
   bool obscureText = true;
 
@@ -37,7 +37,6 @@ class LoginScreenState with ChangeNotifier {
   void setLoggedUser(User user) {
     _loggedUser = user;
     notifyListeners();
-    return;
   }
 }
 
