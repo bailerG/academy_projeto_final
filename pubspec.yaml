@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.18.1
   logging: ^1.2.0
   shared_preferences: ^2.2.1
+  flutter_masked_text2: ^0.9.1
 
 dev_dependencies:
   flutter_test:

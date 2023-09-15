@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../state/main_state.dart';
 import '../utils/app_bar.dart';
-import '../utils/navigation_bar.dart';
+import 'navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
