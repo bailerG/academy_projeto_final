@@ -26,9 +26,14 @@ class FipeApi {
         'codigo': code,
         'nome': name,
       };
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
-Future<FipeApi?> getCarBrands() async {
+Future<List<FipeApi>?> getCarBrands() async {
   const url = 'https://parallelum.com.br/fipe/api/v1/carros/marcas/';
   final uri = Uri.parse(url);
 
@@ -36,9 +41,16 @@ Future<FipeApi?> getCarBrands() async {
     final response = await http.get(uri);
     log(response.body);
 
-    return FipeApi.fromJson(
-      jsonDecode(response.body),
-    );
+    final decodeResult = jsonDecode(response.body);
+
+    final result = <FipeApi>[];
+
+    for (final item in decodeResult) {
+      result.add(
+        FipeApi.fromJson(item),
+      );
+    }
+    return result;
   } on Exception catch (e) {
     log('$e');
     return null;

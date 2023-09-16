@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
-import '../../repository/fipe_api.dart';
 
 class HomeScreenState with ChangeNotifier {
   HomeScreenState(User user) {
@@ -12,7 +11,6 @@ class HomeScreenState with ChangeNotifier {
 
   void init(User user) async{
     loggedUser = user;
-    await getCarModel('7');
     getVehicles();
     loading = false;
     notifyListeners();

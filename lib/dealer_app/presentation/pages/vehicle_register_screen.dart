@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../state/vehicle_register_state.dart';
+import '../utils/autocomplete_textfield.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
@@ -30,7 +31,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
       child: Form(
           key: state.formState,
           child: const Padding(
-            padding: EdgeInsets.all(40),
+            padding:  EdgeInsets.all(40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -104,18 +105,22 @@ class _BrandTextField extends StatelessWidget {
       return "Please inform the vehicle's brand";
     }
     return null;
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
-    return AppTextField(
+    return AppTextFieldAutoComplete(
       controller: state.brandController,
       validator: validator,
-      hint: 'Honda',
+      suggestions: state.allBrands,
     );
   }
 }
+
 
 class _ModelTextField extends StatelessWidget {
   const _ModelTextField();
