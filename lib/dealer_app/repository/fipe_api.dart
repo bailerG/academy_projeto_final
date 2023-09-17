@@ -2,22 +2,22 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
-List<FipeApi> fipeApiFromJson(String str) =>
-    List<FipeApi>.from(json.decode(str).map(FipeApi.fromJson));
+List<ModelEndpoint> fipeApiFromJson(String str) =>
+    List<ModelEndpoint>.from(json.decode(str).map(ModelEndpoint.fromJson));
 
-String fipeApiToJson(List<FipeApi> data) =>
+String fipeApiToJson(List<ModelEndpoint> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class FipeApi {
-  final String code;
-  final String name;
+class BrandEndpoint {
+  final String? code;
+  final String? name;
 
-  FipeApi({
-    required this.code,
-    required this.name,
+  BrandEndpoint({
+    this.code,
+    this.name,
   });
 
-  factory FipeApi.fromJson(Map<String, dynamic> json) => FipeApi(
+  factory BrandEndpoint.fromJson(Map<String, dynamic> json) => BrandEndpoint(
         code: json['codigo'],
         name: json['nome'],
       );
@@ -29,25 +29,49 @@ class FipeApi {
 
   @override
   String toString() {
-    return name;
+    return name!;
   }
 }
 
-Future<List<FipeApi>?> getCarBrands() async {
+class ModelEndpoint {
+  final int? code;
+  final String? name;
+
+  ModelEndpoint({
+    this.code,
+    this.name,
+  });
+
+  factory ModelEndpoint.fromJson(Map<String, dynamic> json) => ModelEndpoint(
+        code: json['codigo'],
+        name: json['nome'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'codigo': code,
+        'nome': name,
+      };
+
+  @override
+  String toString() {
+    return name!;
+  }
+}
+
+Future<List<BrandEndpoint>?> getCarBrands() async {
   const url = 'https://parallelum.com.br/fipe/api/v1/carros/marcas/';
   final uri = Uri.parse(url);
 
   try {
     final response = await http.get(uri);
-    log(response.body);
 
     final decodeResult = jsonDecode(response.body);
 
-    final result = <FipeApi>[];
+    final result = <BrandEndpoint>[];
 
     for (final item in decodeResult) {
       result.add(
-        FipeApi.fromJson(item),
+        BrandEndpoint.fromJson(item),
       );
     }
     return result;
@@ -57,20 +81,38 @@ Future<List<FipeApi>?> getCarBrands() async {
   }
 }
 
-Future<FipeApi?> getCarModel(String brandCode) async {
-  final url =
-      'https://parallelum.com.br/fipe/api/v1/carros/marcas/$brandCode/modelos';
-  final uri = Uri.parse(url);
+Future<List<ModelEndpoint>?> getCarModel(String brandName) async {
+  final listOfBrands = await getCarBrands();
 
-  try {
-    final response = await http.get(uri);
-    log(response.body);
+  var brand = listOfBrands!.firstWhere(
+    (element) => element.name == brandName,
+    orElse: () => BrandEndpoint(code: null),
+  );
 
-    return FipeApi.fromJson(
-      jsonDecode(response.body),
-    );
-  } on Exception catch (e) {
-    log('$e');
+  if (brand.code != null) {
+    final url =
+        'https://parallelum.com.br/fipe/api/v1/carros/marcas/${brand.code}/modelos/';
+    final uri = Uri.parse(url);
+
+    try {
+      final response = await http.get(uri);
+
+      final decodeResult = jsonDecode(response.body);
+      log(decodeResult['modelos'].toString());
+
+      final result = <ModelEndpoint>[];
+
+      for (final item in decodeResult['modelos']) {
+        result.add(
+          ModelEndpoint.fromJson(item),
+        );
+      }
+      return result;
+    } on Exception catch (e) {
+      log('$e');
+      return null;
+    }
+  } else {
     return null;
   }
 }

@@ -31,7 +31,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
       child: Form(
           key: state.formState,
           child: const Padding(
-            padding:  EdgeInsets.all(40),
+            padding: EdgeInsets.all(40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -105,10 +105,7 @@ class _BrandTextField extends StatelessWidget {
       return "Please inform the vehicle's brand";
     }
     return null;
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +117,6 @@ class _BrandTextField extends StatelessWidget {
     );
   }
 }
-
 
 class _ModelTextField extends StatelessWidget {
   const _ModelTextField();
@@ -135,10 +131,11 @@ class _ModelTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
-    return AppTextField(
+    return AppTextFieldAutoComplete(
       controller: state.modelController,
       validator: validator,
-      hint: 'Civic',
+      focusNode: state.modelFieldFocusNode,
+      suggestions: state.allModels,
     );
   }
 }
@@ -171,6 +168,9 @@ class _BuiltYearTextField extends StatelessWidget {
     if (value!.isEmpty) {
       return 'Please inform the year your vehicle was built';
     }
+    if (value.contains(RegExp(r'[^a-z ]', caseSensitive: false))) {
+      return 'Type only numbers';
+    }
     return null;
   }
 
@@ -192,6 +192,9 @@ class _ModelYearTextField extends StatelessWidget {
     if (value!.isEmpty) {
       return 'Please inform the model year of the vehicle';
     }
+    if (value.contains(RegExp(r'[^a-z ]', caseSensitive: false))) {
+      return 'Type only numbers';
+    }
     return null;
   }
 
@@ -210,7 +213,7 @@ class _PriceTextField extends StatelessWidget {
   const _PriceTextField();
 
   String? validator(String? value) {
-    if (double.parse(value!) == 0.00) {
+    if (double.parse((value!.replaceAll(RegExp(r','), ''))) == 0.00) {
       return "Price can't be zero";
     }
     return null;
@@ -223,7 +226,6 @@ class _PriceTextField extends StatelessWidget {
       controller: state.priceController,
       validator: validator,
       inputType: const TextInputType.numberWithOptions(decimal: true),
-      hint: '95,500.00',
     );
   }
 }
@@ -236,7 +238,9 @@ class _RegisterCarButton extends StatelessWidget {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
 
     void onPressed() {
-      if (state.formState.currentState!.validate()) {}
+      if (state.formState.currentState!.validate()) {
+        state.insert();
+      }
     }
 
     return AppLargeButton(
