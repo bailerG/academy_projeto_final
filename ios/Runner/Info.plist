@@ -4,6 +4,12 @@
 	<dict>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Photo Library Permission</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Camera Permission</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Microphone Permission</string>
 		<key>CFBundleDisplayName</key>
 		<string>Desafio Academy Flutter</string>
 		<key>CFBundleExecutable</key>

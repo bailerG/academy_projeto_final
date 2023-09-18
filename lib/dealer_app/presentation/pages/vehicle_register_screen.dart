@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,6 +7,7 @@ import '../state/vehicle_register_state.dart';
 import '../utils/autocomplete_textfield.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
+import '../utils/small_button.dart';
 import '../utils/text_field.dart';
 
 class VehicleRegisterScreen extends StatelessWidget {
@@ -30,60 +33,77 @@ class _VehicleRegisterStructure extends StatelessWidget {
     return SingleChildScrollView(
       child: Form(
           key: state.formState,
-          child: const Padding(
-            padding: EdgeInsets.all(40),
+          child: Padding(
+            padding: const EdgeInsets.all(40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppHeader(header: 'Brand'),
-                Padding(
+                const AppHeader(header: 'Brand'),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
                   child: _BrandTextField(),
                 ),
-                AppHeader(header: 'Model'),
-                Padding(
+                const AppHeader(header: 'Model'),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
                   child: _ModelTextField(),
                 ),
-                AppHeader(header: 'Plate'),
-                Padding(
+                const AppHeader(header: 'Plate'),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
                   child: _PlateTextField(),
                 ),
-                AppHeader(header: 'Built Year'),
-                Padding(
+                const AppHeader(header: 'Built Year'),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
                   child: _BuiltYearTextField(),
                 ),
-                AppHeader(header: 'Model Year'),
-                Padding(
+                const AppHeader(header: 'Model Year'),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
                   child: _ModelYearTextField(),
                 ),
-                AppHeader(header: 'Price'),
-                Padding(
+                const AppHeader(header: 'Price'),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
                   child: _PriceTextField(),
                 ),
+                const AppHeader(header: 'Photo'),
                 Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  child: state.photoController != null
+                      ? const _PhotosList()
+                      : Container(),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  child: _ChooseOrTakePhoto(),
+                ),
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
@@ -226,6 +246,56 @@ class _PriceTextField extends StatelessWidget {
       controller: state.priceController,
       validator: validator,
       inputType: const TextInputType.numberWithOptions(decimal: true),
+    );
+  }
+}
+
+class _PhotosList extends StatelessWidget {
+  const _PhotosList();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).focusColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Image.file(
+                File(state.photoController!),
+                height: MediaQuery.of(context).size.height / 10,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ChooseOrTakePhoto extends StatelessWidget {
+  const _ChooseOrTakePhoto();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AppSmallButton(
+          onPressed: state.pickImage,
+          text: 'Choose',
+        ),
+        AppSmallButton(
+          onPressed: state.takePhoto,
+          text: 'Take photo',
+        )
+      ],
     );
   }
 }

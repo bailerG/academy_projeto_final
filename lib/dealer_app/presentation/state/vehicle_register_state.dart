@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
@@ -19,22 +23,21 @@ class VehicleRegisterState with ChangeNotifier {
   final _brandController = TextEditingController();
   final _builtYearController = TextEditingController();
   final _modelYearController = TextEditingController();
+
+  String? _photoController;
+
   final _priceController = MoneyMaskedTextController(
     decimalSeparator: '.',
     thousandSeparator: ',',
   );
 
   TextEditingController get modelController => _modelController;
-
   TextEditingController get plateController => _plateController;
-
   TextEditingController get brandController => _brandController;
-
   TextEditingController get builtYearController => _builtYearController;
-
   TextEditingController get modelYearController => _modelYearController;
-
   MoneyMaskedTextController get priceController => _priceController;
+  String? get photoController => _photoController;
 
   final modelFieldFocusNode = FocusNode();
 
@@ -51,6 +54,7 @@ class VehicleRegisterState with ChangeNotifier {
         if (modelFieldFocusNode.hasFocus) {
           final result = await getModelsByBrand(brandController.text);
           allModels.addAll(result!);
+          notifyListeners();
         }
       },
     );
@@ -89,7 +93,7 @@ class VehicleRegisterState with ChangeNotifier {
       brand: brandController.text,
       builtYear: int.parse(builtYearController.text),
       modelYear: int.parse(modelYearController.text),
-      photo: '',
+      photo: photoController,
       pricePaid: double.parse(priceController.text),
       purchasedWhen: DateTime.now(),
       dealershipId: 1,
@@ -105,5 +109,34 @@ class VehicleRegisterState with ChangeNotifier {
     priceController.clear();
 
     notifyListeners();
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      _photoController = image.path;
+
+      notifyListeners();
+    } on PlatformException catch (e) {
+      log(
+        e.toString(),
+      );
+    }
+  }
+
+  Future takePhoto() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+
+      _photoController = image.path;
+      notifyListeners();
+    } on PlatformException catch (e) {
+      log(
+        e.toString(),
+      );
+    }
   }
 }

@@ -6,7 +6,7 @@ class Vehicle {
   final String brand;
   final int builtYear;
   final int modelYear;
-  final String photo;
+  final String? photo;
   final double pricePaid;
   final DateTime purchasedWhen;
   final int dealershipId;
@@ -18,7 +18,7 @@ class Vehicle {
     required this.brand,
     required this.builtYear,
     required this.modelYear,
-    required this.photo,
+    this.photo,
     required this.pricePaid,
     required this.purchasedWhen,
     required this.dealershipId,

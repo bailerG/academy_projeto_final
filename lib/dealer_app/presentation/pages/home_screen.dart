@@ -123,7 +123,7 @@ class _CarListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text('${vehicle.modelYear} ${vehicle.brand} ${vehicle.model}'),
-      leading: Image.asset(vehicle.photo),
+      leading: Image.asset(vehicle.photo!),
       trailing: Text('R\$${vehicle.pricePaid}'),
     );
   }
