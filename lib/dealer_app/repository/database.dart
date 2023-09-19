@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -842,9 +843,10 @@ class VehiclesTable {
     map[VehiclesTable.brand] = vehicle.brand;
     map[VehiclesTable.builtYear] = vehicle.builtYear;
     map[VehiclesTable.modelYear] = vehicle.modelYear;
-    map[VehiclesTable.photo] = vehicle.photo;
+    map[VehiclesTable.photo] = vehicle.photos;
     map[VehiclesTable.pricePaid] = vehicle.pricePaid;
-    map[VehiclesTable.purchasedWhen] = vehicle.purchasedWhen;
+    map[VehiclesTable.purchasedWhen] =
+        DateFormat('dd/MM/yyyy').format(vehicle.purchasedWhen);
     map[VehiclesTable.dealershipId] = vehicle.dealershipId;
 
     return map;
@@ -923,7 +925,7 @@ class VehiclesTableController {
           builtYear: item[VehiclesTable.builtYear],
           plate: item[VehiclesTable.plate],
           modelYear: item[VehiclesTable.modelYear],
-          photo: item[VehiclesTable.photo],
+          photos: item[VehiclesTable.photo],
           pricePaid: item[VehiclesTable.pricePaid],
           purchasedWhen: item[VehiclesTable.purchasedWhen],
           dealershipId: item[VehiclesTable.dealershipId],

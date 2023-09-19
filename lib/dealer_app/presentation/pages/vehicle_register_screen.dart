@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../state/main_state.dart';
 import '../state/vehicle_register_state.dart';
 import '../utils/autocomplete_textfield.dart';
 import '../utils/header.dart';
@@ -15,9 +17,10 @@ class VehicleRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainState = Provider.of<MainState>(context, listen: true);
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => VehicleRegisterState(),
+        create: (context) => VehicleRegisterState(mainState.loggedUser!),
         child: const _VehicleRegisterStructure(),
       ),
     );
@@ -86,13 +89,21 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _PriceTextField(),
                 ),
+                const AppHeader(header: 'Date of purchase'),
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  child: _DatePicker(),
+                ),
                 const AppHeader(header: 'Photo'),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                   ),
-                  child: state.photoController != null
+                  child: state.photoController.isNotEmpty
                       ? const _PhotosList()
                       : Container(),
                 ),
@@ -188,7 +199,7 @@ class _BuiltYearTextField extends StatelessWidget {
     if (value!.isEmpty) {
       return 'Please inform the year your vehicle was built';
     }
-    if (value.contains(RegExp(r'[^a-z ]', caseSensitive: false))) {
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
       return 'Type only numbers';
     }
     return null;
@@ -212,7 +223,7 @@ class _ModelYearTextField extends StatelessWidget {
     if (value!.isEmpty) {
       return 'Please inform the model year of the vehicle';
     }
-    if (value.contains(RegExp(r'[^a-z ]', caseSensitive: false))) {
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
       return 'Type only numbers';
     }
     return null;
@@ -225,6 +236,34 @@ class _ModelYearTextField extends StatelessWidget {
       controller: state.modelYearController,
       validator: validator,
       hint: '2023',
+    );
+  }
+}
+
+class _DatePicker extends StatelessWidget {
+  const _DatePicker();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    return AppTextField(
+      controller: state.dateController,
+      validator: null,
+      inputType: TextInputType.datetime,
+      readOnly: true,
+      onTap: () async {
+        final pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1900),
+          lastDate: DateTime.now(),
+        );
+        if (pickedDate != null) {
+          final formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
+          state.setPickedDate(formattedDate);
+        }
+      },
+      hint: 'Pick a date',
     );
   }
 }
@@ -256,23 +295,49 @@ class _PhotosList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
-    return SingleChildScrollView(
+    return SizedBox(
+      height: 100,
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).focusColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Image.file(
-                File(state.photoController!),
-                height: MediaQuery.of(context).size.height / 10,
-              )
-            ],
-          ),
+        padding: const EdgeInsets.only(
+          top: 12.0,
+          left: 12.0,
+          bottom: 12.0,
+          right: 12.0,
         ),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: state.photoController.length,
+          itemBuilder: (context, index) {
+            return _PhotoWidget(
+              photoPath: state.photoController[index],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _PhotoWidget extends StatelessWidget {
+  const _PhotoWidget({required this.photoPath});
+
+  final String photoPath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 8.0,
+        right: 8.0,
+      ),
+      child: Image.file(
+        File(photoPath),
+        height: MediaQuery.of(context).size.height / 10,
       ),
     );
   }
@@ -288,11 +353,15 @@ class _ChooseOrTakePhoto extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppSmallButton(
-          onPressed: state.pickImage,
+          onPressed: () async {
+            await state.pickImage();
+          },
           text: 'Choose',
         ),
         AppSmallButton(
-          onPressed: state.takePhoto,
+          onPressed: () async {
+            await state.takePhoto();
+          },
           text: 'Take photo',
         )
       ],

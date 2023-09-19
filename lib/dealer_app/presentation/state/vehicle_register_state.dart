@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
+import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
 import '../../repository/fipe_api.dart';
 
 class VehicleRegisterState with ChangeNotifier {
-  VehicleRegisterState() {
-    init();
+  VehicleRegisterState(User user) {
+    init(user);
   }
+
+  late User _loggedUser;
 
   final formState = GlobalKey<FormState>();
 
@@ -23,8 +27,9 @@ class VehicleRegisterState with ChangeNotifier {
   final _brandController = TextEditingController();
   final _builtYearController = TextEditingController();
   final _modelYearController = TextEditingController();
+  final _dateController = TextEditingController();
 
-  String? _photoController;
+  final _photoController = <String>[];
 
   final _priceController = MoneyMaskedTextController(
     decimalSeparator: '.',
@@ -32,19 +37,29 @@ class VehicleRegisterState with ChangeNotifier {
   );
 
   TextEditingController get modelController => _modelController;
+
   TextEditingController get plateController => _plateController;
+
   TextEditingController get brandController => _brandController;
+
   TextEditingController get builtYearController => _builtYearController;
+
   TextEditingController get modelYearController => _modelYearController;
+
+  TextEditingController get dateController => _dateController;
+
   MoneyMaskedTextController get priceController => _priceController;
-  String? get photoController => _photoController;
+
+  List<String> get photoController => _photoController;
 
   final modelFieldFocusNode = FocusNode();
 
   final allBrands = <String>[];
   final allModels = <String>[];
 
-  void init() async {
+  void init(User user) async {
+    _loggedUser = user;
+
     final result = await getBrandNames();
 
     allBrands.addAll(result ?? []);
@@ -93,10 +108,12 @@ class VehicleRegisterState with ChangeNotifier {
       brand: brandController.text,
       builtYear: int.parse(builtYearController.text),
       modelYear: int.parse(modelYearController.text),
-      photo: photoController,
-      pricePaid: double.parse(priceController.text),
-      purchasedWhen: DateTime.now(),
-      dealershipId: 1,
+      photos: photoController.join('|'),
+      pricePaid: double.parse(
+        priceController.text.replaceAll(RegExp(r','), ''),
+      ),
+      purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
+      dealershipId: _loggedUser.dealershipId,
     );
 
     await _vehicleController.insert(vehicle);
@@ -106,37 +123,41 @@ class VehicleRegisterState with ChangeNotifier {
     brandController.clear();
     builtYearController.clear();
     modelYearController.clear();
-    priceController.clear();
-
-    notifyListeners();
+    priceController.updateValue(0.00);
   }
 
-  Future pickImage() async {
+  Future<void> pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
+      final images = await ImagePicker().pickMultiImage();
+      if (images.isEmpty) return;
 
-      _photoController = image.path;
+      for (final item in images) {
+        _photoController.add(item.path);
+      }
 
       notifyListeners();
     } on PlatformException catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
     }
   }
 
-  Future takePhoto() async {
+  Future<void> takePhoto() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
 
-      _photoController = image.path;
+      _photoController.add(image.path);
+
       notifyListeners();
     } on PlatformException catch (e) {
       log(
         e.toString(),
       );
     }
+  }
+
+  void setPickedDate(String date) {
+    _dateController.text = date;
+    notifyListeners();
   }
 }

@@ -57,6 +57,7 @@ class _HomeScreenStructure extends StatelessWidget {
 
 class _WelcomeTitle extends StatelessWidget {
   const _WelcomeTitle();
+
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<HomeScreenState>(context, listen: true);
@@ -83,10 +84,18 @@ class _ListViewContainer extends StatelessWidget {
           topRight: Radius.circular(50),
           topLeft: Radius.circular(50),
         ),
-        color: Theme.of(context).hoverColor,
+        color: Theme
+            .of(context)
+            .hoverColor,
       ),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: Padding(
         padding: const EdgeInsets.all(36.0),
         child: state.vehicleList.isEmpty
@@ -117,13 +126,16 @@ class _CarInventoryListView extends StatelessWidget {
 
 class _CarListTile extends StatelessWidget {
   const _CarListTile({required this.vehicle});
+
   final Vehicle vehicle;
 
   @override
   Widget build(BuildContext context) {
+    final vehiclePhotos = vehicle.photos!.split('|');
+
     return ListTile(
       title: Text('${vehicle.modelYear} ${vehicle.brand} ${vehicle.model}'),
-      leading: Image.asset(vehicle.photo!),
+      leading: Image.asset(vehiclePhotos.first),
       trailing: Text('R\$${vehicle.pricePaid}'),
     );
   }
