@@ -10,6 +10,10 @@
 		<string>Camera Permission</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Microphone Permission</string>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+		<key>UIFileSharingEnabled</key>
+		<true/>
 		<key>CFBundleDisplayName</key>
 		<string>Desafio Academy Flutter</string>
 		<key>CFBundleExecutable</key>

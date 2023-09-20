@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
 import '../../repository/fipe_api.dart';
+import '../../usecases/save_load_images.dart';
 
 class VehicleRegisterState with ChangeNotifier {
   VehicleRegisterState(User user) {
@@ -123,16 +125,21 @@ class VehicleRegisterState with ChangeNotifier {
     brandController.clear();
     builtYearController.clear();
     modelYearController.clear();
+    photoController.clear();
     priceController.updateValue(0.00);
   }
 
   Future<void> pickImage() async {
     try {
       final images = await ImagePicker().pickMultiImage();
-      if (images.isEmpty) return;
+      final local = LocalStorage();
 
       for (final item in images) {
-        _photoController.add(item.path);
+        final image = File(item.path);
+        final imageName = DateTime.now().toString();
+        await local.saveImageLocal(image, imageName);
+
+        _photoController.add(imageName);
       }
 
       notifyListeners();
@@ -154,6 +161,11 @@ class VehicleRegisterState with ChangeNotifier {
         e.toString(),
       );
     }
+  }
+
+  Future<File> loadVehicleImage(String imageName) async {
+    final result = await LocalStorage().loadImageLocal(imageName);
+    return result;
   }
 
   void setPickedDate(String date) {

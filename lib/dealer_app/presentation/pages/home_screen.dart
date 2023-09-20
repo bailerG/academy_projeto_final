@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/vehicle.dart';
@@ -78,30 +81,36 @@ class _ListViewContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<HomeScreenState>(context, listen: true);
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(50),
-          topLeft: Radius.circular(50),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 1.4,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(50),
+            topLeft: Radius.circular(50),
+          ),
+          color: Theme.of(context).hoverColor,
         ),
-        color: Theme
-            .of(context)
-            .hoverColor,
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: state.vehicleList.isEmpty
+              ? const _NoVehicleRegistered()
+              : const _CarInventoryListView(),
+        ),
       ),
-      height: MediaQuery
-          .of(context)
-          .size
-          .height,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
-      child: Padding(
-        padding: const EdgeInsets.all(36.0),
-        child: state.vehicleList.isEmpty
-            ? const AppHeader(header: 'There is no vehicle in stock')
-            : const _CarInventoryListView(),
-      ),
+    );
+  }
+}
+
+class _NoVehicleRegistered extends StatelessWidget {
+  const _NoVehicleRegistered();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(32.0),
+      child: AppHeader(header: 'There is no vehicle in stock'),
     );
   }
 }
@@ -114,6 +123,7 @@ class _CarInventoryListView extends StatelessWidget {
     final state = Provider.of<HomeScreenState>(context, listen: true);
 
     return ListView.builder(
+      // physics: const NeverScrollableScrollPhysics(),
       itemCount: state.vehicleList.length,
       itemBuilder: (context, index) {
         return _CarListTile(
@@ -131,12 +141,24 @@ class _CarListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<HomeScreenState>(context, listen: true);
+
     final vehiclePhotos = vehicle.photos!.split('|');
+    final numberFormatter = NumberFormat('###,###,###.00');
 
     return ListTile(
       title: Text('${vehicle.modelYear} ${vehicle.brand} ${vehicle.model}'),
-      leading: Image.asset(vehiclePhotos.first),
-      trailing: Text('R\$${vehicle.pricePaid}'),
+      leading: FutureBuilder<File>(
+        future: state.loadVehicleImage(vehiclePhotos.first),
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            return Image.file(snapshot.data!);
+          } else {
+            return const CircularProgressIndicator();
+          }
+        }),
+      ),
+      subtitle: Text('R\$${numberFormatter.format(vehicle.pricePaid)}'),
     );
   }
 }

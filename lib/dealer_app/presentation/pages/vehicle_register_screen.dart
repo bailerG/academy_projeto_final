@@ -298,6 +298,7 @@ class _PhotosList extends StatelessWidget {
     return SizedBox(
       height: 100,
       child: Container(
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: Theme.of(context).focusColor,
           borderRadius: BorderRadius.circular(10),
@@ -314,7 +315,7 @@ class _PhotosList extends StatelessWidget {
           itemCount: state.photoController.length,
           itemBuilder: (context, index) {
             return _PhotoWidget(
-              photoPath: state.photoController[index],
+              imageName: state.photoController[index],
             );
           },
         ),
@@ -324,21 +325,23 @@ class _PhotosList extends StatelessWidget {
 }
 
 class _PhotoWidget extends StatelessWidget {
-  const _PhotoWidget({required this.photoPath});
+  const _PhotoWidget({required this.imageName});
 
-  final String photoPath;
+  final String imageName;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8.0,
-        right: 8.0,
-      ),
-      child: Image.file(
-        File(photoPath),
-        height: MediaQuery.of(context).size.height / 10,
-      ),
+    final state = Provider.of<VehicleRegisterState>(context, listen: true);
+
+    return FutureBuilder<File>(
+      future: state.loadVehicleImage(imageName),
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          return Image.file(snapshot.data!);
+        } else {
+          return const CircularProgressIndicator();
+        }
+      }),
     );
   }
 }

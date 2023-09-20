@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
+import '../../usecases/save_load_images.dart';
 
 class HomeScreenState with ChangeNotifier {
   HomeScreenState(User user) {
     init(user);
   }
 
-  void init(User user) async{
+  void init(User user) async {
     loggedUser = user;
     getVehicles();
     loading = false;
@@ -21,17 +24,21 @@ class HomeScreenState with ChangeNotifier {
 
   User get user => loggedUser;
 
-  final _vehicleList = <Vehicle>[];
-  List<Vehicle> get vehicleList => _vehicleList;
+  final vehicleList = <Vehicle>[];
 
   Future<void> getVehicles() async {
     final result =
         await VehiclesTableController().select(loggedUser.dealershipId);
 
     for (final item in result) {
-      _vehicleList.add(item);
+      vehicleList.add(item);
     }
 
     notifyListeners();
+  }
+
+  Future<File> loadVehicleImage(String imageName) async {
+    final result = await LocalStorage().loadImageLocal(imageName);
+    return result;
   }
 }

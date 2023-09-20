@@ -909,7 +909,7 @@ class VehiclesTableController {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
-      SalesTable.tableName,
+      VehiclesTable.tableName,
       where: '${VehiclesTable.dealershipId} = ?',
       whereArgs: [dealershipId],
     );
@@ -925,9 +925,10 @@ class VehiclesTableController {
           builtYear: item[VehiclesTable.builtYear],
           plate: item[VehiclesTable.plate],
           modelYear: item[VehiclesTable.modelYear],
-          photos: item[VehiclesTable.photo],
+          photos: (item[VehiclesTable.photo]).toString(),
           pricePaid: item[VehiclesTable.pricePaid],
-          purchasedWhen: item[VehiclesTable.purchasedWhen],
+          purchasedWhen:
+              DateFormat('dd/MM/yyyy').parse(item[VehiclesTable.purchasedWhen]),
           dealershipId: item[VehiclesTable.dealershipId],
         ),
       );
