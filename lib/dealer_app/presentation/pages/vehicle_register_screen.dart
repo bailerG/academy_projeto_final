@@ -303,12 +303,7 @@ class _PhotosList extends StatelessWidget {
           color: Theme.of(context).focusColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: const EdgeInsets.only(
-          top: 12.0,
-          left: 12.0,
-          bottom: 12.0,
-          right: 12.0,
-        ),
+        padding: const EdgeInsets.all(12.0),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,

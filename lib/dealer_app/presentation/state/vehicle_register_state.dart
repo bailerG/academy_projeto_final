@@ -150,10 +150,15 @@ class VehicleRegisterState with ChangeNotifier {
 
   Future<void> takePhoto() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
+      final imageXFile =
+          await ImagePicker().pickImage(source: ImageSource.camera);
+      final local = LocalStorage();
 
-      _photoController.add(image.path);
+      final image = File(imageXFile!.path);
+      final imageName = DateTime.now().toString();
+      await local.saveImageLocal(image, imageName);
+
+      _photoController.add(imageName);
 
       notifyListeners();
     } on PlatformException catch (e) {
