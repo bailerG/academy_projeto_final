@@ -11,7 +11,7 @@ import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
 import '../../repository/fipe_api.dart';
-import '../../usecases/save_load_images.dart';
+import '../../repository/save_load_images.dart';
 
 class VehicleRegisterState with ChangeNotifier {
   VehicleRegisterState(User user) {
@@ -125,7 +125,7 @@ class VehicleRegisterState with ChangeNotifier {
     brandController.clear();
     builtYearController.clear();
     modelYearController.clear();
-    photoController.clear();
+    _photoController.clear();
     priceController.updateValue(0.00);
   }
 

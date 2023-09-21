@@ -15,6 +15,8 @@ import '../utils/text_field.dart';
 class VehicleRegisterScreen extends StatelessWidget {
   const VehicleRegisterScreen({super.key});
 
+  static const routeName = '/vehicle_registration';
+
   @override
   Widget build(BuildContext context) {
     final mainState = Provider.of<MainState>(context, listen: true);
@@ -332,7 +334,10 @@ class _PhotoWidget extends StatelessWidget {
       future: state.loadVehicleImage(imageName),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
-          return Image.file(snapshot.data!);
+          return Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Image.file(snapshot.data!),
+          );
         } else {
           return const CircularProgressIndicator();
         }
@@ -373,10 +378,12 @@ class _RegisterCarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final mainState = Provider.of<MainState>(context, listen: false);
 
     void onPressed() {
       if (state.formState.currentState!.validate()) {
         state.insert();
+        mainState.onItemTapped(0);
       }
     }
 

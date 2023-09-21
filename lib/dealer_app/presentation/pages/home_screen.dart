@@ -9,6 +9,7 @@ import '../state/home_screen_state.dart';
 import '../state/main_state.dart';
 import '../utils/header.dart';
 import '../utils/title.dart';
+import 'vehicle_options_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -146,19 +147,34 @@ class _CarListTile extends StatelessWidget {
     final vehiclePhotos = vehicle.photos!.split('|');
     final numberFormatter = NumberFormat('###,###,###.00');
 
-    return ListTile(
-      title: Text('${vehicle.modelYear} ${vehicle.brand} ${vehicle.model}'),
-      leading: FutureBuilder<File>(
-        future: state.loadVehicleImage(vehiclePhotos.first),
-        builder: ((context, snapshot) {
-          if (snapshot.hasData) {
-            return Image.file(snapshot.data!);
-          } else {
-            return const CircularProgressIndicator();
-          }
-        }),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          VehicleOptionsScreen.routeName,
+          arguments: vehicle,
+        );
+      },
+      child: ListTile(
+        title: Text(
+          '${vehicle.modelYear}'
+          ' ${vehicle.brand.toUpperCase()}'
+          ' ${vehicle.model.toUpperCase()}',
+        ),
+        leading: FutureBuilder<File>(
+          future: state.loadVehicleImage(vehiclePhotos.first),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              return Image.file(
+                snapshot.data!,
+                width: MediaQuery.of(context).size.width / 5,
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          }),
+        ),
+        subtitle: Text('R\$${numberFormatter.format(vehicle.pricePaid)}'),
       ),
-      subtitle: Text('R\$${numberFormatter.format(vehicle.pricePaid)}'),
     );
   }
 }

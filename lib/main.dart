@@ -6,6 +6,8 @@ import '../dealer_app/presentation/pages/login_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
 import 'dealer_app/presentation/pages/main_screen.dart';
 import 'dealer_app/presentation/pages/user_registration_screen.dart';
+import 'dealer_app/presentation/pages/vehicle_options_screen.dart';
+import 'dealer_app/presentation/pages/vehicle_register_screen.dart';
 import 'dealer_app/presentation/state/main_state.dart';
 
 const accentColor = Color.fromRGBO(134, 46, 46, 1);
@@ -25,6 +27,18 @@ class MyApp extends StatelessWidget {
       child: Consumer<MainState>(
         builder: (context, state, child) {
           return MaterialApp(
+            routes: {
+              LoginScreen.routeName: (context) => const LoginScreen(),
+              MainScreen.routeName: (context) => const MainScreen(),
+              HomeScreen.routeName: (context) => const HomeScreen(),
+              UserRegisterScreen.routeName: (context) =>
+                  const UserRegisterScreen(),
+              VehicleRegisterScreen.routeName: (context) =>
+                  const VehicleRegisterScreen(),
+              VehicleOptionsScreen.routeName: (context) =>
+                  const VehicleOptionsScreen(),
+            },
+            initialRoute: LoginScreen.routeName,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             title: 'Anderson Automoveis',
@@ -40,14 +54,6 @@ class MyApp extends StatelessWidget {
                       secondary: Colors.white70,
                     ),
             ),
-            routes: {
-              LoginScreen.routeName: (context) => const LoginScreen(),
-              UserRegisterScreen.routeName: (context) =>
-                  const UserRegisterScreen(),
-              HomeScreen.routeName: (context) => const HomeScreen(),
-              MainScreen.routeName: (context) => const MainScreen(),
-            },
-            initialRoute: LoginScreen.routeName,
           );
         },
       ),
