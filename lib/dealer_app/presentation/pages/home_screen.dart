@@ -162,7 +162,7 @@ class _CarListTile extends StatelessWidget {
         ),
         leading: FutureBuilder<File>(
           future: state.loadVehicleImage(vehiclePhotos.first),
-          builder: ((context, snapshot) {
+          builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Image.file(
                 snapshot.data!,
@@ -171,9 +171,14 @@ class _CarListTile extends StatelessWidget {
             } else {
               return const CircularProgressIndicator();
             }
-          }),
+          },
         ),
-        subtitle: Text('R\$${numberFormatter.format(vehicle.pricePaid)}'),
+        subtitle: Text(
+          'R\$${numberFormatter.format(vehicle.pricePaid)}',
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

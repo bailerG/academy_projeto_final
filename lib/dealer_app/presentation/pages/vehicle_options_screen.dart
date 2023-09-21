@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _OptionsStructure extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _PhotoWidget(vehicle),
+        _CarouselWidget(vehicle),
         Padding(
           padding: const EdgeInsets.only(
             left: 40.0,
@@ -84,8 +85,8 @@ class _OptionsStructure extends StatelessWidget {
   }
 }
 
-class _PhotoWidget extends StatelessWidget {
-  const _PhotoWidget(this.vehicle);
+class _CarouselWidget extends StatelessWidget {
+  const _CarouselWidget(this.vehicle);
 
   final Vehicle vehicle;
 
@@ -94,15 +95,30 @@ class _PhotoWidget extends StatelessWidget {
     final state = Provider.of<VehicleOptionsState>(context, listen: true);
     final vehiclePhotos = vehicle.photos!.split('|');
 
-    return FutureBuilder<File>(
-      future: state.loadVehicleImage(vehiclePhotos.first),
-      builder: ((context, snapshot) {
-        if (snapshot.hasData) {
-          return Image.file(snapshot.data!);
-        } else {
-          return const CircularProgressIndicator();
-        }
-      }),
+    return CarouselSlider.builder(
+      itemCount: vehiclePhotos.length,
+      itemBuilder: (
+        context,
+        itemIndex,
+        pageViewIndex,
+      ) {
+        return FutureBuilder<File>(
+          future: state.loadVehicleImage(vehiclePhotos[itemIndex]),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Image.file(snapshot.data!);
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        );
+      },
+      options: CarouselOptions(
+        height: MediaQuery.of(context).size.height / 3,
+        aspectRatio: 16 / 9,
+        enableInfiniteScroll: false,
+        viewportFraction: 2.0,
+      ),
     );
   }
 }
