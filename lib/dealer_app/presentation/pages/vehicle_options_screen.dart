@@ -7,12 +7,14 @@ import 'package:provider/provider.dart';
 
 import '../../entities/vehicle.dart';
 import '../state/vehicle_options.state.dart';
+import '../utils/alert_dialog.dart';
 import '../utils/atributes_table.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/small_button.dart';
 import '../utils/text_descriptions.dart';
 import '../utils/title.dart';
+import 'vehicle_register_screen.dart';
 
 class VehicleOptionsScreen extends StatelessWidget {
   const VehicleOptionsScreen({super.key});
@@ -23,7 +25,7 @@ class VehicleOptionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle;
     return ChangeNotifierProvider(
-      create: (context) => VehicleOptionsState(vehicle: vehicle),
+      create: (context) => VehicleOptionsState(),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -69,9 +71,9 @@ class _OptionsStructure extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: _CarDetails(vehicle),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 32),
-                child: _ActionButtons(),
+              Padding(
+                padding: const EdgeInsets.only(top: 32),
+                child: _ActionButtons(vehicle),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 8),
@@ -103,7 +105,9 @@ class _CarouselWidget extends StatelessWidget {
         pageViewIndex,
       ) {
         return FutureBuilder<File>(
-          future: state.loadVehicleImage(vehiclePhotos[itemIndex]),
+          future: state.loadVehicleImage(
+            vehiclePhotos[itemIndex],
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Image.file(snapshot.data!);
@@ -114,8 +118,7 @@ class _CarouselWidget extends StatelessWidget {
         );
       },
       options: CarouselOptions(
-        height: MediaQuery.of(context).size.height / 3,
-        aspectRatio: 16 / 9,
+        aspectRatio: 16 / 12,
         enableInfiniteScroll: false,
         viewportFraction: 2.0,
       ),
@@ -226,20 +229,52 @@ class _CarDetails extends StatelessWidget {
 }
 
 class _ActionButtons extends StatelessWidget {
-  const _ActionButtons();
+  const _ActionButtons(this.vehicle);
+
+  final Vehicle vehicle;
 
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<VehicleOptionsState>(context, listen: true);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppSmallButton(
-          onPressed: () {},
           text: '     Edit     ',
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              VehicleRegisterScreen.routeName,
+              arguments: vehicle,
+            );
+          },
         ),
         AppSmallButton(
-          onPressed: () {},
           text: '   Delete    ',
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AppAlertDialog(
+                  title: 'Are you sure?',
+                  message: 'Do you really want to delete this car?',
+                  buttons: [
+                    TextButton(
+                      onPressed: () {
+                        state.deleteVehicle(vehicle);
+                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop(true);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    )
+                  ],
+                );
+              },
+            );
+          },
         ),
       ],
     );

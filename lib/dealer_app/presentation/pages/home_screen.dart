@@ -149,10 +149,14 @@ class _CarListTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          VehicleOptionsScreen.routeName,
-          arguments: vehicle,
-        );
+        Navigator.of(context)
+            .pushNamed(
+              VehicleOptionsScreen.routeName,
+              arguments: vehicle,
+            )
+            .then(
+              (value) => state.getVehicles(),
+            );
       },
       child: ListTile(
         title: Text(

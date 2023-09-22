@@ -10,6 +10,7 @@ import '../../repository/save_load_images.dart';
 class HomeScreenState with ChangeNotifier {
   HomeScreenState(User user) {
     init(user);
+    notifyListeners();
   }
 
   void init(User user) async {
@@ -30,9 +31,8 @@ class HomeScreenState with ChangeNotifier {
     final result =
         await VehiclesTableController().select(loggedUser.dealershipId);
 
-    for (final item in result) {
-      vehicleList.add(item);
-    }
+    vehicleList.clear();
+    vehicleList.addAll(result);
 
     notifyListeners();
   }

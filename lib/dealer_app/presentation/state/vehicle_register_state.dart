@@ -14,11 +14,21 @@ import '../../repository/fipe_api.dart';
 import '../../repository/save_load_images.dart';
 
 class VehicleRegisterState with ChangeNotifier {
-  VehicleRegisterState(User user) {
-    init(user);
+  VehicleRegisterState({
+    required User user,
+    this.vehicle,
+  }) {
+    init(
+      user,
+      vehicle,
+    );
   }
 
   late User _loggedUser;
+
+  bool editing = false;
+
+  Vehicle? vehicle;
 
   final formState = GlobalKey<FormState>();
 
@@ -54,22 +64,33 @@ class VehicleRegisterState with ChangeNotifier {
 
   List<String> get photoController => _photoController;
 
-  final modelFieldFocusNode = FocusNode();
+  final brandFieldFocusNode = FocusNode();
 
   final allBrands = <String>[];
   final allModels = <String>[];
 
-  void init(User user) async {
+  void init(User user, Vehicle? vehicle) async {
     _loggedUser = user;
+    editing = false;
 
-    final result = await getBrandNames();
+    if (vehicle == null) {
+      final result = await getBrandNames();
 
-    allBrands.addAll(result ?? []);
+      allBrands.addAll(result ?? []);
 
-    modelFieldFocusNode.addListener(
+      showModels();
+    } else {
+      editCar(vehicle);
+      editing = true;
+    }
+  }
+
+  void showModels() async {
+    brandFieldFocusNode.addListener(
       () async {
-        if (modelFieldFocusNode.hasFocus) {
+        if (brandFieldFocusNode.hasFocus) {
           final result = await getModelsByBrand(brandController.text);
+          allModels.clear();
           allModels.addAll(result!);
           notifyListeners();
         }
@@ -129,6 +150,32 @@ class VehicleRegisterState with ChangeNotifier {
     priceController.updateValue(0.00);
   }
 
+  Future<void> update() async {
+    final editedCar = Vehicle(
+      id: vehicle!.id,
+      model: modelController.text,
+      plate: plateController.text,
+      brand: brandController.text,
+      builtYear: int.parse(builtYearController.text),
+      modelYear: int.parse(modelYearController.text),
+      pricePaid: double.parse(
+        priceController.text.replaceAll(RegExp(r','), ''),
+      ),
+      purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
+      dealershipId: vehicle!.dealershipId,
+    );
+
+    await _vehicleController.update(editedCar);
+
+    modelController.clear();
+    plateController.clear();
+    brandController.clear();
+    builtYearController.clear();
+    modelYearController.clear();
+    _photoController.clear();
+    priceController.updateValue(0.00);
+  }
+
   Future<void> pickImage() async {
     try {
       final images = await ImagePicker().pickMultiImage();
@@ -175,6 +222,20 @@ class VehicleRegisterState with ChangeNotifier {
 
   void setPickedDate(String date) {
     _dateController.text = date;
+    notifyListeners();
+  }
+
+  void editCar(Vehicle vehicle) {
+    brandController.text = vehicle.brand;
+    modelController.text = vehicle.model;
+    builtYearController.text = vehicle.builtYear.toString();
+    modelYearController.text = vehicle.modelYear.toString();
+    plateController.text = vehicle.plate;
+    dateController.text =
+        DateFormat('dd/MM/YYYY').format(vehicle.purchasedWhen);
+    priceController.text = vehicle.pricePaid.toString();
+    photoController.addAll(vehicle.photos!.split('|'));
+
     notifyListeners();
   }
 }

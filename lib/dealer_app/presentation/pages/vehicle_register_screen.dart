@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/vehicle.dart';
 import '../state/main_state.dart';
 import '../state/vehicle_register_state.dart';
 import '../utils/autocomplete_textfield.dart';
@@ -13,16 +14,24 @@ import '../utils/small_button.dart';
 import '../utils/text_field.dart';
 
 class VehicleRegisterScreen extends StatelessWidget {
-  const VehicleRegisterScreen({super.key});
+  const VehicleRegisterScreen({
+    super.key,
+  });
 
   static const routeName = '/vehicle_registration';
 
   @override
   Widget build(BuildContext context) {
     final mainState = Provider.of<MainState>(context, listen: true);
+
+    final arguments = ModalRoute.of(context)!.settings.arguments as Vehicle?;
+
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => VehicleRegisterState(mainState.loggedUser!),
+        create: (context) => VehicleRegisterState(
+          user: mainState.loggedUser!,
+          vehicle: arguments,
+        ),
         child: const _VehicleRegisterStructure(),
       ),
     );
@@ -146,6 +155,7 @@ class _BrandTextField extends StatelessWidget {
     return AppTextFieldAutoComplete(
       controller: state.brandController,
       validator: validator,
+      focusNode: state.brandFieldFocusNode,
       suggestions: state.allBrands,
     );
   }
@@ -167,7 +177,6 @@ class _ModelTextField extends StatelessWidget {
     return AppTextFieldAutoComplete(
       controller: state.modelController,
       validator: validator,
-      focusNode: state.modelFieldFocusNode,
       suggestions: state.allModels,
     );
   }
@@ -382,14 +391,14 @@ class _RegisterCarButton extends StatelessWidget {
 
     void onPressed() {
       if (state.formState.currentState!.validate()) {
-        state.insert();
+        state.editing ? state.update() : state.insert();
         mainState.onItemTapped(0);
       }
     }
 
     return AppLargeButton(
       onPressed: onPressed,
-      text: 'Register Vehicle',
+      text: state.editing ? 'Update vehicle' : 'Register Vehicle',
     );
   }
 }
