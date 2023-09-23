@@ -25,29 +25,35 @@ class VehicleOptionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle;
     return ChangeNotifierProvider(
-      create: (context) => VehicleOptionsState(),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: _OptionsStructure(vehicle: vehicle),
-      ),
+      create: (context) => VehicleOptionsState(vehicle.id!),
+      child: Consumer<VehicleOptionsState>(builder: (context, state, child) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: state.loading == true
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : const _OptionsStructure(),
+        );
+      }),
     );
   }
 }
 
 class _OptionsStructure extends StatelessWidget {
-  const _OptionsStructure({required this.vehicle});
-
-  final Vehicle vehicle;
+  const _OptionsStructure();
 
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<VehicleOptionsState>(context, listen: true);
+    final vehicle = state.vehicle;
     return Column(
       children: [
-        _CarouselWidget(vehicle),
+        const _CarouselWidget(),
         Padding(
           padding: const EdgeInsets.only(
             left: 40.0,
@@ -88,14 +94,12 @@ class _OptionsStructure extends StatelessWidget {
 }
 
 class _CarouselWidget extends StatelessWidget {
-  const _CarouselWidget(this.vehicle);
-
-  final Vehicle vehicle;
+  const _CarouselWidget();
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleOptionsState>(context, listen: true);
-    final vehiclePhotos = vehicle.photos!.split('|');
+    final vehiclePhotos = state.vehicle.photos!.split('|');
 
     return CarouselSlider.builder(
       itemCount: vehiclePhotos.length,
@@ -242,10 +246,14 @@ class _ActionButtons extends StatelessWidget {
         AppSmallButton(
           text: '     Edit     ',
           onPressed: () {
-            Navigator.of(context).pushNamed(
-              VehicleRegisterScreen.routeName,
-              arguments: vehicle,
-            );
+            Navigator.of(context)
+                .pushNamed(
+                  VehicleRegisterScreen.routeName,
+                  arguments: vehicle,
+                )
+                .whenComplete(
+                  () => state.loadData(state.vehicle.id!),
+                );
           },
         ),
         AppSmallButton(

@@ -150,32 +150,6 @@ class VehicleRegisterState with ChangeNotifier {
     priceController.updateValue(0.00);
   }
 
-  Future<void> update() async {
-    final editedCar = Vehicle(
-      id: vehicle!.id,
-      model: modelController.text,
-      plate: plateController.text,
-      brand: brandController.text,
-      builtYear: int.parse(builtYearController.text),
-      modelYear: int.parse(modelYearController.text),
-      pricePaid: double.parse(
-        priceController.text.replaceAll(RegExp(r','), ''),
-      ),
-      purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
-      dealershipId: vehicle!.dealershipId,
-    );
-
-    await _vehicleController.update(editedCar);
-
-    modelController.clear();
-    plateController.clear();
-    brandController.clear();
-    builtYearController.clear();
-    modelYearController.clear();
-    _photoController.clear();
-    priceController.updateValue(0.00);
-  }
-
   Future<void> pickImage() async {
     try {
       final images = await ImagePicker().pickMultiImage();
@@ -232,10 +206,37 @@ class VehicleRegisterState with ChangeNotifier {
     modelYearController.text = vehicle.modelYear.toString();
     plateController.text = vehicle.plate;
     dateController.text =
-        DateFormat('dd/MM/YYYY').format(vehicle.purchasedWhen);
-    priceController.text = vehicle.pricePaid.toString();
+        DateFormat('dd/MM/yyyy').format(vehicle.purchasedWhen);
+    priceController.text = vehicle.pricePaid.toStringAsFixed(2);
     photoController.addAll(vehicle.photos!.split('|'));
 
     notifyListeners();
+  }
+
+  Future<void> update() async {
+    final editedCar = Vehicle(
+      id: vehicle!.id,
+      model: modelController.text,
+      plate: plateController.text,
+      brand: brandController.text,
+      builtYear: int.parse(builtYearController.text),
+      modelYear: int.parse(modelYearController.text),
+      pricePaid: double.parse(
+        priceController.text.replaceAll(RegExp(r','), ''),
+      ),
+      purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
+      dealershipId: vehicle!.dealershipId,
+      photos: photoController.join('|'),
+    );
+
+    await _vehicleController.update(editedCar);
+
+    modelController.clear();
+    plateController.clear();
+    brandController.clear();
+    builtYearController.clear();
+    modelYearController.clear();
+    _photoController.clear();
+    priceController.updateValue(0.00);
   }
 }

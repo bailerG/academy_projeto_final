@@ -391,7 +391,11 @@ class _RegisterCarButton extends StatelessWidget {
 
     void onPressed() {
       if (state.formState.currentState!.validate()) {
-        state.editing ? state.update() : state.insert();
+        state.editing
+            ? state.update().whenComplete(
+                  () => Navigator.pop(context),
+                )
+            : state.insert();
         mainState.onItemTapped(0);
       }
     }

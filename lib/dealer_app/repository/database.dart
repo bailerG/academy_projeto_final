@@ -844,7 +844,7 @@ class VehiclesTable {
     map[VehiclesTable.builtYear] = vehicle.builtYear;
     map[VehiclesTable.modelYear] = vehicle.modelYear;
     map[VehiclesTable.photo] = vehicle.photos;
-    map[VehiclesTable.pricePaid] = vehicle.pricePaid;
+    map[VehiclesTable.pricePaid] = vehicle.pricePaid.toStringAsFixed(2);
     map[VehiclesTable.purchasedWhen] =
         DateFormat('dd/MM/yyyy').format(vehicle.purchasedWhen);
     map[VehiclesTable.dealershipId] = vehicle.dealershipId;
@@ -905,13 +905,44 @@ class VehiclesTableController {
 
   // Select method returns a list of the items registered on the database with
   //the given dealership id
-  Future<List<Vehicle>> select(int dealershipId) async {
+  Future<List<Vehicle>> selectByDealership(int dealershipId) async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
       VehiclesTable.tableName,
       where: '${VehiclesTable.dealershipId} = ?',
       whereArgs: [dealershipId],
+    );
+
+    var list = <Vehicle>[];
+
+    for (final item in result) {
+      list.add(
+        Vehicle(
+          id: item[VehiclesTable.id],
+          model: item[VehiclesTable.model],
+          brand: item[VehiclesTable.brand],
+          builtYear: item[VehiclesTable.builtYear],
+          plate: item[VehiclesTable.plate],
+          modelYear: item[VehiclesTable.modelYear],
+          photos: (item[VehiclesTable.photo]).toString(),
+          pricePaid: item[VehiclesTable.pricePaid],
+          purchasedWhen:
+              DateFormat('dd/MM/yyyy').parse(item[VehiclesTable.purchasedWhen]),
+          dealershipId: item[VehiclesTable.dealershipId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<Vehicle>> selectSingleVehicle(int vehicleId) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      VehiclesTable.tableName,
+      where: '${VehiclesTable.id} = ?',
+      whereArgs: [vehicleId],
     );
 
     var list = <Vehicle>[];

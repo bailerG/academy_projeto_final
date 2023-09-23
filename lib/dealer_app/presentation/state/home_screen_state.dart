@@ -28,8 +28,8 @@ class HomeScreenState with ChangeNotifier {
   final vehicleList = <Vehicle>[];
 
   Future<void> getVehicles() async {
-    final result =
-        await VehiclesTableController().select(loggedUser.dealershipId);
+    final result = await VehiclesTableController()
+        .selectByDealership(loggedUser.dealershipId);
 
     vehicleList.clear();
     vehicleList.addAll(result);
