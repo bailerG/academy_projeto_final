@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AppTextField extends StatelessWidget {
   const AppTextField({
     super.key,
-    required this.controller,
-    required this.validator,
+    this.controller,
+    this.validator,
     this.inputType,
     this.hint,
     this.icon,
@@ -14,7 +14,7 @@ class AppTextField extends StatelessWidget {
     this.onTap,
   });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType? inputType;
   final String? hint;
   final String? Function(String?)? validator;

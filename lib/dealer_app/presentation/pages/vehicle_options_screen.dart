@@ -6,14 +6,18 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/vehicle.dart';
+import '../state/main_state.dart';
+import '../state/sale_register_state.dart';
 import '../state/vehicle_options.state.dart';
 import '../utils/alert_dialog.dart';
 import '../utils/atributes_table.dart';
+import '../utils/close_button.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/small_button.dart';
 import '../utils/text_descriptions.dart';
 import '../utils/title.dart';
+import 'sale_form_popup.dart';
 import 'vehicle_register_screen.dart';
 
 class VehicleOptionsScreen extends StatelessWidget {
@@ -26,20 +30,22 @@ class VehicleOptionsScreen extends StatelessWidget {
     final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle;
     return ChangeNotifierProvider(
       create: (context) => VehicleOptionsState(vehicle.id!),
-      child: Consumer<VehicleOptionsState>(builder: (context, state, child) {
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          body: state.loading == true
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : const _OptionsStructure(),
-        );
-      }),
+      child: Consumer<VehicleOptionsState>(
+        builder: (context, state, child) {
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: state.loading == true
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : const _OptionsStructure(),
+          );
+        },
+      ),
     );
   }
 }
@@ -244,7 +250,8 @@ class _ActionButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppSmallButton(
-          text: '     Edit     ',
+          text: 'Edit',
+          padding: 50,
           onPressed: () {
             Navigator.of(context)
                 .pushNamed(
@@ -257,7 +264,8 @@ class _ActionButtons extends StatelessWidget {
           },
         ),
         AppSmallButton(
-          text: '   Delete    ',
+          text: 'Delete',
+          padding: 40,
           onPressed: () {
             showDialog(
               context: context,
@@ -294,9 +302,67 @@ class _SellButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainState = Provider.of<MainState>(context, listen: false);
+    final vehicleState =
+        Provider.of<VehicleOptionsState>(context, listen: false);
+
     return AppLargeButton(
-      onPressed: () {},
       text: 'Sell',
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ChangeNotifierProvider(
+              create: (context) => SaleRegisterState(
+                mainState.loggedUser!,
+                vehicleState.vehicle,
+              ),
+              child: Consumer<SaleRegisterState>(
+                builder: (context, state, child) {
+                  return const _SalePopUp();
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _SalePopUp extends StatelessWidget {
+  const _SalePopUp();
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<SaleRegisterState>(context, listen: true);
+
+    return AlertDialog(
+      title: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppHeader(
+            header: 'Sell Vehicle',
+            fontSize: 1,
+            padLeft: 8.0,
+          ),
+          AppCloseeButton(),
+        ],
+      ),
+      content: SaleForm(state: state),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: AppLargeButton(
+            onPressed: () {
+              if (state.formState.currentState!.validate()) {
+                state.registerSale();
+              }
+            },
+            text: 'Sold!',
+          ),
+        ),
+      ],
     );
   }
 }

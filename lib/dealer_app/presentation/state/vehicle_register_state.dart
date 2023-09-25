@@ -49,17 +49,11 @@ class VehicleRegisterState with ChangeNotifier {
   );
 
   TextEditingController get modelController => _modelController;
-
   TextEditingController get plateController => _plateController;
-
   TextEditingController get brandController => _brandController;
-
   TextEditingController get builtYearController => _builtYearController;
-
   TextEditingController get modelYearController => _modelYearController;
-
   TextEditingController get dateController => _dateController;
-
   MoneyMaskedTextController get priceController => _priceController;
 
   List<String> get photoController => _photoController;

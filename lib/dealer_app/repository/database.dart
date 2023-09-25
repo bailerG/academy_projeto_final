@@ -169,6 +169,34 @@ class AutonomyLevelsTableController {
     return list;
   }
 
+  Future<AutonomyLevel> selectById(int id) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      AutonomyLevelsTable.tableName,
+      where: '${AutonomyLevelsTable.id} = ?',
+      whereArgs: [id],
+    );
+
+    final AutonomyLevel autonomyLevel;
+
+    if (result.length == 1) {
+      autonomyLevel = AutonomyLevel(
+        id: result.first[AutonomyLevelsTable.id],
+        name: result.first[AutonomyLevelsTable.name],
+        dealershipPercentage:
+            result.first[AutonomyLevelsTable.dealershipPercentage],
+        safetyPercentage: result.first[AutonomyLevelsTable.safetyPercentage],
+        headquartersPercentage:
+            result.first[AutonomyLevelsTable.headquartersPercentage],
+      );
+    } else {
+      throw Exception('More than one dealership with same id');
+    }
+
+    return autonomyLevel;
+  }
+
   // Update method updates the object on the database
   Future<void> update(AutonomyLevel autonomyLevel) async {
     final database = await getDatabase();
@@ -288,7 +316,7 @@ class DealershipTableController {
   }
 
   // Select method returns a list of all the items registered on the database
-  Future<List<Dealership>> select() async {
+  Future<List<Dealership>> selectAll() async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
@@ -309,6 +337,32 @@ class DealershipTableController {
       );
     }
     return list;
+  }
+
+  Future<Dealership> selectById(int id) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      DealershipsTable.tableName,
+      where: '${DealershipsTable.id} = ?',
+      whereArgs: [id],
+    );
+
+    final Dealership dealership;
+
+    if (result.length == 1) {
+      dealership = Dealership(
+        id: result.first[DealershipsTable.id],
+        cnpj: result.first[DealershipsTable.cnpj],
+        name: result.first[DealershipsTable.name],
+        autonomyLevelId: result.first[DealershipsTable.autonomyLevelId],
+        password: result.first[DealershipsTable.password],
+      );
+    } else {
+      throw Exception('More than one dealership with same id');
+    }
+
+    return dealership;
   }
 
   // Update method updates the object on the database
@@ -495,11 +549,11 @@ class SalesTable {
     map[SalesTable.id] = sale.id;
     map[SalesTable.customerCpf] = sale.customerCpf;
     map[SalesTable.customerName] = sale.customerName;
-    map[SalesTable.soldWhen] = sale.soldWhen;
+    map[SalesTable.soldWhen] = DateFormat('dd/MM/yyyy').format(sale.soldWhen);
     map[SalesTable.priceSold] = sale.priceSold;
-    map[SalesTable.dealershipCut] = sale.dealershipCut;
-    map[SalesTable.businessCut] = sale.businessCut;
-    map[SalesTable.safetyCut] = sale.safetyCut;
+    map[SalesTable.dealershipCut] = sale.dealershipPercentage;
+    map[SalesTable.businessCut] = sale.businessPercentage;
+    map[SalesTable.safetyCut] = sale.safetyPercentage;
     map[SalesTable.vehicleId] = sale.vehicleId;
     map[SalesTable.dealershipId] = sale.dealershipId;
     map[SalesTable.userId] = sale.userId;
@@ -573,9 +627,9 @@ class SaleTableController {
           customerName: item[SalesTable.customerName],
           soldWhen: item[SalesTable.soldWhen],
           priceSold: item[SalesTable.priceSold],
-          dealershipCut: item[SalesTable.dealershipCut],
-          businessCut: item[SalesTable.businessCut],
-          safetyCut: item[SalesTable.safetyCut],
+          dealershipPercentage: item[SalesTable.dealershipCut],
+          businessPercentage: item[SalesTable.businessCut],
+          safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
           userId: item[SalesTable.userId],
@@ -606,9 +660,9 @@ class SaleTableController {
           customerName: item[SalesTable.customerName],
           soldWhen: item[SalesTable.soldWhen],
           priceSold: item[SalesTable.priceSold],
-          dealershipCut: item[SalesTable.dealershipCut],
-          businessCut: item[SalesTable.businessCut],
-          safetyCut: item[SalesTable.safetyCut],
+          dealershipPercentage: item[SalesTable.dealershipCut],
+          businessPercentage: item[SalesTable.businessCut],
+          safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
           userId: item[SalesTable.userId],

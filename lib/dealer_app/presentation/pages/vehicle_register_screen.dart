@@ -8,6 +8,7 @@ import '../../entities/vehicle.dart';
 import '../state/main_state.dart';
 import '../state/vehicle_register_state.dart';
 import '../utils/autocomplete_textfield.dart';
+import '../utils/close_button.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/small_button.dart';
@@ -26,13 +27,22 @@ class VehicleRegisterScreen extends StatelessWidget {
 
     final arguments = ModalRoute.of(context)!.settings.arguments as Vehicle?;
 
-    return Scaffold(
-      body: ChangeNotifierProvider(
-        create: (context) => VehicleRegisterState(
-          user: mainState.loggedUser!,
-          vehicle: arguments,
-        ),
-        child: const _VehicleRegisterStructure(),
+    return ChangeNotifierProvider(
+      create: (context) => VehicleRegisterState(
+        user: mainState.loggedUser!,
+        vehicle: arguments,
+      ),
+      child: Consumer<VehicleRegisterState>(
+        builder: (context, state, child) {
+          return Scaffold(
+            body: const _VehicleRegisterStructure(),
+            appBar: state.editing
+                ? AppBar(
+                    leading: const AppCloseeButton(),
+                  )
+                : null,
+          );
+        },
       ),
     );
   }
@@ -254,6 +264,13 @@ class _ModelYearTextField extends StatelessWidget {
 class _DatePicker extends StatelessWidget {
   const _DatePicker();
 
+  String? validator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select a date';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
@@ -262,6 +279,7 @@ class _DatePicker extends StatelessWidget {
       validator: null,
       inputType: TextInputType.datetime,
       readOnly: true,
+      hint: 'Pick a date',
       onTap: () async {
         final pickedDate = await showDatePicker(
           context: context,
@@ -274,7 +292,6 @@ class _DatePicker extends StatelessWidget {
           state.setPickedDate(formattedDate);
         }
       },
-      hint: 'Pick a date',
     );
   }
 }

@@ -48,7 +48,7 @@ class UserRegistrationState with ChangeNotifier {
 
   Future<void> load() async {
     final listOfRoles = await RolesTableController().select();
-    final listOfDealerships = await DealershipTableController().select();
+    final listOfDealerships = await DealershipTableController().selectAll();
 
     roleList
       ..clear()
