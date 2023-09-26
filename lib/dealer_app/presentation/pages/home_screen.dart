@@ -70,7 +70,6 @@ class _WelcomeTitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16, bottom: 160),
       child: AppTitle(
         title: 'Welcome\n${state.loggedUser.fullName}!',
-        fontSize: 2.0,
       ),
     );
   }

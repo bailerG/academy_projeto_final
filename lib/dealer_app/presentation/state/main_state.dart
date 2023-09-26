@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../entities/user.dart';
+import '../pages/admin_panel_screen.dart';
 import '../pages/home_screen.dart';
 import '../pages/report_generation_screen.dart';
 import '../pages/vehicle_register_screen.dart';
@@ -37,6 +38,7 @@ class MainState with ChangeNotifier {
   final List<Widget> widgetOptions = <Widget>[
     const HomeScreen(),
     const VehicleRegisterScreen(),
+    const AdminPanel(),
     const ReportScreen(),
   ];
 

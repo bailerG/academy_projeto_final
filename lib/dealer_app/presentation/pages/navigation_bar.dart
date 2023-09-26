@@ -10,6 +10,7 @@ class AppNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<MainState>(context, listen: true);
+
     return NavigationBar(
       indicatorColor: accentColor,
       destinations: const <Widget>[
@@ -28,6 +29,14 @@ class AppNavigationBar extends StatelessWidget {
           ),
           icon: Icon(Icons.add_box_outlined),
           label: 'Add Vehicle',
+        ),
+        NavigationDestination(
+          selectedIcon: Icon(
+            Icons.person_4_rounded,
+            color: Colors.white,
+          ),
+          icon: Icon(Icons.person_4_outlined),
+          label: 'Admin',
         ),
         NavigationDestination(
           selectedIcon: Icon(

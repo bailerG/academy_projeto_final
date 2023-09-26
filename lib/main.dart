@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../dealer_app/presentation/pages/login_screen.dart';
+import 'dealer_app/presentation/pages/admin_panel_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
 import 'dealer_app/presentation/pages/main_screen.dart';
 import 'dealer_app/presentation/pages/user_registration_screen.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
                   const VehicleRegisterScreen(),
               VehicleOptionsScreen.routeName: (context) =>
                   const VehicleOptionsScreen(),
+              AdminPanel.routeName: (context) => const AdminPanel(),
             },
             initialRoute: LoginScreen.routeName,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

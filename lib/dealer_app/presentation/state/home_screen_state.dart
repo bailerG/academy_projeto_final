@@ -31,6 +31,8 @@ class HomeScreenState with ChangeNotifier {
     final result = await VehiclesTableController()
         .selectByDealership(loggedUser.dealershipId);
 
+    result.removeWhere((element) => element.isSold == true);
+
     vehicleList.clear();
     vehicleList.addAll(result);
 

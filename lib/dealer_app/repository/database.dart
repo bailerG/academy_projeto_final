@@ -871,7 +871,8 @@ class VehiclesTable {
       $photo          TEXT NOT NULL,
       $pricePaid      REAL NOT NULL,
       $purchasedWhen  TEXT NOT NULL,
-      $dealershipId   INTEGER NOT NULL
+      $dealershipId   INTEGER NOT NULL,
+      $isSold         INTEGER NOT NULL
     );
   ''';
 
@@ -886,6 +887,7 @@ class VehiclesTable {
   static const String pricePaid = 'price_paid';
   static const String purchasedWhen = 'purchased_when';
   static const String dealershipId = 'dealership_id';
+  static const String isSold = 'is_sold';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Vehicle vehicle) {
@@ -902,6 +904,7 @@ class VehiclesTable {
     map[VehiclesTable.purchasedWhen] =
         DateFormat('dd/MM/yyyy').format(vehicle.purchasedWhen);
     map[VehiclesTable.dealershipId] = vehicle.dealershipId;
+    map[VehiclesTable.isSold] = vehicle.isSold ? 1 : 0;
 
     return map;
   }
@@ -984,6 +987,7 @@ class VehiclesTableController {
           purchasedWhen:
               DateFormat('dd/MM/yyyy').parse(item[VehiclesTable.purchasedWhen]),
           dealershipId: item[VehiclesTable.dealershipId],
+          isSold: item[VehiclesTable.isSold] == 1 ? true : false,
         ),
       );
     }
@@ -1015,6 +1019,7 @@ class VehiclesTableController {
           purchasedWhen:
               DateFormat('dd/MM/yyyy').parse(item[VehiclesTable.purchasedWhen]),
           dealershipId: item[VehiclesTable.dealershipId],
+          isSold: item[VehiclesTable.isSold] == 1 ? true : false,
         ),
       );
     }

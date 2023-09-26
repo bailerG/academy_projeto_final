@@ -357,6 +357,7 @@ class _SalePopUp extends StatelessWidget {
             onPressed: () {
               if (state.formState.currentState!.validate()) {
                 state.registerSale();
+                Navigator.of(context).pop();
               }
             },
             text: 'Sold!',

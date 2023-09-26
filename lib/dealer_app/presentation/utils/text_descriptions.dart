@@ -18,8 +18,8 @@ class AppTextDescription extends StatelessWidget {
       text,
       textScaleFactor: fontSize ?? 1.2,
       style: TextStyle(
-        color: Theme.of(context).hintColor,
-        fontWeight: fontWeight ?? FontWeight.normal,
+        color: Theme.of(context).unselectedWidgetColor,
+        fontWeight: fontWeight ?? FontWeight.w400,
       ),
     );
   }

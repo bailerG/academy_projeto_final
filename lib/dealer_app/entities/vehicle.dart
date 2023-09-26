@@ -10,6 +10,7 @@ class Vehicle {
   final double pricePaid;
   final DateTime purchasedWhen;
   final int dealershipId;
+  final bool isSold;
 
   Vehicle({
     this.id,
@@ -22,6 +23,7 @@ class Vehicle {
     required this.pricePaid,
     required this.purchasedWhen,
     required this.dealershipId,
+    required this.isSold,
   });
 
   @override

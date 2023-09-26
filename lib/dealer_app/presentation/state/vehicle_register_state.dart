@@ -131,6 +131,7 @@ class VehicleRegisterState with ChangeNotifier {
       ),
       purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
       dealershipId: _loggedUser.dealershipId,
+      isSold: false,
     );
 
     await _vehicleController.insert(vehicle);
@@ -221,6 +222,7 @@ class VehicleRegisterState with ChangeNotifier {
       purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
       dealershipId: vehicle!.dealershipId,
       photos: photoController.join('|'),
+      isSold: false,
     );
 
     await _vehicleController.update(editedCar);

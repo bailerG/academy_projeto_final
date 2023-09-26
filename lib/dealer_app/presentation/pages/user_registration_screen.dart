@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/main.dart';
 import '../state/user_registration_state.dart';
 import '../utils/dropdown.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
+import '../utils/text_descriptions.dart';
 import '../utils/text_field.dart';
+import '../utils/title.dart';
 
 class UserRegisterScreen extends StatelessWidget {
   const UserRegisterScreen({super.key});
@@ -87,31 +88,18 @@ class _NewHereTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Title(
-        color: accentColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Have a new associate?',
-              textScaleFactor: 2.5,
-              style: TextStyle(
-                color: accentColor,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Text(
-              'Please fill these fields',
-              textScaleFactor: 1.2,
-              style: TextStyle(
-                color: Theme.of(context).unselectedWidgetColor,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppTitle(
+            title: 'Have a new associate?',
+          ),
+          AppTextDescription(
+            text: 'Please fill these fields',
+          ),
+        ],
       ),
     );
   }

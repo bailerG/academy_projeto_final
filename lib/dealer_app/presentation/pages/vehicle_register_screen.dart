@@ -12,7 +12,9 @@ import '../utils/close_button.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/small_button.dart';
+import '../utils/text_descriptions.dart';
 import '../utils/text_field.dart';
+import '../utils/title.dart';
 
 class VehicleRegisterScreen extends StatelessWidget {
   const VehicleRegisterScreen({
@@ -62,6 +64,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const _NewCarTitle(),
                 const AppHeader(header: 'Brand'),
                 const Padding(
                   padding: EdgeInsets.only(
@@ -145,6 +148,28 @@ class _VehicleRegisterStructure extends StatelessWidget {
               ],
             ),
           )),
+    );
+  }
+}
+
+class _NewCarTitle extends StatelessWidget {
+  const _NewCarTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppTitle(
+            title: 'Got a new car\nin the garage?',
+          ),
+          AppTextDescription(
+            text: 'Fill with the correct information',
+          ),
+        ],
+      ),
     );
   }
 }
