@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/gridview_button.dart';
+import 'user_list_screen.dart';
 import 'user_registration_screen.dart';
 
 class AdminPanel extends StatelessWidget {
@@ -47,9 +48,14 @@ class _EditUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppGridViewButton(
-      label: 'View and\nEdit User',
-      icon: Icons.edit_note,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(UserListScreen.routeName);
+      },
+      child: const AppGridViewButton(
+        label: 'View and\nEdit User',
+        icon: Icons.edit_note,
+      ),
     );
   }
 }

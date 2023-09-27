@@ -218,7 +218,9 @@ class _RegisterButton extends StatelessWidget {
 
     void onPressed() {
       if (state.formState.currentState!.validate()) {
-        state.insert();
+        state.insert().whenComplete(
+              () => Navigator.pop(context),
+            );
       }
     }
 

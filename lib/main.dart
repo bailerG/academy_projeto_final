@@ -6,6 +6,7 @@ import '../dealer_app/presentation/pages/login_screen.dart';
 import 'dealer_app/presentation/pages/admin_panel_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
 import 'dealer_app/presentation/pages/main_screen.dart';
+import 'dealer_app/presentation/pages/user_list_screen.dart';
 import 'dealer_app/presentation/pages/user_registration_screen.dart';
 import 'dealer_app/presentation/pages/vehicle_options_screen.dart';
 import 'dealer_app/presentation/pages/vehicle_register_screen.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
               VehicleOptionsScreen.routeName: (context) =>
                   const VehicleOptionsScreen(),
               AdminPanel.routeName: (context) => const AdminPanel(),
+              UserListScreen.routeName: (context) => const UserListScreen(),
             },
             initialRoute: LoginScreen.routeName,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

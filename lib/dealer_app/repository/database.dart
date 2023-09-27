@@ -466,7 +466,7 @@ class RolesTableController {
 
   // Select method returns a list of the items registered on the database with
   //the given dealership id
-  Future<List<Role>> select() async {
+  Future<List<Role>> selectAll() async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
