@@ -6,13 +6,15 @@ import '../../entities/user.dart';
 import '../../repository/database.dart';
 
 class UserRegistrationState with ChangeNotifier {
-  UserRegistrationState() {
-    load();
+  UserRegistrationState(this.user) {
+    init(user);
   }
+
+  User? user;
 
   final formState = GlobalKey<FormState>();
 
-  final userController = UsersTableController();
+  final _userController = UsersTableController();
 
   final _fullNameController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -26,16 +28,29 @@ class UserRegistrationState with ChangeNotifier {
   int get dealershipController => _dealershipController;
   int get roleController => _roleController;
 
+  bool editing = false;
+
+  void init(User? user) async {
+    editing = false;
+
+    load();
+
+    if (user != null) {
+      editUser(user);
+      editing = true;
+    }
+  }
+
   Future<void> insert() async {
     final user = User(
       username: usernameController.text,
       password: passwordController,
       fullName: fullNameController.text,
       dealershipId: dealershipController,
-      roleId: _roleController,
+      roleId: roleController,
     );
 
-    await userController.insert(user);
+    await _userController.insert(user);
 
     fullNameController.clear();
     usernameController.clear();
@@ -68,6 +83,33 @@ class UserRegistrationState with ChangeNotifier {
 
   void setRoleValue(Role role) {
     _roleController = role.id!;
+    notifyListeners();
+  }
+
+  void editUser(User user) {
+    usernameController.text = user.username;
+    fullNameController.text = user.fullName;
+    _roleController = user.roleId;
+    _dealershipController = user.dealershipId;
+
+    notifyListeners();
+  }
+
+  Future<void> update() async {
+    final editedUser = User(
+      id: user!.id,
+      username: usernameController.text,
+      password: user!.password,
+      fullName: fullNameController.text,
+      dealershipId: dealershipController,
+      roleId: roleController,
+    );
+
+    await _userController.update(editedUser);
+
+    fullNameController.clear();
+    usernameController.clear();
+
     notifyListeners();
   }
 }

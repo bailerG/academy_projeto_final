@@ -25,29 +25,40 @@ class UserListState with ChangeNotifier {
   List<Role> get roleList => _roleList;
 
   void init() async {
+    loading = true;
     getUserList();
     getDealershipList();
     getRoleList();
 
     loading = false;
+
     notifyListeners();
   }
 
   Future<void> getUserList() async {
     final result = await userController.selectAll();
-    _userList.addAll(result);
+    _userList
+      ..clear()
+      ..addAll(result);
+
     notifyListeners();
   }
 
   Future<void> getDealershipList() async {
     final result = await dealershipController.selectAll();
-    _dealershipList.addAll(result);
+    _dealershipList
+      ..clear()
+      ..addAll(result);
+
     notifyListeners();
   }
 
   Future<void> getRoleList() async {
     final result = await roleController.selectAll();
-    _roleList.addAll(result);
+    _roleList
+      ..clear()
+      ..addAll(result);
+
     notifyListeners();
   }
 }

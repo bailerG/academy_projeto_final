@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/user.dart';
 import '../state/user_registration_state.dart';
 import '../utils/dropdown.dart';
 import '../utils/header.dart';
@@ -16,68 +17,72 @@ class UserRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = ModalRoute.of(context)!.settings.arguments as User?;
+
     return Scaffold(
       appBar: AppBar(),
-      body: const _UserRegistrationStructure(),
+      body: ChangeNotifierProvider(
+        create: (context) => UserRegistrationState(user),
+        child: Consumer<UserRegistrationState>(
+          builder: (context, state, child) {
+            return _UserRegistrationStructure(state);
+          },
+        ),
+      ),
     );
   }
 }
 
 class _UserRegistrationStructure extends StatelessWidget {
-  const _UserRegistrationStructure();
+  const _UserRegistrationStructure(this.state);
+
+  final UserRegistrationState state;
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UserRegistrationState(),
-      child: Consumer<UserRegistrationState>(
-        builder: (context, state, child) {
-          return SingleChildScrollView(
-            child: Form(
-              key: state.formState,
-              child: const Padding(
-                padding: EdgeInsets.all(40.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _NewHereTitle(),
-                    AppHeader(header: 'Full Name'),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 8,
-                        bottom: 8,
-                      ),
-                      child: _FullNameTextField(),
-                    ),
-                    AppHeader(header: 'Username'),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 8,
-                        bottom: 8,
-                      ),
-                      child: _UsernameTextField(),
-                    ),
-                    AppHeader(header: 'Dealership'),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 8,
-                      ),
-                      child: _DealershipDropdown(),
-                    ),
-                    AppHeader(header: 'Role'),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 32,
-                      ),
-                      child: _RoleDropdown(),
-                    ),
-                    _RegisterButton(),
-                  ],
+    return SingleChildScrollView(
+      child: Form(
+        key: state.formState,
+        child: const Padding(
+          padding: EdgeInsets.all(40.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _NewHereTitle(),
+              AppHeader(header: 'Full Name'),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 8,
+                  bottom: 8,
                 ),
+                child: _FullNameTextField(),
               ),
-            ),
-          );
-        },
+              AppHeader(header: 'Username'),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 8,
+                  bottom: 8,
+                ),
+                child: _UsernameTextField(),
+              ),
+              AppHeader(header: 'Dealership'),
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: 8,
+                ),
+                child: _DealershipDropdown(),
+              ),
+              AppHeader(header: 'Role'),
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: 32,
+                ),
+                child: _RoleDropdown(),
+              ),
+              _RegisterButton(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -120,7 +125,7 @@ class _FullNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: false);
+    final state = Provider.of<UserRegistrationState>(context, listen: true);
 
     return AppTextField(
       controller: state.fullNameController,
@@ -146,7 +151,7 @@ class _UsernameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: false);
+    final state = Provider.of<UserRegistrationState>(context, listen: true);
 
     return AppTextField(
       controller: state.usernameController,
@@ -214,19 +219,23 @@ class _RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: false);
+    final state = Provider.of<UserRegistrationState>(context, listen: true);
 
     void onPressed() {
       if (state.formState.currentState!.validate()) {
-        state.insert().whenComplete(
-              () => Navigator.pop(context),
-            );
+        state.editing
+            ? state.update().whenComplete(
+                  () => Navigator.pop(context),
+                )
+            : state.insert().whenComplete(
+                  () => Navigator.pop(context),
+                );
       }
     }
 
     return AppLargeButton(
       onPressed: onPressed,
-      text: 'Register Associate',
+      text: state.editing ? "Update associate's info" : 'Register Associate',
     );
   }
 }

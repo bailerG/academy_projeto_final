@@ -5,6 +5,7 @@ import '../../../main.dart';
 import '../../entities/user.dart';
 import '../state/user_list_state.dart';
 import '../utils/title.dart';
+import 'user_registration_screen.dart';
 
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
@@ -82,24 +83,34 @@ class _UserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        user.fullName,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed(
+              UserRegisterScreen.routeName,
+              arguments: user,
+            )
+            .whenComplete(state.init);
+      },
+      child: ListTile(
+        title: Text(
+          user.fullName,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      ),
-      subtitle: Text(
-        state.dealershipList
-            .singleWhere((element) => element.id == user.dealershipId)
-            .name,
-      ),
-      trailing: Text(
-        state.roleList
-            .singleWhere((element) => element.id == user.roleId)
-            .roleName,
-        style: const TextStyle(
-          color: accentColor,
+        subtitle: Text(
+          state.dealershipList
+              .singleWhere((element) => element.id == user.dealershipId)
+              .name,
+        ),
+        trailing: Text(
+          state.roleList
+              .singleWhere((element) => element.id == user.roleId)
+              .roleName,
+          style: const TextStyle(
+            color: accentColor,
+          ),
         ),
       ),
     );

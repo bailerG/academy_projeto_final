@@ -27,12 +27,12 @@ class VehicleRegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mainState = Provider.of<MainState>(context, listen: true);
 
-    final arguments = ModalRoute.of(context)!.settings.arguments as Vehicle?;
+    final vehicle = ModalRoute.of(context)!.settings.arguments as Vehicle?;
 
     return ChangeNotifierProvider(
       create: (context) => VehicleRegisterState(
         user: mainState.loggedUser!,
-        vehicle: arguments,
+        vehicle: vehicle,
       ),
       child: Consumer<VehicleRegisterState>(
         builder: (context, state, child) {
