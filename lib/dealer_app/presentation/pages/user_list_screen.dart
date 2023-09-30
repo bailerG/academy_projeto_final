@@ -39,6 +39,8 @@ class _UserListStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userList = state.userList.reversed.toList();
+
     return Padding(
       padding: const EdgeInsets.only(
         left: 32,
@@ -58,10 +60,10 @@ class _UserListStructure extends StatelessWidget {
                 bottom: 56,
               ),
               shrinkWrap: true,
-              itemCount: state.userList.length,
+              itemCount: userList.length,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => _UserListTile(
-                user: state.userList[index],
+                user: userList[index],
                 state: state,
               ),
             ),
@@ -84,20 +86,22 @@ class _UserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashFactory:
+          user.isActive ? InkSplash.splashFactory : NoSplash.splashFactory,
       onTap: () async {
-        await Navigator.of(context)
-            .pushNamed(
-              UserRegisterScreen.routeName,
-              arguments: user,
-            )
-            .whenComplete(state.init);
+        if (!user.isActive) {
+          return;
+        } else {
+          await Navigator.of(context)
+              .pushNamed(
+                UserRegisterScreen.routeName,
+                arguments: user,
+              )
+              .whenComplete(state.init);
+        }
       },
       child: ListTile(
-        leading: Text(
-          state.dealershipList
-              .singleWhere((element) => element.id == user.dealershipId)
-              .name,
-        ),
+        enabled: user.isActive,
         title: Text(
           user.fullName,
           style: const TextStyle(
@@ -112,9 +116,10 @@ class _UserListTile extends StatelessWidget {
             color: accentColor,
           ),
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {},
+        trailing: Text(
+          state.dealershipList
+              .singleWhere((element) => element.id == user.dealershipId)
+              .name,
         ),
       ),
     );

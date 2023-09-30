@@ -27,7 +27,7 @@ class LoginScreenState with ChangeNotifier {
       usernameController.text,
       passwordController.text,
     );
-    if (result == null) {
+    if (result == null || !result.isActive) {
       throw LoginError();
     } else {
       setLoggedUser(result);

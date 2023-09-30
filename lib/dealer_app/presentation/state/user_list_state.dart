@@ -39,7 +39,10 @@ class UserListState with ChangeNotifier {
     final result = await userController.selectAll();
     _userList
       ..clear()
-      ..addAll(result);
+      ..addAll(result)
+      ..sort(
+        (a, b) => a.isActive.toString().compareTo(b.isActive.toString()),
+      );
 
     notifyListeners();
   }
