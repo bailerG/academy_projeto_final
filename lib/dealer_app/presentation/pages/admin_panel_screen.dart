@@ -49,8 +49,8 @@ class _EditUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(UserListScreen.routeName);
+      onTap: () async {
+        await Navigator.of(context).pushNamed(UserListScreen.routeName);
       },
       child: const AppGridViewButton(
         label: 'View and\nEdit User',
@@ -67,8 +67,8 @@ class _RegisterUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
-      onTap: () {
-        Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
+      onTap: () async {
+        await Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
       },
       child: const AppGridViewButton(
         label: 'Register a\nNew Associate',

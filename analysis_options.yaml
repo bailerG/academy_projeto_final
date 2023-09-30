@@ -20,11 +20,16 @@ analyzer:
 # Include the rules for the old 'Effective Dart' over the 'Flutter Lints' style
 linter:
   rules:
+    - unawaited_futures
+    - discarded_futures
+    - unnecessary_await_in_return
     - prefer_single_quotes
     - camel_case_types
+    - avoid_classes_with_only_static_members
     - camel_case_extensions
     - library_names
     - file_names
+    # - public_member_api_docs
     - library_prefixes
     - non_constant_identifier_names
     - constant_identifier_names # prefer

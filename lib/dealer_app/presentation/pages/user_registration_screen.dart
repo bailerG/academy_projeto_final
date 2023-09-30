@@ -43,43 +43,46 @@ class _UserRegistrationStructure extends StatelessWidget {
     return SingleChildScrollView(
       child: Form(
         key: state.formState,
-        child: const Padding(
-          padding: EdgeInsets.all(40.0),
+        child: Padding(
+          padding: const EdgeInsets.all(40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _NewHereTitle(),
-              AppHeader(header: 'Full Name'),
+              _NewHereTitle(state),
+              const AppHeader(header: 'Full Name'),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: 8,
                   bottom: 8,
                 ),
-                child: _FullNameTextField(),
+                child: _FullNameTextField(state),
               ),
-              AppHeader(header: 'Username'),
+              const AppHeader(header: 'Username'),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: 8,
                   bottom: 8,
                 ),
-                child: _UsernameTextField(),
+                child: _UsernameTextField(state),
               ),
-              AppHeader(header: 'Dealership'),
+              const AppHeader(header: 'Dealership'),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   bottom: 8,
                 ),
-                child: _DealershipDropdown(),
+                child: _DealershipDropdown(state),
               ),
-              AppHeader(header: 'Role'),
+              const AppHeader(header: 'Role'),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   bottom: 32,
                 ),
-                child: _RoleDropdown(),
+                child: _RoleDropdown(state),
               ),
-              _RegisterButton(),
+              _RegisterButton(state),
+              Center(
+                child: _DeactivateUser(state),
+              ),
             ],
           ),
         ),
@@ -89,7 +92,9 @@ class _UserRegistrationStructure extends StatelessWidget {
 }
 
 class _NewHereTitle extends StatelessWidget {
-  const _NewHereTitle();
+  const _NewHereTitle(this.state);
+
+  final UserRegistrationState state;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +116,9 @@ class _NewHereTitle extends StatelessWidget {
 }
 
 class _FullNameTextField extends StatelessWidget {
-  const _FullNameTextField();
+  const _FullNameTextField(this.state);
+
+  final UserRegistrationState state;
 
   String? _validator(String? value) {
     if (value!.isEmpty) {
@@ -125,8 +132,6 @@ class _FullNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: true);
-
     return AppTextField(
       controller: state.fullNameController,
       inputType: TextInputType.name,
@@ -137,7 +142,9 @@ class _FullNameTextField extends StatelessWidget {
 }
 
 class _UsernameTextField extends StatelessWidget {
-  const _UsernameTextField();
+  const _UsernameTextField(this.state);
+
+  final UserRegistrationState state;
 
   String? _validator(String? value) {
     if (value == null || value.isEmpty) {
@@ -151,8 +158,6 @@ class _UsernameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: true);
-
     return AppTextField(
       controller: state.usernameController,
       inputType: TextInputType.text,
@@ -163,7 +168,9 @@ class _UsernameTextField extends StatelessWidget {
 }
 
 class _DealershipDropdown extends StatelessWidget {
-  const _DealershipDropdown();
+  const _DealershipDropdown(this.state);
+
+  final UserRegistrationState state;
 
   String? _validator(Object? value) {
     if (value == null) {
@@ -174,8 +181,6 @@ class _DealershipDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: true);
-
     void onChanged(value) {
       state.setDealershipValue(value!);
     }
@@ -189,7 +194,9 @@ class _DealershipDropdown extends StatelessWidget {
 }
 
 class _RoleDropdown extends StatelessWidget {
-  const _RoleDropdown();
+  const _RoleDropdown(this.state);
+
+  final UserRegistrationState state;
 
   String? validator(Object? value) {
     if (value == null) {
@@ -200,8 +207,6 @@ class _RoleDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: true);
-
     void onChanged(value) {
       state.setRoleValue(value!);
     }
@@ -215,27 +220,53 @@ class _RoleDropdown extends StatelessWidget {
 }
 
 class _RegisterButton extends StatelessWidget {
-  const _RegisterButton();
+  const _RegisterButton(this.state);
+
+  final UserRegistrationState state;
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<UserRegistrationState>(context, listen: true);
-
-    void onPressed() {
-      if (state.formState.currentState!.validate()) {
-        state.editing
-            ? state.update().whenComplete(
-                  () => Navigator.pop(context),
-                )
-            : state.insert().whenComplete(
-                  () => Navigator.pop(context),
-                );
+    Future<void> onPressed() async {
+      if (!state.formState.currentState!.validate()) {
+        return;
+      }
+      if (state.editing) {
+        await state.update();
+      } else {
+        await state.insert();
+      }
+      if (context.mounted) {
+        Navigator.pop(context);
       }
     }
 
     return AppLargeButton(
       onPressed: onPressed,
       text: state.editing ? "Update associate's info" : 'Register Associate',
+    );
+  }
+}
+
+class _DeactivateUser extends StatelessWidget {
+  const _DeactivateUser(this.state);
+
+  final UserRegistrationState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 24,
+      ),
+      child: AppLargeButton(
+        onPressed: () async {
+          await state.deactivateUser();
+          if (context.mounted) {
+            Navigator.pop(context);
+          }
+        },
+        text: 'Deactivate User',
+      ),
     );
   }
 }

@@ -41,7 +41,7 @@ class SaleRegisterState with ChangeNotifier {
   MoneyMaskedTextController get priceController => _priceController;
 
   void init() async {
-    getAutonomyLevel(vehicle.dealershipId);
+    await getAutonomyLevel(vehicle.dealershipId);
     notifyListeners();
   }
 

@@ -120,7 +120,7 @@ class _CarInventoryListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<HomeScreenState>(context, listen: true);
+    final state = Provider.of<HomeScreenState>(context);
 
     return ListView.builder(
       // physics: const NeverScrollableScrollPhysics(),
@@ -141,21 +141,19 @@ class _CarListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<HomeScreenState>(context, listen: true);
+    final state = Provider.of<HomeScreenState>(context);
 
     final vehiclePhotos = vehicle.photos!.split('|');
     final numberFormatter = NumberFormat('###,###,###.00');
 
     return InkWell(
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed(
-              VehicleOptionsScreen.routeName,
-              arguments: vehicle,
-            )
-            .then(
-              (value) => state.getVehicles(),
-            );
+      onTap: () async {
+        await Navigator.of(context).pushNamed(
+          VehicleOptionsScreen.routeName,
+          arguments: vehicle,
+        );
+
+        await state.getVehicles();
       },
       child: ListTile(
         title: Text(
@@ -164,6 +162,7 @@ class _CarListTile extends StatelessWidget {
           ' ${vehicle.model.toUpperCase()}',
         ),
         leading: FutureBuilder<File>(
+          // ignore: discarded_futures
           future: state.loadVehicleImage(vehiclePhotos.first),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

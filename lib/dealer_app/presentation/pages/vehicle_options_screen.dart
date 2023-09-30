@@ -115,6 +115,7 @@ class _CarouselWidget extends StatelessWidget {
         pageViewIndex,
       ) {
         return FutureBuilder<File>(
+          // ignore: discarded_futures
           future: state.loadVehicleImage(
             vehiclePhotos[itemIndex],
           ),
@@ -252,8 +253,8 @@ class _ActionButtons extends StatelessWidget {
         AppSmallButton(
           text: 'Edit',
           padding: 50,
-          onPressed: () {
-            Navigator.of(context)
+          onPressed: () async {
+            await Navigator.of(context)
                 .pushNamed(
                   VehicleRegisterScreen.routeName,
                   arguments: vehicle,
@@ -266,8 +267,8 @@ class _ActionButtons extends StatelessWidget {
         AppSmallButton(
           text: 'Delete',
           padding: 40,
-          onPressed: () {
-            showDialog(
+          onPressed: () async {
+            await showDialog(
               context: context,
               builder: (context) {
                 return AppAlertDialog(
@@ -308,8 +309,8 @@ class _SellButton extends StatelessWidget {
 
     return AppLargeButton(
       text: 'Sell',
-      onPressed: () {
-        showDialog(
+      onPressed: () async {
+        await showDialog(
           context: context,
           builder: (context) {
             return ChangeNotifierProvider(
@@ -355,9 +356,13 @@ class _SalePopUp extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8.0),
           child: AppLargeButton(
             onPressed: () {
-              if (state.formState.currentState!.validate()) {
+              if (!state.formState.currentState!.validate()) {
+                return;
+              } else {
                 state.registerSale();
-                Navigator.of(context).pop();
+                Navigator.of(context)
+                  ..pop()
+                  ..pop();
               }
             },
             text: 'Sold!',

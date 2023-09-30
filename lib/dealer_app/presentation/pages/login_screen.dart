@@ -150,7 +150,8 @@ class _LoginButton extends StatelessWidget {
           await loginState.login();
           if (context.mounted) {
             mainState.setLoggedUser(loginState.loggedUser);
-            Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+            await Navigator.of(context)
+                .pushReplacementNamed(MainScreen.routeName);
           }
         } on LoginError {
           if (context.mounted) {

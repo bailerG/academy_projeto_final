@@ -16,7 +16,7 @@ class VehicleOptionsState with ChangeNotifier {
   final vehicleController = VehiclesTableController();
   late Vehicle vehicle;
 
-  Future<void> loadData(int vehicleId) async {
+  void loadData(int vehicleId) async {
     loading = true;
     final result = await vehicleController.selectSingleVehicle(vehicleId);
     if (result.length == 1) {

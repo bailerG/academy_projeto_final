@@ -20,13 +20,13 @@ class MainState with ChangeNotifier {
 
   bool get lightTheme => _lightTheme;
 
-  void toggleTheme() {
+  Future<void> toggleTheme() async {
     _lightTheme = !_lightTheme;
-    _sharedPreferences.setBool(appThemeKey, _lightTheme);
+    await _sharedPreferences.setBool(appThemeKey, _lightTheme);
     notifyListeners();
   }
 
-  Future<void> init() async {
+  void init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
     _lightTheme = _sharedPreferences.getBool(appThemeKey) ?? true;
     notifyListeners();

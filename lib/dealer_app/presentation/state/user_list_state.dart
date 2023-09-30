@@ -26,9 +26,9 @@ class UserListState with ChangeNotifier {
 
   void init() async {
     loading = true;
-    getUserList();
-    getDealershipList();
-    getRoleList();
+    await getUserList();
+    await getDealershipList();
+    await getRoleList();
 
     loading = false;
 

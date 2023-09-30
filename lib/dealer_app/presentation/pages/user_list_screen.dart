@@ -84,8 +84,8 @@ class _UserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context)
+      onTap: () async {
+        await Navigator.of(context)
             .pushNamed(
               UserRegisterScreen.routeName,
               arguments: user,
@@ -93,6 +93,11 @@ class _UserListTile extends StatelessWidget {
             .whenComplete(state.init);
       },
       child: ListTile(
+        leading: Text(
+          state.dealershipList
+              .singleWhere((element) => element.id == user.dealershipId)
+              .name,
+        ),
         title: Text(
           user.fullName,
           style: const TextStyle(
@@ -100,17 +105,16 @@ class _UserListTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          state.dealershipList
-              .singleWhere((element) => element.id == user.dealershipId)
-              .name,
-        ),
-        trailing: Text(
           state.roleList
               .singleWhere((element) => element.id == user.roleId)
               .roleName,
           style: const TextStyle(
             color: accentColor,
           ),
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {},
         ),
       ),
     );

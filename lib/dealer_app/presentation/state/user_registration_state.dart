@@ -33,7 +33,7 @@ class UserRegistrationState with ChangeNotifier {
   void init(User? user) async {
     editing = false;
 
-    load();
+    await load();
 
     if (user != null) {
       editUser(user);
@@ -48,6 +48,7 @@ class UserRegistrationState with ChangeNotifier {
       fullName: fullNameController.text,
       dealershipId: dealershipController,
       roleId: roleController,
+      isActive: true,
     );
 
     await _userController.insert(user);
@@ -103,12 +104,29 @@ class UserRegistrationState with ChangeNotifier {
       fullName: fullNameController.text,
       dealershipId: dealershipController,
       roleId: roleController,
+      isActive: true,
     );
 
     await _userController.update(editedUser);
 
     fullNameController.clear();
     usernameController.clear();
+
+    notifyListeners();
+  }
+
+  Future<void> deactivateUser() async {
+    final deactivatedUser = User(
+      id: user!.id,
+      username: user!.username,
+      password: user!.password,
+      fullName: user!.fullName,
+      dealershipId: user!.dealershipId,
+      roleId: user!.roleId,
+      isActive: false,
+    );
+
+    await _userController.update(deactivatedUser);
 
     notifyListeners();
   }

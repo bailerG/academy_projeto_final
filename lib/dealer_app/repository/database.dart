@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'dart:developer';
 
 import 'package:intl/intl.dart';
@@ -107,7 +109,7 @@ class AutonomyLevelsTableController {
     final database = await getDatabase();
     final map = AutonomyLevelsTable.toMap(autonomyLevel);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -127,7 +129,7 @@ class AutonomyLevelsTableController {
   Future<void> delete(AutonomyLevel autonomyLevel) async {
     final database = await getDatabase();
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -203,7 +205,7 @@ class AutonomyLevelsTableController {
 
     final map = AutonomyLevelsTable.toMap(autonomyLevel);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -266,7 +268,7 @@ class DealershipTableController {
     final database = await getDatabase();
     final map = DealershipsTable.toMap(dealership);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -371,7 +373,7 @@ class DealershipTableController {
 
     final map = DealershipsTable.toMap(dealership);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -427,7 +429,7 @@ class RolesTableController {
     final database = await getDatabase();
     final map = RolesTable.toMap(role);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -447,7 +449,7 @@ class RolesTableController {
   Future<void> delete(Role role) async {
     final database = await getDatabase();
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -492,7 +494,7 @@ class RolesTableController {
 
     final map = RolesTable.toMap(role);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -569,7 +571,7 @@ class SaleTableController {
     final database = await getDatabase();
     final map = SalesTable.toMap(sale);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -589,7 +591,7 @@ class SaleTableController {
   Future<void> delete(Sale sale) async {
     final database = await getDatabase();
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -678,7 +680,7 @@ class SaleTableController {
 
     final map = SalesTable.toMap(sale);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -706,7 +708,8 @@ class UsersTable {
       $password     TEXT NOT NULL,
       $fullName     TEXT NOT NULL,
       $dealershipId INTEGER NOT NULL,
-      $roleId       INTEGER NOT NULL
+      $roleId       INTEGER NOT NULL,
+      $isActive     INTEGER NOT NULL
     );
   ''';
 
@@ -717,10 +720,11 @@ class UsersTable {
   static const String fullName = 'full_name';
   static const String dealershipId = 'dealership_id';
   static const String roleId = 'role_id';
+  static const String isActive = 'is_active';
 
   static const adminUserRawInsert =
       'INSERT INTO $tableName($username,$password,$fullName,$dealershipId,'
-      '$roleId) VALUES("admin","admin","Anderson",1,1)';
+      '$roleId,$isActive) VALUES("admin","admin","Anderson",1,1,1)';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(User user) {
@@ -732,6 +736,7 @@ class UsersTable {
     map[UsersTable.fullName] = user.fullName;
     map[UsersTable.dealershipId] = user.dealershipId;
     map[UsersTable.roleId] = user.roleId;
+    map[UsersTable.isActive] = user.isActive ? 1 : 0;
 
     return map;
   }
@@ -744,7 +749,7 @@ class UsersTableController {
     final database = await getDatabase();
     final map = UsersTable.toMap(user);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -764,7 +769,7 @@ class UsersTableController {
   Future<void> delete(User user) async {
     final database = await getDatabase();
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -801,6 +806,7 @@ class UsersTableController {
           fullName: item[UsersTable.fullName],
           dealershipId: item[UsersTable.dealershipId],
           roleId: item[UsersTable.roleId],
+          isActive: item[UsersTable.isActive] == 1 ? true : false,
         ),
       );
     }
@@ -827,6 +833,7 @@ class UsersTableController {
           fullName: item[UsersTable.fullName],
           dealershipId: item[UsersTable.dealershipId],
           roleId: item[UsersTable.roleId],
+          isActive: item[UsersTable.isActive] == 1 ? true : false,
         ),
       );
     }
@@ -839,7 +846,7 @@ class UsersTableController {
 
     final map = UsersTable.toMap(user);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -917,7 +924,7 @@ class VehiclesTableController {
     final database = await getDatabase();
     final map = VehiclesTable.toMap(vehicle);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 
@@ -1032,7 +1039,7 @@ class VehiclesTableController {
 
     final map = VehiclesTable.toMap(vehicle);
 
-    database.transaction(
+    await database.transaction(
       (txn) async {
         final batch = txn.batch();
 

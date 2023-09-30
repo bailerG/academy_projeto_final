@@ -5,6 +5,7 @@ class User {
   final String fullName;
   final int dealershipId;
   final int roleId;
+  final bool isActive;
 
   User({
     this.id,
@@ -13,6 +14,7 @@ class User {
     required this.fullName,
     required this.dealershipId,
     required this.roleId,
+    required this.isActive,
   });
 
   @override

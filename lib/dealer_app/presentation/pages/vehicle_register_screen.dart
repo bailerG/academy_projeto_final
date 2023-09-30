@@ -382,6 +382,7 @@ class _PhotoWidget extends StatelessWidget {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
 
     return FutureBuilder<File>(
+      // ignore: discarded_futures
       future: state.loadVehicleImage(imageName),
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
@@ -431,15 +432,20 @@ class _RegisterCarButton extends StatelessWidget {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
     final mainState = Provider.of<MainState>(context, listen: false);
 
-    void onPressed() {
-      if (state.formState.currentState!.validate()) {
-        state.editing
-            ? state.update().whenComplete(
-                  () => Navigator.pop(context),
-                )
-            : state.insert();
-        mainState.onItemTapped(0);
+    Future<void> onPressed() async {
+      if (!state.formState.currentState!.validate()) {
+        return;
       }
+      if (state.editing) {
+        await state.update();
+      } else {
+        await state.insert();
+      }
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      mainState.onItemTapped(0);
     }
 
     return AppLargeButton(
