@@ -190,7 +190,6 @@ class _BrandTextField extends StatelessWidget {
     return AppTextFieldAutoComplete(
       controller: state.brandController,
       validator: validator,
-      focusNode: state.brandFieldFocusNode,
       suggestions: state.allBrands,
     );
   }
@@ -212,6 +211,7 @@ class _ModelTextField extends StatelessWidget {
     return AppTextFieldAutoComplete(
       controller: state.modelController,
       validator: validator,
+      focusNode: state.modelFieldFocusNode,
       suggestions: state.allModels,
     );
   }

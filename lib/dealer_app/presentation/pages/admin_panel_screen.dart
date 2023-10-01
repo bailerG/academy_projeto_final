@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../utils/gridview_button.dart';
+import 'dealership_list_screen.dart';
+import 'dealership_register_screen.dart';
 import 'user_list_screen.dart';
 import 'user_registration_screen.dart';
 
@@ -83,9 +85,17 @@ class _EditDealerships extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppGridViewButton(
-      label: 'View and Edit Dealerships',
-      icon: Icons.edit,
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () async {
+        await Navigator.of(context).pushNamed(
+          DealershipListScreen.routeName,
+        );
+      },
+      child: const AppGridViewButton(
+        label: 'View and Edit Dealerships',
+        icon: Icons.edit,
+      ),
     );
   }
 }
@@ -95,9 +105,17 @@ class _RegisterDealership extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppGridViewButton(
-      label: 'Register a New Dealership',
-      icon: Icons.house_siding,
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () async {
+        await Navigator.of(context).pushNamed(
+          DealershipRegisterScreen.routeName,
+        );
+      },
+      child: const AppGridViewButton(
+        label: 'Register a New Dealership',
+        icon: Icons.house_siding,
+      ),
     );
   }
 }

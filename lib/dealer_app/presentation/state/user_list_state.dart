@@ -12,9 +12,9 @@ class UserListState with ChangeNotifier {
 
   bool loading = true;
 
-  final userController = UsersTableController();
-  final dealershipController = DealershipTableController();
-  final roleController = RolesTableController();
+  final _userController = UsersTableController();
+  final _dealershipController = DealershipTableController();
+  final _roleController = RolesTableController();
 
   final _userList = <User>[];
   final _dealershipList = <Dealership>[];
@@ -36,7 +36,7 @@ class UserListState with ChangeNotifier {
   }
 
   Future<void> getUserList() async {
-    final result = await userController.selectAll();
+    final result = await _userController.selectAll();
     _userList
       ..clear()
       ..addAll(result)
@@ -48,7 +48,7 @@ class UserListState with ChangeNotifier {
   }
 
   Future<void> getDealershipList() async {
-    final result = await dealershipController.selectAll();
+    final result = await _dealershipController.selectAll();
     _dealershipList
       ..clear()
       ..addAll(result);
@@ -57,7 +57,7 @@ class UserListState with ChangeNotifier {
   }
 
   Future<void> getRoleList() async {
-    final result = await roleController.selectAll();
+    final result = await _roleController.selectAll();
     _roleList
       ..clear()
       ..addAll(result);

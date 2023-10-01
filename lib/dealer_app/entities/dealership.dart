@@ -5,6 +5,7 @@ class Dealership {
   final String name;
   final int autonomyLevelId;
   final String password;
+  final bool isActive;
 
   Dealership({
     this.id,
@@ -12,6 +13,7 @@ class Dealership {
     required this.name,
     required this.autonomyLevelId,
     required this.password,
+    required this.isActive,
   });
 
   @override

@@ -58,7 +58,7 @@ class VehicleRegisterState with ChangeNotifier {
 
   List<String> get photoController => _photoController;
 
-  final brandFieldFocusNode = FocusNode();
+  final modelFieldFocusNode = FocusNode();
 
   final allBrands = <String>[];
   final allModels = <String>[];
@@ -80,9 +80,9 @@ class VehicleRegisterState with ChangeNotifier {
   }
 
   void showModels() async {
-    brandFieldFocusNode.addListener(
+    modelFieldFocusNode.addListener(
       () async {
-        if (brandFieldFocusNode.hasFocus) {
+        if (modelFieldFocusNode.hasFocus) {
           final result = await getModelsByBrand(brandController.text);
           allModels.clear();
           allModels.addAll(result!);

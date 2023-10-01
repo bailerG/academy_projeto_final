@@ -147,7 +147,7 @@ class AutonomyLevelsTableController {
   }
 
   // Select method returns a list of all the items registered on the database
-  Future<List<AutonomyLevel>> select() async {
+  Future<List<AutonomyLevel>> selectAll() async {
     final database = await getDatabase();
 
     final List<Map<String, dynamic>> result = await database.query(
@@ -232,7 +232,8 @@ class DealershipsTable {
       $cnpj             INTEGER NOT NULL,
       $name             TEXT NOT NULL,
       $autonomyLevelId  INTEGER NOT NULL,
-      $password         TEXT NOT NULL
+      $password         TEXT NOT NULL,
+      $isActive         INTEGER NOT NULL
     );
   ''';
 
@@ -242,10 +243,11 @@ class DealershipsTable {
   static const String name = 'name';
   static const String autonomyLevelId = 'autonomy_level_id';
   static const String password = 'password';
+  static const String isActive = 'is_active';
 
   static const initialDealershipRawInsert =
-      'INSERT INTO $tableName($cnpj,$name,$autonomyLevelId,$password) '
-      'VALUES(79558908000175,"Matriz",4,"anderson")';
+      'INSERT INTO $tableName($cnpj,$name,$autonomyLevelId,$password,$isActive)'
+      'VALUES(79558908000175,"Matriz",4,"anderson",1)';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Dealership dealership) {
@@ -256,6 +258,7 @@ class DealershipsTable {
     map[DealershipsTable.name] = dealership.name;
     map[DealershipsTable.autonomyLevelId] = dealership.autonomyLevelId;
     map[DealershipsTable.password] = dealership.password;
+    map[DealershipsTable.isActive] = dealership.isActive ? 1 : 0;
 
     return map;
   }
@@ -335,6 +338,7 @@ class DealershipTableController {
           name: item[DealershipsTable.name],
           autonomyLevelId: item[DealershipsTable.autonomyLevelId],
           password: item[DealershipsTable.password],
+          isActive: item[DealershipsTable.isActive] == 1 ? true : false,
         ),
       );
     }
@@ -359,6 +363,7 @@ class DealershipTableController {
         name: result.first[DealershipsTable.name],
         autonomyLevelId: result.first[DealershipsTable.autonomyLevelId],
         password: result.first[DealershipsTable.password],
+        isActive: result.first[DealershipsTable.isActive] == 1 ? true : false,
       );
     } else {
       throw Exception('More than one dealership with same id');

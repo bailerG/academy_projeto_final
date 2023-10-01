@@ -278,8 +278,8 @@ class _ActionButtons extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         state.deleteVehicle(vehicle);
-                        Navigator.of(context).pop(true);
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       },
                       child: const Text('Yes'),
                     ),

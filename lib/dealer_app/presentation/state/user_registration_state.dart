@@ -31,13 +31,11 @@ class UserRegistrationState with ChangeNotifier {
   bool editing = false;
 
   void init(User? user) async {
-    editing = false;
-
     await load();
 
     if (user != null) {
-      editUser(user);
       editing = true;
+      editUser(user);
     }
   }
 

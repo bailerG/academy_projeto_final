@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../entities/user.dart';
 import '../state/user_registration_state.dart';
+import '../utils/alert_dialog.dart';
 import '../utils/dropdown.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
@@ -80,9 +81,7 @@ class _UserRegistrationStructure extends StatelessWidget {
                 child: _RoleDropdown(state),
               ),
               _RegisterButton(state),
-              Center(
-                child: _DeactivateUser(state),
-              ),
+              !state.editing ? Container() : _DeactivateUser(state),
             ],
           ),
         ),
@@ -98,15 +97,16 @@ class _NewHereTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 32),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppTitle(
-            title: 'Have a new associate?',
+            title:
+                state.editing ? 'Edit Existing User' : 'Have a new associate?',
           ),
-          AppTextDescription(
+          const AppTextDescription(
             text: 'Please fill these fields',
           ),
         ],
@@ -230,10 +230,10 @@ class _RegisterButton extends StatelessWidget {
       if (!state.formState.currentState!.validate()) {
         return;
       }
-      if (state.editing) {
-        await state.update();
-      } else {
+      if (!state.editing) {
         await state.insert();
+      } else {
+        await state.update();
       }
       if (context.mounted) {
         Navigator.pop(context);
@@ -260,10 +260,31 @@ class _DeactivateUser extends StatelessWidget {
       ),
       child: AppLargeButton(
         onPressed: () async {
-          await state.deactivateUser();
-          if (context.mounted) {
-            Navigator.pop(context);
-          }
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return AppAlertDialog(
+                title: 'Are you sure?',
+                message: 'Do you really want to deactivate this user?',
+                buttons: [
+                  TextButton(
+                    onPressed: () async {
+                      await state.deactivateUser();
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text('Yes'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancel'),
+                  ),
+                ],
+              );
+            },
+          );
         },
         text: 'Deactivate User',
       ),
