@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/gridview_button.dart';
+import 'autonomy_options.dart';
 import 'dealership_list_screen.dart';
 import 'dealership_register_screen.dart';
 import 'user_list_screen.dart';
@@ -39,6 +40,7 @@ class _PanelGrid extends StatelessWidget {
           _EditDealerships(),
           _RegisterUser(),
           _EditUsers(),
+          _EditPercentages(),
         ],
       ),
     );
@@ -115,6 +117,26 @@ class _RegisterDealership extends StatelessWidget {
       child: const AppGridViewButton(
         label: 'Register a New Dealership',
         icon: Icons.house_siding,
+      ),
+    );
+  }
+}
+
+class _EditPercentages extends StatelessWidget {
+  const _EditPercentages();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () async {
+        await Navigator.of(context).pushNamed(
+          AutonomyOptionsScreen.routeName,
+        );
+      },
+      child: const AppGridViewButton(
+        label: 'Edit Percentages',
+        icon: Icons.percent,
       ),
     );
   }

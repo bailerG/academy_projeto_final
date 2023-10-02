@@ -69,7 +69,8 @@ class UserRegistrationState with ChangeNotifier {
       ..addAll(listOfRoles);
     dealershipList
       ..clear()
-      ..addAll(listOfDealerships);
+      ..addAll(listOfDealerships)
+      ..removeWhere((element) => element.isActive == false);
 
     notifyListeners();
   }

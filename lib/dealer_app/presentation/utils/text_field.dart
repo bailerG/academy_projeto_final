@@ -12,6 +12,8 @@ class AppTextField extends StatelessWidget {
     this.obscureTextButton,
     this.readOnly,
     this.onTap,
+    this.onChanged,
+    this.autoValidate,
   });
 
   final TextEditingController? controller;
@@ -23,10 +25,13 @@ class AppTextField extends StatelessWidget {
   final IconButton? obscureTextButton;
   final bool? readOnly;
   final void Function()? onTap;
+  final void Function(String)? onChanged;
+  final AutovalidateMode? autoValidate;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: autoValidate,
       controller: controller,
       obscureText: obscureText ?? false,
       keyboardType: inputType ?? TextInputType.text,
@@ -43,6 +48,7 @@ class AppTextField extends StatelessWidget {
       ),
       onTap: onTap,
       validator: validator,
+      onChanged: onChanged,
     );
   }
 }

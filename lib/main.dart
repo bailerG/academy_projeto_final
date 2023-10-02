@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../dealer_app/presentation/pages/login_screen.dart';
 import 'dealer_app/presentation/pages/admin_panel_screen.dart';
+import 'dealer_app/presentation/pages/autonomy_options.dart';
 import 'dealer_app/presentation/pages/dealership_list_screen.dart';
 import 'dealer_app/presentation/pages/dealership_register_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
@@ -32,21 +33,39 @@ class MyApp extends StatelessWidget {
         builder: (context, state, child) {
           return MaterialApp(
             routes: {
-              LoginScreen.routeName: (context) => const LoginScreen(),
-              MainScreen.routeName: (context) => const MainScreen(),
-              HomeScreen.routeName: (context) => const HomeScreen(),
-              UserRegisterScreen.routeName: (context) =>
-                  const UserRegisterScreen(),
-              VehicleRegisterScreen.routeName: (context) =>
-                  const VehicleRegisterScreen(),
-              VehicleOptionsScreen.routeName: (context) =>
-                  const VehicleOptionsScreen(),
-              AdminPanel.routeName: (context) => const AdminPanel(),
-              UserListScreen.routeName: (context) => const UserListScreen(),
-              DealershipRegisterScreen.routeName: (context) =>
-                  const DealershipRegisterScreen(),
-              DealershipListScreen.routeName: (context) =>
-                  const DealershipListScreen(),
+              LoginScreen.routeName: (context) {
+                return const LoginScreen();
+              },
+              MainScreen.routeName: (context) {
+                return const MainScreen();
+              },
+              HomeScreen.routeName: (context) {
+                return const HomeScreen();
+              },
+              UserRegisterScreen.routeName: (context) {
+                return const UserRegisterScreen();
+              },
+              VehicleRegisterScreen.routeName: (context) {
+                return const VehicleRegisterScreen();
+              },
+              VehicleOptionsScreen.routeName: (context) {
+                return const VehicleOptionsScreen();
+              },
+              AdminPanel.routeName: (context) {
+                return const AdminPanel();
+              },
+              UserListScreen.routeName: (context) {
+                return const UserListScreen();
+              },
+              DealershipRegisterScreen.routeName: (context) {
+                return const DealershipRegisterScreen();
+              },
+              DealershipListScreen.routeName: (context) {
+                return const DealershipListScreen();
+              },
+              AutonomyOptionsScreen.routeName: (context) {
+                return const AutonomyOptionsScreen();
+              },
             },
             initialRoute: LoginScreen.routeName,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
