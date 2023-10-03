@@ -27,7 +27,7 @@ class DealershipRegisterState with ChangeNotifier {
   TextEditingController get passwordController => _passwordController;
   int get autonomyController => _autonomyController;
 
-  final _dealershipTableController = DealershipTableController();
+  final _dealershipTableController = DealershipsTableController();
   final _autonomyTableController = AutonomyLevelsTableController();
 
   bool editing = false;

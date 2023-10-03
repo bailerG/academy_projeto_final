@@ -13,8 +13,15 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<MainState>(context, listen: true);
+
+    List<Widget> widgetList;
+
+    state.loggedUser!.roleId == 1
+        ? widgetList = state.widgetOptionsAdmin
+        : widgetList = state.widgetOptionsAssociate;
+
     return Scaffold(
-      body: state.widgetOptions.elementAt(state.selectedIndex),
+      body: widgetList.elementAt(state.selectedIndex),
       bottomNavigationBar: const AppNavigationBar(),
       appBar: myAppBar(context),
     );

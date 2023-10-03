@@ -13,8 +13,8 @@ class AppNavigationBar extends StatelessWidget {
 
     return NavigationBar(
       indicatorColor: accentColor,
-      destinations: const <Widget>[
-        NavigationDestination(
+      destinations: <Widget>[
+        const NavigationDestination(
           selectedIcon: Icon(
             Icons.home,
             color: Colors.white,
@@ -22,7 +22,7 @@ class AppNavigationBar extends StatelessWidget {
           icon: Icon(Icons.home_outlined),
           label: 'Home',
         ),
-        NavigationDestination(
+        const NavigationDestination(
           selectedIcon: Icon(
             Icons.add_box_rounded,
             color: Colors.white,
@@ -30,15 +30,16 @@ class AppNavigationBar extends StatelessWidget {
           icon: Icon(Icons.add_box_outlined),
           label: 'Add Vehicle',
         ),
-        NavigationDestination(
-          selectedIcon: Icon(
-            Icons.person_4_rounded,
-            color: Colors.white,
+        if (state.loggedUser!.roleId == 1)
+          const NavigationDestination(
+            selectedIcon: Icon(
+              Icons.person_4_rounded,
+              color: Colors.white,
+            ),
+            icon: Icon(Icons.person_4_outlined),
+            label: 'Admin',
           ),
-          icon: Icon(Icons.person_4_outlined),
-          label: 'Admin',
-        ),
-        NavigationDestination(
+        const NavigationDestination(
           selectedIcon: Icon(
             Icons.padding_rounded,
             color: Colors.white,
@@ -46,7 +47,7 @@ class AppNavigationBar extends StatelessWidget {
           icon: Icon(Icons.padding_outlined),
           label: 'Report',
         ),
-        NavigationDestination(
+        const NavigationDestination(
           selectedIcon: Icon(
             Icons.settings,
             color: Colors.white,

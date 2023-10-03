@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../entities/vehicle.dart';
 import '../state/home_screen_state.dart';
 import '../state/main_state.dart';
+import '../utils/dropdown.dart';
 import '../utils/header.dart';
 import '../utils/title.dart';
 import 'vehicle_options_screen.dart';
@@ -44,13 +45,14 @@ class _HomeScreenStructure extends StatelessWidget {
           physics: state.vehicleList.isEmpty
               ? const NeverScrollableScrollPhysics()
               : const AlwaysScrollableScrollPhysics(),
-          child: const Column(
+          child: Column(
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(40.0),
                 child: _WelcomeTitle(),
               ),
-              _ListViewContainer(),
+              if (state.loggedUser.roleId == 1) _DealershipDropdown(state),
+              const _ListViewContainer(),
             ],
           ),
         );
@@ -67,9 +69,30 @@ class _WelcomeTitle extends StatelessWidget {
     final state = Provider.of<HomeScreenState>(context, listen: true);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 160),
+      padding: const EdgeInsets.only(top: 16, bottom: 120),
       child: AppTitle(
         title: 'Welcome\n${state.loggedUser.fullName}!',
+      ),
+    );
+  }
+}
+
+class _DealershipDropdown extends StatelessWidget {
+  const _DealershipDropdown(this.state);
+
+  final HomeScreenState state;
+
+  @override
+  Widget build(BuildContext context) {
+    void onChanged(value) {
+      state.setDealership(value);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 40),
+      child: AppDropdown(
+        list: state.dealershipList,
+        onChanged: onChanged,
       ),
     );
   }

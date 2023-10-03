@@ -5,7 +5,7 @@ import '../../../main.dart';
 import '../../entities/user.dart';
 import '../state/user_list_state.dart';
 import '../utils/title.dart';
-import 'user_registration_screen.dart';
+import 'user_register_screen.dart';
 
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});

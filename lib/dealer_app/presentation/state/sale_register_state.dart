@@ -21,7 +21,7 @@ class SaleRegisterState with ChangeNotifier {
   late AutonomyLevel autonomyLevel;
 
   final _salesController = SaleTableController();
-  final _dealershipController = DealershipTableController();
+  final _dealershipController = DealershipsTableController();
   final _autonomyController = AutonomyLevelsTableController();
   final _vehicleController = VehiclesTableController();
 

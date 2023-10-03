@@ -5,7 +5,7 @@ class AppDropdown extends StatelessWidget {
     super.key,
     required this.list,
     required this.onChanged,
-    required this.validator,
+    this.validator,
   });
 
   final List list;

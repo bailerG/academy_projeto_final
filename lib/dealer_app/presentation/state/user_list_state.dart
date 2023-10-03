@@ -13,7 +13,7 @@ class UserListState with ChangeNotifier {
   bool loading = true;
 
   final _userController = UsersTableController();
-  final _dealershipController = DealershipTableController();
+  final _dealershipController = DealershipsTableController();
   final _roleController = RolesTableController();
 
   final _userList = <User>[];

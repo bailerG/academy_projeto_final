@@ -35,10 +35,16 @@ class MainState with ChangeNotifier {
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
 
-  final List<Widget> widgetOptions = <Widget>[
+  final List<Widget> widgetOptionsAdmin = <Widget>[
     const HomeScreen(),
     const VehicleRegisterScreen(),
     const AdminPanel(),
+    const ReportScreen(),
+  ];
+
+  final List<Widget> widgetOptionsAssociate = <Widget>[
+    const HomeScreen(),
+    const VehicleRegisterScreen(),
     const ReportScreen(),
   ];
 

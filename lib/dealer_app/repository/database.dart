@@ -265,7 +265,7 @@ class DealershipsTable {
 }
 
 // This controller is responsable for manipulating the database
-class DealershipTableController {
+class DealershipsTableController {
   // Insert method serves for adding new items into the database
   Future<void> insert(Dealership dealership) async {
     final database = await getDatabase();

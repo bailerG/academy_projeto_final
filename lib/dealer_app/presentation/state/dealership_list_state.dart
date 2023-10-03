@@ -11,7 +11,7 @@ class DealershipListState with ChangeNotifier {
 
   bool loading = true;
 
-  final _dealershipController = DealershipTableController();
+  final _dealershipController = DealershipsTableController();
   final _autonomyController = AutonomyLevelsTableController();
 
   final _dealershipList = <Dealership>[];
