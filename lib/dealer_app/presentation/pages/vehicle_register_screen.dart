@@ -442,10 +442,8 @@ class _RegisterCarButton extends StatelessWidget {
         await state.insert();
       }
       if (context.mounted) {
-        Navigator.pop(context);
+        mainState.onItemTapped(0);
       }
-
-      mainState.onItemTapped(0);
     }
 
     return AppLargeButton(

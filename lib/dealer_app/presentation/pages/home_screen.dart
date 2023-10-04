@@ -175,8 +175,6 @@ class _CarListTile extends StatelessWidget {
           VehicleOptionsScreen.routeName,
           arguments: vehicle,
         );
-
-        await state.getVehicles();
       },
       child: ListTile(
         title: Text(

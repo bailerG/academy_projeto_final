@@ -532,7 +532,8 @@ class SalesTable {
       $safetyCut      REAL NOT NULL,
       $vehicleId      INTERGER NOT NULL,
       $dealershipId   INTEGER NOT NULL,
-      $userId         INTEGER NOT NULL
+      $userId         INTEGER NOT NULL,
+      $isComplete     INTEGER NOT NULL
     );
   ''';
 
@@ -548,6 +549,7 @@ class SalesTable {
   static const String vehicleId = 'vehicle_id';
   static const String dealershipId = 'dealership_id';
   static const String userId = 'user_id';
+  static const String isComplete = 'is_complete';
 
   // This method translates the table's data to a map
   static Map<String, dynamic> toMap(Sale sale) {
@@ -564,6 +566,7 @@ class SalesTable {
     map[SalesTable.vehicleId] = sale.vehicleId;
     map[SalesTable.dealershipId] = sale.dealershipId;
     map[SalesTable.userId] = sale.userId;
+    map[SalesTable.isComplete] = sale.isComplete ? 1 : 0;
 
     return map;
   }
@@ -640,6 +643,7 @@ class SaleTableController {
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
           userId: item[SalesTable.userId],
+          isComplete: item[SalesTable.isComplete] == 1 ? true : false,
         ),
       );
     }
@@ -673,6 +677,7 @@ class SaleTableController {
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
           userId: item[SalesTable.userId],
+          isComplete: item[SalesTable.isComplete] == 1 ? true : false,
         ),
       );
     }

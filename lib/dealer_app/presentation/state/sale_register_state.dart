@@ -59,6 +59,7 @@ class SaleRegisterState with ChangeNotifier {
       vehicleId: vehicle.id!,
       dealershipId: vehicle.dealershipId,
       userId: user.id!,
+      isComplete: true,
     );
 
     await _salesController.insert(sale);

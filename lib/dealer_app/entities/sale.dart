@@ -11,6 +11,7 @@ class Sale {
   final int vehicleId;
   final int dealershipId;
   final int userId;
+  final bool isComplete;
 
   Sale({
     this.id,
@@ -24,6 +25,7 @@ class Sale {
     required this.vehicleId,
     required this.dealershipId,
     required this.userId,
+    required this.isComplete,
   });
 
   @override

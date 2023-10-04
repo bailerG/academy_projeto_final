@@ -9,14 +9,13 @@ import '../../repository/database.dart';
 import '../../repository/save_load_images.dart';
 
 class HomeScreenState with ChangeNotifier {
-  HomeScreenState(User user) {
-    init(user);
+  HomeScreenState(this.loggedUser) {
+    init();
   }
 
-  late User loggedUser;
-  bool loading = true;
+  final User loggedUser;
 
-  User get user => loggedUser;
+  bool loading = true;
 
   final _vehicleList = <Vehicle>[];
   List<Vehicle> get vehicleList => _vehicleList;
@@ -30,8 +29,8 @@ class HomeScreenState with ChangeNotifier {
   final _vehiclesTableController = VehiclesTableController();
   final _dealershipsTableController = DealershipsTableController();
 
-  void init(User user) async {
-    loggedUser = user;
+  void init() async {
+    loading = true;
     await getVehicles();
     await getDealerships();
     loading = false;
@@ -54,7 +53,7 @@ class HomeScreenState with ChangeNotifier {
 
     _vehicleList
       ..clear()
-      ..addAll(result);
+      ..addAll(result.reversed);
 
     loading = false;
 
