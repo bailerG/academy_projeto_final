@@ -11,7 +11,7 @@ import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
 import '../../repository/fipe_api.dart';
-import '../../repository/save_load_images.dart';
+import '../../repository/internal_storage.dart';
 
 class VehicleRegisterState with ChangeNotifier {
   VehicleRegisterState({
@@ -185,7 +185,7 @@ class VehicleRegisterState with ChangeNotifier {
   }
 
   Future<File> loadVehicleImage(String imageName) async {
-    final result = await LocalStorage().loadImageLocal(imageName);
+    final result = await LocalStorage().loadFileLocal(imageName);
     return result;
   }
 

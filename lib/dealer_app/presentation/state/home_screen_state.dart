@@ -6,7 +6,7 @@ import '../../entities/dealership.dart';
 import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
 import '../../repository/database.dart';
-import '../../repository/save_load_images.dart';
+import '../../repository/internal_storage.dart';
 
 class HomeScreenState with ChangeNotifier {
   HomeScreenState(this.loggedUser) {
@@ -61,7 +61,7 @@ class HomeScreenState with ChangeNotifier {
   }
 
   Future<File> loadVehicleImage(String imageName) async {
-    final result = await LocalStorage().loadImageLocal(imageName);
+    final result = await LocalStorage().loadFileLocal(imageName);
     return result;
   }
 

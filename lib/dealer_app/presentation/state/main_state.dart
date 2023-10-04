@@ -39,13 +39,13 @@ class MainState with ChangeNotifier {
     const HomeScreen(),
     const VehicleRegisterScreen(),
     const AdminPanel(),
-    const ReportScreen(),
+    const SalesScreen(),
   ];
 
   final List<Widget> widgetOptionsAssociate = <Widget>[
     const HomeScreen(),
     const VehicleRegisterScreen(),
-    const ReportScreen(),
+    const SalesScreen(),
   ];
 
   void onItemTapped(int index) {

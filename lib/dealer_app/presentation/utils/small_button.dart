@@ -7,7 +7,7 @@ class AppSmallButton extends StatelessWidget {
     super.key,
     this.text,
     this.padding,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final void Function()? onPressed;

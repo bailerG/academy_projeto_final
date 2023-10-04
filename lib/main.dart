@@ -9,6 +9,8 @@ import 'dealer_app/presentation/pages/dealership_list_screen.dart';
 import 'dealer_app/presentation/pages/dealership_register_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
 import 'dealer_app/presentation/pages/main_screen.dart';
+import 'dealer_app/presentation/pages/report_screen.dart';
+import 'dealer_app/presentation/pages/sales_screen.dart';
 import 'dealer_app/presentation/pages/user_list_screen.dart';
 import 'dealer_app/presentation/pages/user_register_screen.dart';
 import 'dealer_app/presentation/pages/vehicle_options_screen.dart';
@@ -65,6 +67,12 @@ class MyApp extends StatelessWidget {
               },
               AutonomyOptionsScreen.routeName: (context) {
                 return const AutonomyOptionsScreen();
+              },
+              SalesScreen.routeName: (context) {
+                return const SalesScreen();
+              },
+              ReportGenerationScreen.routeName: (context) {
+                return const ReportGenerationScreen();
               },
             },
             initialRoute: LoginScreen.routeName,
