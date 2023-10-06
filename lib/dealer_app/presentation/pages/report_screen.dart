@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/user.dart';
 import '../../usecases/pdf_template.dart';
 import '../state/report_state.dart';
+import '../utils/dropdown.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/small_button.dart';
@@ -16,8 +18,10 @@ class ReportGenerationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loggedUser = ModalRoute.of(context)!.settings.arguments as User;
+
     return ChangeNotifierProvider(
-      create: (context) => ReportState(),
+      create: (context) => ReportState(loggedUser),
       child: Consumer<ReportState>(
         builder: (context, state, child) {
           return Scaffold(
@@ -47,11 +51,14 @@ class _ReportGenerationStructure extends StatelessWidget {
         children: [
           const AppHeader(header: 'Date Range'),
           _DateRangePicker(state),
+          if (state.loggedUser.roleId == 1) _DealershipDropdown(state),
           AppLargeButton(
             onPressed: () async {
+              await state.getSales();
+
               final pdfDocument = PDFDocument();
 
-              var file = await pdfDocument.generatePDF();
+              var file = await pdfDocument.generatePDF(state.salesList);
               await OpenFile.open(file.path);
             },
             text: 'Generate',
@@ -99,6 +106,27 @@ class _DateRangePicker extends StatelessWidget {
             onPressed: pickDateRange,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _DealershipDropdown extends StatelessWidget {
+  const _DealershipDropdown(this.state);
+
+  final ReportState state;
+
+  @override
+  Widget build(BuildContext context) {
+    void onChanged(value) {
+      state.setDealership(value);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 40),
+      child: AppDropdown(
+        list: state.dealershipList,
+        onChanged: onChanged,
       ),
     );
   }

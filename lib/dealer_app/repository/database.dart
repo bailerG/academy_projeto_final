@@ -561,7 +561,7 @@ class SalesTable {
     map[SalesTable.soldWhen] = DateFormat('dd/MM/yyyy').format(sale.soldWhen);
     map[SalesTable.priceSold] = sale.priceSold;
     map[SalesTable.dealershipCut] = sale.dealershipPercentage;
-    map[SalesTable.businessCut] = sale.businessPercentage;
+    map[SalesTable.businessCut] = sale.headquartersPercentage;
     map[SalesTable.safetyCut] = sale.safetyPercentage;
     map[SalesTable.vehicleId] = sale.vehicleId;
     map[SalesTable.dealershipId] = sale.dealershipId;
@@ -635,10 +635,10 @@ class SaleTableController {
           id: item[SalesTable.id],
           customerCpf: item[SalesTable.customerCpf],
           customerName: item[SalesTable.customerName],
-          soldWhen: item[SalesTable.soldWhen],
+          soldWhen: DateFormat('dd/MM/yyyy').parse(item[SalesTable.soldWhen]),
           priceSold: item[SalesTable.priceSold],
           dealershipPercentage: item[SalesTable.dealershipCut],
-          businessPercentage: item[SalesTable.businessCut],
+          headquartersPercentage: item[SalesTable.businessCut],
           safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],
@@ -672,7 +672,7 @@ class SaleTableController {
           soldWhen: item[SalesTable.soldWhen],
           priceSold: item[SalesTable.priceSold],
           dealershipPercentage: item[SalesTable.dealershipCut],
-          businessPercentage: item[SalesTable.businessCut],
+          headquartersPercentage: item[SalesTable.businessCut],
           safetyPercentage: item[SalesTable.safetyCut],
           vehicleId: item[SalesTable.vehicleId],
           dealershipId: item[SalesTable.dealershipId],

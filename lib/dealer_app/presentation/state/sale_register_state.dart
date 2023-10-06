@@ -54,7 +54,7 @@ class SaleRegisterState with ChangeNotifier {
         priceController.text.replaceAll(RegExp(r','), ''),
       ),
       dealershipPercentage: autonomyLevel.dealershipPercentage,
-      businessPercentage: autonomyLevel.headquartersPercentage,
+      headquartersPercentage: autonomyLevel.headquartersPercentage,
       safetyPercentage: autonomyLevel.safetyPercentage,
       vehicleId: vehicle.id!,
       dealershipId: vehicle.dealershipId,

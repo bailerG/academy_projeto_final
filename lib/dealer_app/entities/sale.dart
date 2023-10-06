@@ -6,7 +6,7 @@ class Sale {
   final DateTime soldWhen;
   final double priceSold;
   final double dealershipPercentage;
-  final double businessPercentage;
+  final double headquartersPercentage;
   final double safetyPercentage;
   final int vehicleId;
   final int dealershipId;
@@ -20,7 +20,7 @@ class Sale {
     required this.soldWhen,
     required this.priceSold,
     required this.dealershipPercentage,
-    required this.businessPercentage,
+    required this.headquartersPercentage,
     required this.safetyPercentage,
     required this.vehicleId,
     required this.dealershipId,
