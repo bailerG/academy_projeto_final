@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../state/main_state.dart';
 import '../utils/large_button.dart';
 import 'report_screen.dart';
+import 'sales_list_screen.dart';
 
 class SalesScreen extends StatelessWidget {
   const SalesScreen({super.key});
@@ -21,7 +22,12 @@ class SalesScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: AppLargeButton(
-              onPressed: () {},
+              onPressed: () async {
+                await Navigator.of(context).pushNamed(
+                  SalesListScreen.routeName,
+                  arguments: state.loggedUser,
+                );
+              },
               text: 'See All Sales',
             ),
           ),

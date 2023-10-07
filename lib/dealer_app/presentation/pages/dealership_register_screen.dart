@@ -269,6 +269,9 @@ class _RegisterButton extends StatelessWidget {
           } else {
             await state.update();
           }
+          if (context.mounted) {
+            Navigator.pop(context);
+          }
         },
         text: state.editing ? 'Edit' : 'Register',
       ),

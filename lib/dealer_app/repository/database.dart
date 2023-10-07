@@ -697,7 +697,7 @@ class SaleTableController {
         batch.update(
           SalesTable.tableName,
           map,
-          where: '${SalesTable.tableName} = ?',
+          where: '${SalesTable.id} = ?',
           whereArgs: [sale.id],
         );
 

@@ -41,11 +41,11 @@ class AppNavigationBar extends StatelessWidget {
           ),
         const NavigationDestination(
           selectedIcon: Icon(
-            Icons.padding_rounded,
+            Icons.discount_rounded,
             color: Colors.white,
           ),
-          icon: Icon(Icons.padding_outlined),
-          label: 'Report',
+          icon: Icon(Icons.discount_outlined),
+          label: 'Sales',
         ),
         const NavigationDestination(
           selectedIcon: Icon(

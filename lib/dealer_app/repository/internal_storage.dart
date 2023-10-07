@@ -11,7 +11,7 @@ class LocalStorage {
 
   Future<File> saveImageLocal(File imageFile, String imageName) async {
     final file = await _getLocalFile(imageName);
-    var result = await file.writeAsBytes(file.readAsBytesSync());
+    var result = await file.writeAsBytes(imageFile.readAsBytesSync());
     return result;
   }
 

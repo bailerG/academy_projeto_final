@@ -10,6 +10,8 @@ import '../utils/dropdown.dart';
 import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/small_button.dart';
+import '../utils/text_descriptions.dart';
+import '../utils/title.dart';
 
 class ReportGenerationScreen extends StatelessWidget {
   const ReportGenerationScreen({super.key});
@@ -49,9 +51,16 @@ class _ReportGenerationStructure extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const Padding(
+            padding: EdgeInsets.only(
+              top: 16,
+              bottom: 40,
+            ),
+            child: _Title(),
+          ),
+          if (state.loggedUser.roleId == 1) _DealershipDropdown(state),
           const AppHeader(header: 'Date Range'),
           _DateRangePicker(state),
-          if (state.loggedUser.roleId == 1) _DealershipDropdown(state),
           AppLargeButton(
             onPressed: () async {
               await state.getSales();
@@ -65,6 +74,20 @@ class _ReportGenerationStructure extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        AppTitle(title: 'Generate Sales Report'),
+        AppTextDescription(text: 'Export a PDF file and save to your device.'),
+      ],
     );
   }
 }

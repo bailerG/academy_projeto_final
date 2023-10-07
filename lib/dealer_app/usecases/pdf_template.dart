@@ -9,6 +9,12 @@ import '../entities/sale.dart';
 import '../repository/internal_storage.dart';
 
 class PDFDocument {
+  double _totalAmount = 0;
+  double _totalDealershipAmount = 0;
+  double _totalHeadquartersAmount = 0;
+
+  final formatNumber = NumberFormat('###,###,#00.00');
+
   Future<File> generatePDF(List<Sale> list) async {
     final localStorage = LocalStorage();
     final pdf = Document();
@@ -20,8 +26,9 @@ class PDFDocument {
       MultiPage(
         pageFormat: PdfPageFormat.a4,
         build: (context) => <Widget>[
-          pdfHeader(image),
-          salesTable(list),
+          _pdfHeader(image),
+          _salesTable(list),
+          _totalRow(),
         ],
       ),
     );
@@ -34,14 +41,14 @@ class PDFDocument {
     return pdfFile;
   }
 
-  Widget pdfHeader(MemoryImage image) {
+  Widget _pdfHeader(MemoryImage image) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Header(
           child: Text(
-            'September Report Sales'.toUpperCase(),
+            'Sales Report'.toUpperCase(),
             textScaleFactor: 2.0,
           ),
         ),
@@ -53,7 +60,7 @@ class PDFDocument {
     );
   }
 
-  Widget salesTable(List<Sale> list) {
+  Widget _salesTable(List<Sale> list) {
     final tableRows = <TableRow>[
       TableRow(
         children: [
@@ -67,7 +74,7 @@ class PDFDocument {
     ];
 
     for (final item in list) {
-      tableRows.add(saleTableRow(item));
+      tableRows.add(_saleTableRow(item));
     }
 
     return Table(
@@ -76,7 +83,14 @@ class PDFDocument {
     );
   }
 
-  TableRow saleTableRow(Sale sale) {
+  TableRow _saleTableRow(Sale sale) {
+    final dealershipSaleAmount = sale.priceSold * sale.dealershipPercentage;
+    final headquartersSaleAmount = sale.priceSold * sale.headquartersPercentage;
+
+    _totalAmount += sale.priceSold;
+    _totalDealershipAmount += dealershipSaleAmount;
+    _totalHeadquartersAmount += headquartersSaleAmount;
+
     return TableRow(
       children: [
         Text(sale.customerName),
@@ -84,13 +98,58 @@ class PDFDocument {
           DateFormat('dd/MM/yyyy').format(sale.soldWhen),
         ),
         Text(
-          (sale.priceSold * sale.dealershipPercentage).toString(),
+          'R\$ ${formatNumber.format(dealershipSaleAmount)}',
         ),
         Text(
-          (sale.priceSold * sale.headquartersPercentage).toString(),
+          'R\$ ${formatNumber.format(headquartersSaleAmount)}',
         ),
-        Text(sale.priceSold.toString()),
+        Text(
+          'R\$ ${formatNumber.format(sale.priceSold)}',
+        ),
       ],
+    );
+  }
+
+  Widget _totalRow() {
+    final dealershipTotalAmount = formatNumber.format(
+      _totalDealershipAmount,
+    );
+
+    final headquartersTotalAmount = formatNumber.format(
+      _totalHeadquartersAmount,
+    );
+
+    final totalAmount = formatNumber.format(
+      _totalAmount,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 25,
+        left: 180,
+      ),
+      child: Table(
+        children: [
+          TableRow(
+            children: [
+              Text('Total Dealership Amount:'),
+              Text('R\$ $dealershipTotalAmount'),
+            ],
+          ),
+          TableRow(
+            children: [
+              Text('Total Headquarters Amount:'),
+              Text('R\$ $headquartersTotalAmount'),
+            ],
+          ),
+          TableRow(
+            children: [
+              Text('Total Amount:'),
+              Text('R\$ $totalAmount'),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
