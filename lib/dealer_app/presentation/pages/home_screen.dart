@@ -10,7 +10,7 @@ import '../state/main_state.dart';
 import '../utils/dropdown.dart';
 import '../utils/header.dart';
 import '../utils/title.dart';
-import 'vehicle_options_screen.dart';
+import 'vehicle/vehicle_options_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

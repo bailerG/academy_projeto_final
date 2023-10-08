@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../entities/autonomy_level.dart';
-import '../../entities/dealership.dart';
-import '../../repository/database.dart';
+import '../../../entities/autonomy_level.dart';
+import '../../../entities/dealership.dart';
+import '../../../repository/database.dart';
 
 class DealershipRegisterState with ChangeNotifier {
   DealershipRegisterState(this._dealership) {

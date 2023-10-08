@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/dealership.dart';
-import '../../entities/role.dart';
-import '../../entities/user.dart';
-import '../../repository/database.dart';
+import '../../../entities/dealership.dart';
+import '../../../entities/role.dart';
+import '../../../entities/user.dart';
+import '../../../repository/database.dart';
 
 class UserRegistrationState with ChangeNotifier {
   UserRegistrationState(this.user) {

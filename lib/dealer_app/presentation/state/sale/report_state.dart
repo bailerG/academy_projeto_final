@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/dealership.dart';
-import '../../entities/sale.dart';
-import '../../entities/user.dart';
-import '../../repository/database.dart';
+import '../../../entities/dealership.dart';
+import '../../../entities/sale.dart';
+import '../../../entities/user.dart';
+import '../../../repository/database.dart';
 
-class SalesListState with ChangeNotifier {
-  SalesListState(this.loggedUser) {
+class ReportState with ChangeNotifier {
+  ReportState(this.loggedUser) {
     init();
   }
 
   void init() async {
-    await getDealerships();
     await getSales();
+    await getDealerships();
   }
 
   final User loggedUser;
@@ -35,11 +35,8 @@ class SalesListState with ChangeNotifier {
     end: DateTime.now(),
   );
 
-  void setDateRange(DateTimeRange newDateRange) async {
+  void setDateRange(DateTimeRange newDateRange) {
     dateRange = newDateRange;
-
-    await getSales();
-
     notifyListeners();
   }
 
@@ -56,13 +53,13 @@ class SalesListState with ChangeNotifier {
 
     result
       ..removeWhere(
+        (element) => element.isComplete == false,
+      )
+      ..removeWhere(
         (element) => element.soldWhen.isAfter(dateRange.end),
       )
       ..removeWhere(
         (element) => element.soldWhen.isBefore(dateRange.start),
-      )
-      ..sort(
-        (a, b) => b.isComplete.toString().compareTo(a.isComplete.toString()),
       );
 
     _salesList
@@ -85,29 +82,6 @@ class SalesListState with ChangeNotifier {
 
   void setDealership(Dealership dealership) async {
     _dealershipController = dealership.id!;
-    await getSales();
-
-    notifyListeners();
-  }
-
-  Future<void> setUncomplete(Sale sale) async {
-    final saleUncomplete = Sale(
-      id: sale.id,
-      customerCpf: sale.customerCpf,
-      customerName: sale.customerName,
-      soldWhen: sale.soldWhen,
-      priceSold: sale.priceSold,
-      dealershipPercentage: sale.dealershipPercentage,
-      headquartersPercentage: sale.headquartersPercentage,
-      safetyPercentage: sale.safetyPercentage,
-      vehicleId: sale.vehicleId,
-      dealershipId: sale.dealershipId,
-      userId: sale.userId,
-      isComplete: false,
-    );
-
-    await _salesTableController.update(saleUncomplete);
-
     await getSales();
 
     notifyListeners();

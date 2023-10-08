@@ -7,11 +7,11 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../../entities/user.dart';
-import '../../entities/vehicle.dart';
-import '../../repository/database.dart';
-import '../../repository/fipe_api.dart';
-import '../../repository/internal_storage.dart';
+import '../../../entities/user.dart';
+import '../../../entities/vehicle.dart';
+import '../../../repository/database.dart';
+import '../../../repository/fipe_api.dart';
+import '../../../repository/internal_storage.dart';
 
 class VehicleRegisterState with ChangeNotifier {
   VehicleRegisterState({

@@ -4,18 +4,18 @@ import 'package:provider/provider.dart';
 
 import '../dealer_app/presentation/pages/login_screen.dart';
 import 'dealer_app/presentation/pages/admin_panel_screen.dart';
-import 'dealer_app/presentation/pages/autonomy_options.dart';
-import 'dealer_app/presentation/pages/dealership_list_screen.dart';
-import 'dealer_app/presentation/pages/dealership_register_screen.dart';
+import 'dealer_app/presentation/pages/dealership/autonomy_options.dart';
+import 'dealer_app/presentation/pages/dealership/dealership_list_screen.dart';
+import 'dealer_app/presentation/pages/dealership/dealership_register_screen.dart';
 import 'dealer_app/presentation/pages/home_screen.dart';
 import 'dealer_app/presentation/pages/main_screen.dart';
-import 'dealer_app/presentation/pages/report_screen.dart';
-import 'dealer_app/presentation/pages/sales_list_screen.dart';
-import 'dealer_app/presentation/pages/sales_screen.dart';
-import 'dealer_app/presentation/pages/user_list_screen.dart';
-import 'dealer_app/presentation/pages/user_register_screen.dart';
-import 'dealer_app/presentation/pages/vehicle_options_screen.dart';
-import 'dealer_app/presentation/pages/vehicle_register_screen.dart';
+import 'dealer_app/presentation/pages/sale/report_screen.dart';
+import 'dealer_app/presentation/pages/sale/sales_list_screen.dart';
+import 'dealer_app/presentation/pages/sale/sales_screen.dart';
+import 'dealer_app/presentation/pages/user/user_list_screen.dart';
+import 'dealer_app/presentation/pages/user/user_register_screen.dart';
+import 'dealer_app/presentation/pages/vehicle/vehicle_options_screen.dart';
+import 'dealer_app/presentation/pages/vehicle/vehicle_register_screen.dart';
 import 'dealer_app/presentation/state/main_state.dart';
 
 const accentColor = Color.fromRGBO(134, 46, 46, 1);

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/sale.dart';
-import '../../entities/user.dart';
-import '../state/sales_list_state.dart';
-import '../utils/alert_dialog.dart';
-import '../utils/dropdown.dart';
-import '../utils/header.dart';
-import '../utils/small_button.dart';
-import '../utils/text_descriptions.dart';
-import '../utils/title.dart';
+import '../../../entities/sale.dart';
+import '../../../entities/user.dart';
+import '../../state/sale/sales_list_state.dart';
+import '../../utils/alert_dialog.dart';
+import '../../utils/dropdown.dart';
+import '../../utils/header.dart';
+import '../../utils/small_button.dart';
+import '../../utils/text_descriptions.dart';
+import '../../utils/title.dart';
 
 class SalesListScreen extends StatelessWidget {
   const SalesListScreen({super.key});

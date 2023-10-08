@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/vehicle.dart';
-import '../state/main_state.dart';
-import '../state/vehicle_register_state.dart';
-import '../utils/autocomplete_textfield.dart';
-import '../utils/close_button.dart';
-import '../utils/header.dart';
-import '../utils/large_button.dart';
-import '../utils/small_button.dart';
-import '../utils/text_descriptions.dart';
-import '../utils/text_field.dart';
-import '../utils/title.dart';
+import '../../../entities/vehicle.dart';
+import '../../state/main_state.dart';
+import '../../state/vehicle/vehicle_register_state.dart';
+import '../../utils/autocomplete_textfield.dart';
+import '../../utils/close_button.dart';
+import '../../utils/header.dart';
+import '../../utils/large_button.dart';
+import '../../utils/small_button.dart';
+import '../../utils/text_descriptions.dart';
+import '../../utils/text_field.dart';
+import '../../utils/title.dart';
 
 class VehicleRegisterScreen extends StatelessWidget {
   const VehicleRegisterScreen({

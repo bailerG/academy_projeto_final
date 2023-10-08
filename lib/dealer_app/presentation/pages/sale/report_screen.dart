@@ -3,15 +3,15 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/user.dart';
-import '../../usecases/pdf_template.dart';
-import '../state/report_state.dart';
-import '../utils/dropdown.dart';
-import '../utils/header.dart';
-import '../utils/large_button.dart';
-import '../utils/small_button.dart';
-import '../utils/text_descriptions.dart';
-import '../utils/title.dart';
+import '../../../entities/user.dart';
+import '../../../usecases/pdf_template.dart';
+import '../../state/sale/report_state.dart';
+import '../../utils/dropdown.dart';
+import '../../utils/header.dart';
+import '../../utils/large_button.dart';
+import '../../utils/small_button.dart';
+import '../../utils/text_descriptions.dart';
+import '../../utils/title.dart';
 
 class ReportGenerationScreen extends StatelessWidget {
   const ReportGenerationScreen({super.key});

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/autonomy_level.dart';
-import '../state/autonomy_options_state.dart';
-import '../utils/close_button.dart';
-import '../utils/header.dart';
-import '../utils/large_button.dart';
-import '../utils/text_field.dart';
-import '../utils/title.dart';
+import '../../../entities/autonomy_level.dart';
+import '../../state/dealership/autonomy_options_state.dart';
+import '../../utils/close_button.dart';
+import '../../utils/header.dart';
+import '../../utils/large_button.dart';
+import '../../utils/text_field.dart';
+import '../../utils/title.dart';
 
 class AutonomyOptionsScreen extends StatelessWidget {
   const AutonomyOptionsScreen({super.key});

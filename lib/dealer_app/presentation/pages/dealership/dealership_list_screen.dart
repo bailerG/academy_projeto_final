@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../main.dart';
-import '../../entities/dealership.dart';
-import '../state/dealership_list_state.dart';
-import '../utils/title.dart';
+import '../../../../main.dart';
+import '../../../entities/dealership.dart';
+import '../../state/dealership/dealership_list_state.dart';
+import '../../utils/title.dart';
 import 'dealership_register_screen.dart';
 
 class DealershipListScreen extends StatelessWidget {

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../entities/vehicle.dart';
-import '../../repository/database.dart';
-import '../../repository/internal_storage.dart';
+import '../../../entities/vehicle.dart';
+import '../../../repository/database.dart';
+import '../../../repository/internal_storage.dart';
 
 class VehicleOptionsState with ChangeNotifier {
   VehicleOptionsState(int vehicleId) {

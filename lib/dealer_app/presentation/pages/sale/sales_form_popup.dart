@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../state/sale_register_state.dart';
-import '../utils/header.dart';
-import '../utils/text_field.dart';
+import '../../state/sale/sale_register_state.dart';
+import '../../utils/header.dart';
+import '../../utils/text_field.dart';
 
 class SaleForm extends StatelessWidget {
   const SaleForm({

@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/vehicle.dart';
-import '../state/main_state.dart';
-import '../state/sale_register_state.dart';
-import '../state/vehicle_options.state.dart';
-import '../utils/alert_dialog.dart';
-import '../utils/atributes_table.dart';
-import '../utils/close_button.dart';
-import '../utils/header.dart';
-import '../utils/large_button.dart';
-import '../utils/small_button.dart';
-import '../utils/text_descriptions.dart';
-import '../utils/title.dart';
-import 'sale_form_popup.dart';
+import '../../../entities/vehicle.dart';
+import '../../state/main_state.dart';
+import '../../state/sale/sale_register_state.dart';
+import '../../state/vehicle/vehicle_options.state.dart';
+import '../../utils/alert_dialog.dart';
+import '../../utils/atributes_table.dart';
+import '../../utils/close_button.dart';
+import '../../utils/header.dart';
+import '../../utils/large_button.dart';
+import '../../utils/small_button.dart';
+import '../../utils/text_descriptions.dart';
+import '../../utils/title.dart';
+import '../sale/sales_form_popup.dart';
 import 'vehicle_register_screen.dart';
 
 class VehicleOptionsScreen extends StatelessWidget {

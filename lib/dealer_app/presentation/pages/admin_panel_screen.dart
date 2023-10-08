@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../utils/gridview_button.dart';
-import 'autonomy_options.dart';
-import 'dealership_list_screen.dart';
-import 'dealership_register_screen.dart';
-import 'user_list_screen.dart';
-import 'user_register_screen.dart';
+import 'dealership/autonomy_options.dart';
+import 'dealership/dealership_list_screen.dart';
+import 'dealership/dealership_register_screen.dart';
+import 'user/user_list_screen.dart';
+import 'user/user_register_screen.dart';
 
 class AdminPanel extends StatelessWidget {
   const AdminPanel({super.key});

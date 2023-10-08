@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../entities/user.dart';
 import '../pages/admin_panel_screen.dart';
 import '../pages/home_screen.dart';
-import '../pages/sales_screen.dart';
-import '../pages/vehicle_register_screen.dart';
+import '../pages/sale/sales_screen.dart';
+import '../pages/vehicle/vehicle_register_screen.dart';
 
 const appThemeKey = 'appThemeKey';
 

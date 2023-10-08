@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/dealership.dart';
-import '../state/dealership_register_state.dart';
-import '../utils/alert_dialog.dart';
-import '../utils/dropdown.dart';
-import '../utils/header.dart';
-import '../utils/large_button.dart';
-import '../utils/text_descriptions.dart';
-import '../utils/text_field.dart';
-import '../utils/title.dart';
+import '../../../entities/dealership.dart';
+import '../../state/dealership/dealership_register_state.dart';
+import '../../utils/alert_dialog.dart';
+import '../../utils/dropdown.dart';
+import '../../utils/header.dart';
+import '../../utils/large_button.dart';
+import '../../utils/text_descriptions.dart';
+import '../../utils/text_field.dart';
+import '../../utils/title.dart';
 
 class DealershipRegisterScreen extends StatelessWidget {
   const DealershipRegisterScreen({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../main.dart';
-import '../../entities/user.dart';
-import '../state/user_list_state.dart';
-import '../utils/title.dart';
+import '../../../../main.dart';
+import '../../../entities/user.dart';
+import '../../state/user/user_list_state.dart';
+import '../../utils/title.dart';
 import 'user_register_screen.dart';
 
 class UserListScreen extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../state/main_state.dart';
-import '../utils/large_button.dart';
+import '../../state/main_state.dart';
+import '../../utils/large_button.dart';
 import 'report_screen.dart';
 import 'sales_list_screen.dart';
 

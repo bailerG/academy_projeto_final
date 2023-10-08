@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
 
-import '../../entities/autonomy_level.dart';
-import '../../entities/sale.dart';
-import '../../entities/user.dart';
-import '../../entities/vehicle.dart';
-import '../../repository/database.dart';
+import '../../../entities/autonomy_level.dart';
+import '../../../entities/sale.dart';
+import '../../../entities/user.dart';
+import '../../../entities/vehicle.dart';
+import '../../../repository/database.dart';
 
 class SaleRegisterState with ChangeNotifier {
   SaleRegisterState(
