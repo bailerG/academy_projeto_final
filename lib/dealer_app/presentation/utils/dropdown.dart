@@ -9,7 +9,7 @@ class AppDropdown extends StatelessWidget {
   });
 
   final List list;
-  final void Function(Object?)? onChanged;
+  final void Function(dynamic)? onChanged;
   final String? Function(Object?)? validator;
 
   @override

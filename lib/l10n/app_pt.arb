@@ -1,5 +1,13 @@
-{
-    "welcome": "Bem vindo",
+{   
+    "language": "portugues",
+    
+    "welcome": "Bem-vindo",
     "username": "Usuário",
-    "password": "Senha" 
+    "password": "Senha",
+    "typeUser": "Digite seu Usuário",
+    "typePassword": "Digite sua Senha",
+    "login": "Entrar",
+    "emptyUser": "Digite um usuário",
+    "emptyPassword": "Digite uma senha",
+    "wrongLogin": "Usuário/Senha Incorretos."
 }

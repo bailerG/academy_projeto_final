@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../state/login_screen_state.dart';
@@ -40,33 +41,39 @@ class _LoginScreenStructure extends StatelessWidget {
           return SingleChildScrollView(
             child: Form(
               key: state.formState,
-              child: const Padding(
-                padding: EdgeInsets.all(40.0),
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 50),
-                      child: AppTitle(title: 'Welcome!'),
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: AppTitle(
+                        title: AppLocalizations.of(context)!.welcome,
+                      ),
                     ),
-                    AppHeader(header: 'Username'),
-                    Padding(
+                    AppHeader(
+                      header: AppLocalizations.of(context)!.username,
+                    ),
+                    const Padding(
                       padding: EdgeInsets.only(
                         top: 8,
                         bottom: 8,
                       ),
                       child: _UsernameTextField(),
                     ),
-                    AppHeader(header: 'Password'),
-                    Padding(
+                    AppHeader(
+                      header: AppLocalizations.of(context)!.password,
+                    ),
+                    const Padding(
                       padding: EdgeInsets.only(
                         top: 8,
                         bottom: 32,
                       ),
                       child: _PasswordTextField(),
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _LoginButton(),
@@ -86,21 +93,21 @@ class _LoginScreenStructure extends StatelessWidget {
 class _UsernameTextField extends StatelessWidget {
   const _UsernameTextField();
 
-  String? _validator(String? value) {
-    if (value == null) {
-      return 'Please type your username';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<LoginScreenState>(context, listen: false);
 
+    String? validator(String? value) {
+      if (value == null) {
+        return AppLocalizations.of(context)!.emptyUser;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.usernameController,
-      hint: 'Type in your Username',
-      validator: _validator,
+      hint: AppLocalizations.of(context)!.typeUser,
+      validator: validator,
       icon: const Icon(Icons.account_circle),
     );
   }
@@ -109,21 +116,21 @@ class _UsernameTextField extends StatelessWidget {
 class _PasswordTextField extends StatelessWidget {
   const _PasswordTextField();
 
-  String? _validator(String? value) {
-    if (value == null) {
-      return 'Please type your password';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<LoginScreenState>(context, listen: true);
 
+    String? validator(String? value) {
+      if (value == null) {
+        return AppLocalizations.of(context)!.emptyPassword;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.passwordController,
-      validator: _validator,
-      hint: 'Type in your password',
+      validator: validator,
+      hint: AppLocalizations.of(context)!.typePassword,
       icon: const Icon(Icons.security),
       obscureText: state.obscureText,
       obscureTextButton: IconButton(
@@ -145,29 +152,31 @@ class _LoginButton extends StatelessWidget {
     final mainState = Provider.of<MainState>(context, listen: false);
 
     void onPressed() async {
-      if (loginState.formState.currentState!.validate()) {
-        try {
-          await loginState.login();
-          if (context.mounted) {
-            mainState.setLoggedUser(loginState.loggedUser);
-            await Navigator.of(context)
-                .pushReplacementNamed(MainScreen.routeName);
-          }
-        } on LoginError {
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Username/Password incorrect.'),
-              ),
-            );
-          }
+      if (!loginState.formState.currentState!.validate()) {
+        return;
+      }
+
+      try {
+        await loginState.login();
+        if (context.mounted) {
+          mainState.setLoggedUser(loginState.loggedUser);
+          await Navigator.of(context)
+              .pushReplacementNamed(MainScreen.routeName);
+        }
+      } on LoginError {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.wrongLogin),
+            ),
+          );
         }
       }
     }
 
     return AppLargeButton(
       onPressed: onPressed,
-      text: 'Login',
+      text: AppLocalizations.of(context)!.login,
     );
   }
 }

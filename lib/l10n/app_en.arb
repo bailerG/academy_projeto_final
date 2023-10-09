@@ -1,5 +1,13 @@
 {
+    "language": "english",
+
     "welcome": "Welcome",
     "username": "Username",
-    "password": "Password" 
+    "password": "Password",
+    "typeUser": "Type in your Username",
+    "typePassword": "Type in your Password",
+    "login": "Login",
+    "emptyUser": "Please type your username",
+    "emptyPassword": "Please type your password",
+    "wrongLogin": "Username/Password incorrect."
 }

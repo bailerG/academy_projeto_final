@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../dealer_app/presentation/pages/login_screen.dart';
@@ -12,16 +13,24 @@ import 'dealer_app/presentation/pages/main_screen.dart';
 import 'dealer_app/presentation/pages/sale/report_screen.dart';
 import 'dealer_app/presentation/pages/sale/sales_list_screen.dart';
 import 'dealer_app/presentation/pages/sale/sales_screen.dart';
+import 'dealer_app/presentation/pages/settings_screen.dart';
 import 'dealer_app/presentation/pages/user/user_list_screen.dart';
 import 'dealer_app/presentation/pages/user/user_register_screen.dart';
 import 'dealer_app/presentation/pages/vehicle/vehicle_options_screen.dart';
 import 'dealer_app/presentation/pages/vehicle/vehicle_register_screen.dart';
 import 'dealer_app/presentation/state/main_state.dart';
+import 'l10n/l10n.dart';
 
 const accentColor = Color.fromRGBO(134, 46, 46, 1);
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,6 +44,13 @@ class MyApp extends StatelessWidget {
       child: Consumer<MainState>(
         builder: (context, state, child) {
           return MaterialApp(
+            locale: const Locale('pt'),
+            supportedLocales: L10n.all,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
             routes: {
               LoginScreen.routeName: (context) {
                 return const LoginScreen();
@@ -77,11 +93,12 @@ class MyApp extends StatelessWidget {
               },
               SalesListScreen.routeName: (context) {
                 return const SalesListScreen();
-              }
+              },
+              SettingsScreen.routeName: (context) {
+                return const SettingsScreen();
+              },
             },
             initialRoute: LoginScreen.routeName,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
             title: 'Anderson Automoveis',
             theme: ThemeData(
               useMaterial3: true,

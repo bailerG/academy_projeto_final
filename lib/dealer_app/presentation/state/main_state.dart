@@ -5,6 +5,7 @@ import '../../entities/user.dart';
 import '../pages/admin_panel_screen.dart';
 import '../pages/home_screen.dart';
 import '../pages/sale/sales_screen.dart';
+import '../pages/settings_screen.dart';
 import '../pages/vehicle/vehicle_register_screen.dart';
 
 const appThemeKey = 'appThemeKey';
@@ -20,8 +21,8 @@ class MainState with ChangeNotifier {
 
   bool get lightTheme => _lightTheme;
 
-  Future<void> toggleTheme() async {
-    _lightTheme = !_lightTheme;
+  Future<void> toggleTheme({required bool value}) async {
+    _lightTheme = value;
     await _sharedPreferences.setBool(appThemeKey, _lightTheme);
     notifyListeners();
   }
@@ -40,12 +41,14 @@ class MainState with ChangeNotifier {
     const VehicleRegisterScreen(),
     const AdminPanel(),
     const SalesScreen(),
+    const SettingsScreen(),
   ];
 
   final List<Widget> widgetOptionsAssociate = <Widget>[
     const HomeScreen(),
     const VehicleRegisterScreen(),
     const SalesScreen(),
+    const SettingsScreen(),
   ];
 
   void onItemTapped(int index) {

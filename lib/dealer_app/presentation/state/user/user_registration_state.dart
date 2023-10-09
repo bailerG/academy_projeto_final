@@ -14,7 +14,9 @@ class UserRegistrationState with ChangeNotifier {
 
   final formState = GlobalKey<FormState>();
 
-  final _userController = UsersTableController();
+  final _userTableController = UsersTableController();
+  final _roleTableController = RolesTableController();
+  final _dealershipTableController = DealershipsTableController();
 
   final _fullNameController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -49,7 +51,7 @@ class UserRegistrationState with ChangeNotifier {
       isActive: true,
     );
 
-    await _userController.insert(user);
+    await _userTableController.insert(user);
 
     fullNameController.clear();
     usernameController.clear();
@@ -61,8 +63,8 @@ class UserRegistrationState with ChangeNotifier {
   final dealershipList = <Dealership>[];
 
   Future<void> load() async {
-    final listOfRoles = await RolesTableController().selectAll();
-    final listOfDealerships = await DealershipsTableController().selectAll();
+    final listOfRoles = await _roleTableController.selectAll();
+    final listOfDealerships = await _dealershipTableController.selectAll();
 
     roleList
       ..clear()
@@ -106,7 +108,7 @@ class UserRegistrationState with ChangeNotifier {
       isActive: true,
     );
 
-    await _userController.update(editedUser);
+    await _userTableController.update(editedUser);
 
     fullNameController.clear();
     usernameController.clear();
@@ -125,7 +127,7 @@ class UserRegistrationState with ChangeNotifier {
       isActive: false,
     );
 
-    await _userController.update(deactivatedUser);
+    await _userTableController.update(deactivatedUser);
 
     notifyListeners();
   }
