@@ -27,10 +27,14 @@ class SettingsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const _SettingsTitle(),
-              AppHeader(header: locale.themeHeader),
+              AppHeader(
+                header: locale.themeHeader,
+              ),
               _ThemeDropdown(state),
-              AppHeader(header: locale.languageHeader),
-              const _LanguageDropdown(),
+              AppHeader(
+                header: locale.languageHeader,
+              ),
+              _LanguageDropdown(state),
             ],
           ),
         ),
@@ -99,11 +103,16 @@ class _ThemeDropdown extends StatelessWidget {
 }
 
 class _LanguageDropdown extends StatelessWidget {
-  const _LanguageDropdown();
+  const _LanguageDropdown(
+    this.state,
+  );
+
+  final MainState state;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
+      value: state.language,
       borderRadius: BorderRadius.circular(20),
       isExpanded: true,
       items: const [
@@ -116,8 +125,11 @@ class _LanguageDropdown extends StatelessWidget {
           child: Text('English'),
         ),
       ],
-      //TODO: IMPLEMENT LANGUAGE SELECTOR
-      onChanged: (value) {},
+      onChanged: (language) async {
+        await state.toggleLanguage(
+          language: language!,
+        );
+      },
     );
   }
 }

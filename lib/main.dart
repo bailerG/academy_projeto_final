@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<MainState>(
         builder: (context, state, child) {
           return MaterialApp(
-            locale: const Locale('pt'),
+            locale: Locale(state.language),
             supportedLocales: L10n.all,
             localizationsDelegates: const [
               AppLocalizations.delegate,
