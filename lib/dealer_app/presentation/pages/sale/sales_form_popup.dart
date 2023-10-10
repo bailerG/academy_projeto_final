@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../../state/sale/sale_register_state.dart';
@@ -8,10 +9,12 @@ import '../../utils/text_field.dart';
 class SaleForm extends StatelessWidget {
   const SaleForm({
     super.key,
+    required this.locale,
     required this.state,
   });
 
   final SaleRegisterState state;
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
@@ -30,37 +33,37 @@ class SaleForm extends StatelessWidget {
               padLeft: 8.0,
             ),
           ),
-          _CPFTextField(state: state),
-          const Padding(
-            padding: EdgeInsets.only(
+          _CPFTextField(state: state, locale: locale),
+          Padding(
+            padding: const EdgeInsets.only(
               top: 20.0,
             ),
             child: AppHeader(
-              header: 'Name',
+              header: locale.nameHeader,
               padLeft: 8.0,
             ),
           ),
-          _NameTextField(state: state),
-          const Padding(
-            padding: EdgeInsets.only(
+          _NameTextField(state: state, locale: locale),
+          Padding(
+            padding: const EdgeInsets.only(
               top: 20.0,
             ),
             child: AppHeader(
-              header: 'Date of Sale',
+              header: locale.dateOfSale,
               padLeft: 8.0,
             ),
           ),
-          _DateTextField(state: state),
-          const Padding(
-            padding: EdgeInsets.only(
+          _DateTextField(state: state, locale: locale),
+          Padding(
+            padding: const EdgeInsets.only(
               top: 20.0,
             ),
             child: AppHeader(
-              header: 'Price Sold',
+              header: locale.priceSold,
               padLeft: 8.0,
             ),
           ),
-          _PriceTextField(state: state),
+          _PriceTextField(state: state, locale: locale),
         ],
       ),
     );
@@ -70,19 +73,21 @@ class SaleForm extends StatelessWidget {
 class _CPFTextField extends StatelessWidget {
   const _CPFTextField({
     required this.state,
+    required this.locale,
   });
 
   final SaleRegisterState state;
-
-  String? validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please write buyer's CPF";
-    }
-    return null;
-  }
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.cpfEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.cpfController,
       validator: validator,
@@ -94,22 +99,25 @@ class _CPFTextField extends StatelessWidget {
 class _NameTextField extends StatelessWidget {
   const _NameTextField({
     required this.state,
+    required this.locale,
   });
 
   final SaleRegisterState state;
-
-  String? validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please write buyer's name";
-    }
-    return null;
-  }
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.nameEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.nameController,
-      hint: 'John Doe',
+      validator: validator,
+      hint: locale.nameHint,
     );
   }
 }
@@ -117,19 +125,21 @@ class _NameTextField extends StatelessWidget {
 class _DateTextField extends StatelessWidget {
   const _DateTextField({
     required this.state,
+    required this.locale,
   });
 
   final SaleRegisterState state;
-
-  String? validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please select a date';
-    }
-    return null;
-  }
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.dateEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.dateController,
       validator: validator,
@@ -153,19 +163,21 @@ class _DateTextField extends StatelessWidget {
 class _PriceTextField extends StatelessWidget {
   const _PriceTextField({
     required this.state,
+    required this.locale,
   });
 
   final SaleRegisterState state;
-
-  String? validator(String? value) {
-    if (double.parse((value!.replaceAll(RegExp(r','), ''))) == 0.00) {
-      return "Price can't be zero";
-    }
-    return null;
-  }
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
+    String? validator(String? value) {
+      if (double.parse((value!.replaceAll(RegExp(r','), ''))) == 0.00) {
+        return locale.priceEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.priceController,
       validator: validator,

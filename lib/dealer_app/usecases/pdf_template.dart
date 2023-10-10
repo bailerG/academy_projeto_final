@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -15,7 +16,7 @@ class PDFDocument {
 
   final formatNumber = NumberFormat('###,###,#00.00');
 
-  Future<File> generatePDF(List<Sale> list) async {
+  Future<File> generatePDF(List<Sale> list, AppLocalizations locale) async {
     final localStorage = LocalStorage();
     final pdf = Document();
     final image = MemoryImage(
@@ -26,9 +27,9 @@ class PDFDocument {
       MultiPage(
         pageFormat: PdfPageFormat.a4,
         build: (context) => <Widget>[
-          _pdfHeader(image),
-          _salesTable(list),
-          _totalRow(),
+          _pdfHeader(image, locale),
+          _salesTable(list, locale),
+          _totalRow(locale),
         ],
       ),
     );
@@ -41,14 +42,14 @@ class PDFDocument {
     return pdfFile;
   }
 
-  Widget _pdfHeader(MemoryImage image) {
+  Widget _pdfHeader(MemoryImage image, AppLocalizations locale) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Header(
           child: Text(
-            'Sales Report'.toUpperCase(),
+            locale.pdfTitle,
             textScaleFactor: 2.0,
           ),
         ),
@@ -60,15 +61,15 @@ class PDFDocument {
     );
   }
 
-  Widget _salesTable(List<Sale> list) {
+  Widget _salesTable(List<Sale> list, AppLocalizations locale) {
     final tableRows = <TableRow>[
       TableRow(
         children: [
-          Text('Customer'),
-          Text('Sale Date'),
-          Text('Dealership %'),
-          Text('Headquarters %'),
-          Text('Total'),
+          Text(locale.pdfCustomer),
+          Text(locale.pdfSaleDate),
+          Text(locale.pdfDealershipPercentage),
+          Text(locale.pdfHeadquartersPercentage),
+          Text(locale.pdfItemTotal),
         ],
       )
     ];
@@ -110,7 +111,7 @@ class PDFDocument {
     );
   }
 
-  Widget _totalRow() {
+  Widget _totalRow(AppLocalizations locale) {
     final dealershipTotalAmount = formatNumber.format(
       _totalDealershipAmount,
     );
@@ -132,19 +133,19 @@ class PDFDocument {
         children: [
           TableRow(
             children: [
-              Text('Total Dealership Amount:'),
+              Text(locale.pdfDealershipAmount),
               Text('R\$ $dealershipTotalAmount'),
             ],
           ),
           TableRow(
             children: [
-              Text('Total Headquarters Amount:'),
+              Text(locale.pdfHeadquartersAmount),
               Text('R\$ $headquartersTotalAmount'),
             ],
           ),
           TableRow(
             children: [
-              Text('Total Amount:'),
+              Text(locale.pdfTotalAmount),
               Text('R\$ $totalAmount'),
             ],
           ),

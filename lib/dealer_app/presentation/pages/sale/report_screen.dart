@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,8 @@ class _ReportGenerationStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(
         left: 32,
@@ -59,7 +62,9 @@ class _ReportGenerationStructure extends StatelessWidget {
             child: _Title(),
           ),
           if (state.loggedUser.roleId == 1) _DealershipDropdown(state),
-          const AppHeader(header: 'Date Range'),
+          AppHeader(
+            header: locale.dateRangeHeader,
+          ),
           _DateRangePicker(state),
           AppLargeButton(
             onPressed: () async {
@@ -67,10 +72,10 @@ class _ReportGenerationStructure extends StatelessWidget {
 
               final pdfDocument = PDFDocument();
 
-              var file = await pdfDocument.generatePDF(state.salesList);
+              var file = await pdfDocument.generatePDF(state.salesList, locale);
               await OpenFile.open(file.path);
             },
-            text: 'Generate',
+            text: locale.pdfGenerateButton,
           )
         ],
       ),
@@ -83,10 +88,16 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final locale = AppLocalizations.of(context)!;
+
+    return Column(
       children: [
-        AppTitle(title: 'Generate Sales Report'),
-        AppTextDescription(text: 'Export a PDF file and save to your device.'),
+        AppTitle(
+          title: locale.reportScreenTitle,
+        ),
+        AppTextDescription(
+          text: locale.reportScreenSubtitle,
+        ),
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../entities/user.dart';
@@ -41,6 +42,8 @@ class _UserRegistrationStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       child: Form(
         key: state.formState,
@@ -49,8 +52,10 @@ class _UserRegistrationStructure extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _NewHereTitle(state),
-              const AppHeader(header: 'Full Name'),
+              _NewUserTitle(state),
+              AppHeader(
+                header: locale.userFullNameHeader,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                   top: 8,
@@ -58,7 +63,9 @@ class _UserRegistrationStructure extends StatelessWidget {
                 ),
                 child: _FullNameTextField(state),
               ),
-              const AppHeader(header: 'Username'),
+              AppHeader(
+                header: locale.userUsernameHeader,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                   top: 8,
@@ -66,14 +73,18 @@ class _UserRegistrationStructure extends StatelessWidget {
                 ),
                 child: _UsernameTextField(state),
               ),
-              const AppHeader(header: 'Dealership'),
+              AppHeader(
+                header: locale.userDealershipHeader,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                   bottom: 8,
                 ),
                 child: _DealershipDropdown(state),
               ),
-              const AppHeader(header: 'Role'),
+              AppHeader(
+                header: locale.userRoleHeader,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                   bottom: 32,
@@ -81,7 +92,7 @@ class _UserRegistrationStructure extends StatelessWidget {
                 child: _RoleDropdown(state),
               ),
               _RegisterButton(state),
-              !state.editing ? Container() : _DeactivateUser(state),
+              if (state.editing) _DeactivateUser(state),
             ],
           ),
         ),
@@ -90,24 +101,27 @@ class _UserRegistrationStructure extends StatelessWidget {
   }
 }
 
-class _NewHereTitle extends StatelessWidget {
-  const _NewHereTitle(this.state);
+class _NewUserTitle extends StatelessWidget {
+  const _NewUserTitle(this.state);
 
   final UserRegistrationState state;
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppTitle(
-            title:
-                state.editing ? 'Edit Existing User' : 'Have a new associate?',
+            title: !state.editing
+                ? locale.userRegisterTitle
+                : locale.userEditTitle,
           ),
-          const AppTextDescription(
-            text: 'Please fill these fields',
+          AppTextDescription(
+            text: locale.userRegisterSubtitle,
           ),
         ],
       ),
@@ -120,23 +134,25 @@ class _FullNameTextField extends StatelessWidget {
 
   final UserRegistrationState state;
 
-  String? _validator(String? value) {
-    if (value!.isEmpty) {
-      return "Please share the associate's name";
-    }
-    if (value.length < 3) {
-      return 'Name should be at least 3 letters long';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value!.isEmpty) {
+        return locale.userFullNameEmpty;
+      }
+      if (value.length < 3) {
+        return locale.userFullNameLength;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.fullNameController,
       inputType: TextInputType.name,
-      hint: "Associate's full name",
-      validator: _validator,
+      hint: locale.userFullNameHint,
+      validator: validator,
     );
   }
 }
@@ -146,23 +162,25 @@ class _UsernameTextField extends StatelessWidget {
 
   final UserRegistrationState state;
 
-  String? _validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please write a username';
-    }
-    if (value.length < 4) {
-      return 'Username should be at least 4 letters long';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.userUsernameEmpty;
+      }
+      if (value.length < 4) {
+        return locale.userUsernameLength;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.usernameController,
       inputType: TextInputType.text,
-      hint: "Associate's username",
-      validator: _validator,
+      hint: locale.userUsernameHint,
+      validator: validator,
     );
   }
 }
@@ -172,15 +190,17 @@ class _DealershipDropdown extends StatelessWidget {
 
   final UserRegistrationState state;
 
-  String? _validator(Object? value) {
-    if (value == null) {
-      return 'Please select a Dealership';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(Object? value) {
+      if (value == null) {
+        return locale.userDealershipEmpty;
+      }
+      return null;
+    }
+
     void onChanged(value) {
       state.setDealershipValue(value!);
     }
@@ -188,7 +208,7 @@ class _DealershipDropdown extends StatelessWidget {
     return AppDropdown(
       list: state.dealershipList,
       onChanged: onChanged,
-      validator: _validator,
+      validator: validator,
     );
   }
 }
@@ -198,15 +218,17 @@ class _RoleDropdown extends StatelessWidget {
 
   final UserRegistrationState state;
 
-  String? validator(Object? value) {
-    if (value == null) {
-      return 'Please select a Role';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(Object? value) {
+      if (value == null) {
+        return locale.userRoleEmpty;
+      }
+      return null;
+    }
+
     void onChanged(value) {
       state.setRoleValue(value!);
     }
@@ -226,6 +248,8 @@ class _RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     Future<void> onPressed() async {
       if (!state.formState.currentState!.validate()) {
         return;
@@ -242,7 +266,8 @@ class _RegisterButton extends StatelessWidget {
 
     return AppLargeButton(
       onPressed: onPressed,
-      text: state.editing ? "Update associate's info" : 'Register Associate',
+      text:
+          !state.editing ? locale.userRegisterButton : locale.userUpdateButton,
     );
   }
 }
@@ -254,6 +279,8 @@ class _DeactivateUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 24,
@@ -264,8 +291,8 @@ class _DeactivateUser extends StatelessWidget {
             context: context,
             builder: (context) {
               return AppAlertDialog(
-                title: 'Are you sure?',
-                message: 'Do you really want to deactivate this user?',
+                title: locale.alertTitle,
+                message: locale.userAlertMessage,
                 buttons: [
                   TextButton(
                     onPressed: () async {
@@ -275,18 +302,18 @@ class _DeactivateUser extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    child: const Text('Yes'),
+                    child: Text(locale.yes),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
+                    child: Text(locale.cancel),
                   ),
                 ],
               );
             },
           );
         },
-        text: 'Deactivate User',
+        text: locale.userDeactivate,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,8 @@ class _SalesListStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,14 +75,14 @@ class _SalesListStructure extends StatelessWidget {
               child: _SalesListView(state),
             )
           else
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 top: 80,
                 left: 40,
                 right: 40,
               ),
               child: AppHeader(
-                header: 'There are no sales on this date',
+                header: locale.saleListEmpty,
               ),
             ),
         ],
@@ -93,13 +96,15 @@ class _ListTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final locale = AppLocalizations.of(context)!;
+
+    return Column(
       children: [
         AppTitle(
-          title: "Here's a list of all the sales",
+          title: locale.saleListTitle,
         ),
         AppTextDescription(
-          text: 'You can view and mark them as not concluded',
+          text: locale.saleListSubtitle,
         ),
       ],
     );
@@ -196,6 +201,8 @@ class _SalesListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return ListTile(
       enabled: sale.isComplete,
       title: Text(sale.customerName),
@@ -212,7 +219,7 @@ class _SalesListTile extends StatelessWidget {
             builder: (context) {
               if (!sale.isComplete) {
                 return AppAlertDialog(
-                  title: "This can't be undone.",
+                  title: locale.saleAlertMessage,
                   buttons: [
                     TextButton(
                       onPressed: () {
@@ -224,8 +231,8 @@ class _SalesListTile extends StatelessWidget {
                 );
               }
               return AppAlertDialog(
-                title: 'Are you sure you want to deactivate this sale?',
-                message: "This can't be undone",
+                title: locale.saleAlertTitle,
+                message: locale.saleAlertMessage,
                 buttons: [
                   TextButton(
                     onPressed: () async {
@@ -234,13 +241,13 @@ class _SalesListTile extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    child: const Text('Yes'),
+                    child: Text(locale.yes),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text(locale.cancel),
                   ),
                 ],
               );

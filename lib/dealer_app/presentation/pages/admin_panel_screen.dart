@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../utils/gridview_button.dart';
 import 'dealership/autonomy_options.dart';
@@ -52,12 +53,14 @@ class _EditUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return InkWell(
       onTap: () async {
         await Navigator.of(context).pushNamed(UserListScreen.routeName);
       },
-      child: const AppGridViewButton(
-        label: 'View and\nEdit User',
+      child: AppGridViewButton(
+        label: locale.editUser,
         icon: Icons.edit_note,
       ),
     );
@@ -69,13 +72,15 @@ class _RegisterUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () async {
         await Navigator.of(context).pushNamed(UserRegisterScreen.routeName);
       },
-      child: const AppGridViewButton(
-        label: 'Register a\nNew Associate',
+      child: AppGridViewButton(
+        label: locale.registerUser,
         icon: Icons.person_add_alt_outlined,
       ),
     );
@@ -87,6 +92,8 @@ class _EditDealerships extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () async {
@@ -94,8 +101,8 @@ class _EditDealerships extends StatelessWidget {
           DealershipListScreen.routeName,
         );
       },
-      child: const AppGridViewButton(
-        label: 'View and Edit Dealerships',
+      child: AppGridViewButton(
+        label: locale.editDealership,
         icon: Icons.edit,
       ),
     );
@@ -107,6 +114,8 @@ class _RegisterDealership extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () async {
@@ -114,8 +123,8 @@ class _RegisterDealership extends StatelessWidget {
           DealershipRegisterScreen.routeName,
         );
       },
-      child: const AppGridViewButton(
-        label: 'Register a New Dealership',
+      child: AppGridViewButton(
+        label: locale.registerDealership,
         icon: Icons.house_siding,
       ),
     );
@@ -127,6 +136,8 @@ class _EditPercentages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () async {
@@ -134,8 +145,8 @@ class _EditPercentages extends StatelessWidget {
           AutonomyOptionsScreen.routeName,
         );
       },
-      child: const AppGridViewButton(
-        label: 'Edit Percentages',
+      child: AppGridViewButton(
+        label: locale.editPercentages,
         icon: Icons.percent,
       ),
     );

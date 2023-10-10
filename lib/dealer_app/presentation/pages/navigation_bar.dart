@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../main.dart';
@@ -14,46 +15,46 @@ class AppNavigationBar extends StatelessWidget {
     return NavigationBar(
       indicatorColor: accentColor,
       destinations: <Widget>[
-        const NavigationDestination(
-          selectedIcon: Icon(
+        NavigationDestination(
+          selectedIcon: const Icon(
             Icons.home,
             color: Colors.white,
           ),
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
+          icon: const Icon(Icons.home_outlined),
+          label: AppLocalizations.of(context)!.homeTab,
         ),
-        const NavigationDestination(
-          selectedIcon: Icon(
+        NavigationDestination(
+          selectedIcon: const Icon(
             Icons.add_box_rounded,
             color: Colors.white,
           ),
-          icon: Icon(Icons.add_box_outlined),
-          label: 'Add Vehicle',
+          icon: const Icon(Icons.add_box_outlined),
+          label: AppLocalizations.of(context)!.vehicleTab,
         ),
         if (state.loggedUser!.roleId == 1)
-          const NavigationDestination(
-            selectedIcon: Icon(
+          NavigationDestination(
+            selectedIcon: const Icon(
               Icons.person_4_rounded,
               color: Colors.white,
             ),
-            icon: Icon(Icons.person_4_outlined),
-            label: 'Admin',
+            icon: const Icon(Icons.person_4_outlined),
+            label: AppLocalizations.of(context)!.adminTab,
           ),
-        const NavigationDestination(
-          selectedIcon: Icon(
+        NavigationDestination(
+          selectedIcon: const Icon(
             Icons.discount_rounded,
             color: Colors.white,
           ),
-          icon: Icon(Icons.discount_outlined),
-          label: 'Sales',
+          icon: const Icon(Icons.discount_outlined),
+          label: AppLocalizations.of(context)!.salesTab,
         ),
-        const NavigationDestination(
-          selectedIcon: Icon(
+        NavigationDestination(
+          selectedIcon: const Icon(
             Icons.settings,
             color: Colors.white,
           ),
-          icon: Icon(Icons.settings_outlined),
-          label: 'Settings',
+          icon: const Icon(Icons.settings_outlined),
+          label: AppLocalizations.of(context)!.settingsTab,
         ),
       ],
       selectedIndex: state.selectedIndex,

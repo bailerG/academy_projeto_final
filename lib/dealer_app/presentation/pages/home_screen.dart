@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainState = Provider.of<MainState>(context, listen: true);
+
     return Scaffold(
       body: ChangeNotifierProvider(
         create: (context) => HomeScreenState(mainState.loggedUser!),
@@ -71,7 +73,9 @@ class _WelcomeTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 120),
       child: AppTitle(
-        title: 'Welcome\n${state.loggedUser.fullName}!',
+        title: AppLocalizations.of(context)!.homeWelcome(
+          state.loggedUser.fullName,
+        ),
       ),
     );
   }
@@ -131,9 +135,9 @@ class _NoVehicleRegistered extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(32.0),
-      child: AppHeader(header: 'There is no vehicle in stock'),
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: AppHeader(header: AppLocalizations.of(context)!.noVehicleInStock),
     );
   }
 }

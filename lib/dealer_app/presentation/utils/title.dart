@@ -18,6 +18,7 @@ class AppTitle extends StatelessWidget {
       color: accentColor,
       child: Text(
         title,
+        softWrap: true,
         textScaleFactor: fontSize ?? 2.5,
         style: const TextStyle(
           color: accentColor,

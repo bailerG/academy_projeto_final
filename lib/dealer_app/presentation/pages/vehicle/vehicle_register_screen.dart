@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +57,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       child: Form(
           key: state.formState,
@@ -64,8 +66,8 @@ class _VehicleRegisterStructure extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _NewCarTitle(),
-                const AppHeader(header: 'Brand'),
+                if (!state.editing) const _NewCarTitle(),
+                AppHeader(header: locale.brandHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -73,7 +75,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _BrandTextField(),
                 ),
-                const AppHeader(header: 'Model'),
+                AppHeader(header: locale.modelHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -81,7 +83,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _ModelTextField(),
                 ),
-                const AppHeader(header: 'Plate'),
+                AppHeader(header: locale.plateHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -89,7 +91,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _PlateTextField(),
                 ),
-                const AppHeader(header: 'Built Year'),
+                AppHeader(header: locale.builtYearHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -97,7 +99,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _BuiltYearTextField(),
                 ),
-                const AppHeader(header: 'Model Year'),
+                AppHeader(header: locale.modelYearHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -105,7 +107,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _ModelYearTextField(),
                 ),
-                const AppHeader(header: 'Price'),
+                AppHeader(header: locale.priceHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -113,7 +115,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _PriceTextField(),
                 ),
-                const AppHeader(header: 'Date of purchase'),
+                AppHeader(header: locale.datePurchaseHeader),
                 const Padding(
                   padding: EdgeInsets.only(
                     top: 8,
@@ -121,7 +123,7 @@ class _VehicleRegisterStructure extends StatelessWidget {
                   ),
                   child: _DatePicker(),
                 ),
-                const AppHeader(header: 'Photo'),
+                AppHeader(header: locale.photoHeader),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 8,
@@ -157,16 +159,17 @@ class _NewCarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 32),
+    final locale = AppLocalizations.of(context)!;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppTitle(
-            title: 'Got a new car\nin the garage?',
+            title: locale.vehicleRegisterTitle,
           ),
           AppTextDescription(
-            text: 'Fill with the correct information',
+            text: locale.vehicleRegisterSubtitle,
           ),
         ],
       ),
@@ -177,16 +180,18 @@ class _NewCarTitle extends StatelessWidget {
 class _BrandTextField extends StatelessWidget {
   const _BrandTextField();
 
-  String? validator(String? value) {
-    if (value!.isEmpty) {
-      return "Please inform the vehicle's brand";
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value!.isEmpty) {
+        return locale.brandEmpty;
+      }
+      return null;
+    }
+
     return AppTextFieldAutoComplete(
       controller: state.brandController,
       validator: validator,
@@ -198,16 +203,18 @@ class _BrandTextField extends StatelessWidget {
 class _ModelTextField extends StatelessWidget {
   const _ModelTextField();
 
-  String? validator(String? value) {
-    if (value!.isEmpty) {
-      return "Please inform the vehicle's model";
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value!.isEmpty) {
+        return locale.modelEmpty;
+      }
+      return null;
+    }
+
     return AppTextFieldAutoComplete(
       controller: state.modelController,
       validator: validator,
@@ -220,16 +227,18 @@ class _ModelTextField extends StatelessWidget {
 class _PlateTextField extends StatelessWidget {
   const _PlateTextField();
 
-  String? validator(String? value) {
-    if (value!.isEmpty) {
-      return "Please inform the vehicle's plate";
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value!.isEmpty) {
+        return locale.plateEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.plateController,
       validator: validator,
@@ -241,19 +250,21 @@ class _PlateTextField extends StatelessWidget {
 class _BuiltYearTextField extends StatelessWidget {
   const _BuiltYearTextField();
 
-  String? validator(String? value) {
-    if (value!.isEmpty) {
-      return 'Please inform the year your vehicle was built';
-    }
-    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-      return 'Type only numbers';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value!.isEmpty) {
+        return locale.builtYearEmpty;
+      }
+      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+        return locale.onlyNumbers;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.builtYearController,
       validator: validator,
@@ -265,19 +276,21 @@ class _BuiltYearTextField extends StatelessWidget {
 class _ModelYearTextField extends StatelessWidget {
   const _ModelYearTextField();
 
-  String? validator(String? value) {
-    if (value!.isEmpty) {
-      return 'Please inform the model year of the vehicle';
-    }
-    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-      return 'Type only numbers';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value!.isEmpty) {
+        return locale.modelYearEmpty;
+      }
+      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+        return locale.onlyNumbers;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.modelYearController,
       validator: validator,
@@ -289,22 +302,24 @@ class _ModelYearTextField extends StatelessWidget {
 class _DatePicker extends StatelessWidget {
   const _DatePicker();
 
-  String? validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please select a date';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.dateEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.dateController,
-      validator: null,
+      validator: validator,
       inputType: TextInputType.datetime,
       readOnly: true,
-      hint: 'Pick a date',
+      hint: locale.pickDate,
       onTap: () async {
         final pickedDate = await showDatePicker(
           context: context,
@@ -324,16 +339,18 @@ class _DatePicker extends StatelessWidget {
 class _PriceTextField extends StatelessWidget {
   const _PriceTextField();
 
-  String? validator(String? value) {
-    if (double.parse((value!.replaceAll(RegExp(r','), ''))) == 0.00) {
-      return "Price can't be zero";
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (double.parse((value!.replaceAll(RegExp(r','), ''))) == 0.00) {
+        return locale.priceEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.priceController,
       validator: validator,
@@ -348,6 +365,7 @@ class _PhotosList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+
     return SizedBox(
       height: 100,
       child: Container(
@@ -384,7 +402,7 @@ class _PhotoWidget extends StatelessWidget {
     return FutureBuilder<File>(
       // ignore: discarded_futures
       future: state.loadVehicleImage(imageName),
-      builder: ((context, snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -393,7 +411,7 @@ class _PhotoWidget extends StatelessWidget {
         } else {
           return const CircularProgressIndicator();
         }
-      }),
+      },
     );
   }
 }
@@ -404,6 +422,8 @@ class _ChooseOrTakePhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -411,13 +431,13 @@ class _ChooseOrTakePhoto extends StatelessWidget {
           onPressed: () async {
             await state.pickImage();
           },
-          text: 'Choose',
+          text: locale.choosePhoto,
         ),
         AppSmallButton(
           onPressed: () async {
             await state.takePhoto();
           },
-          text: 'Take photo',
+          text: locale.takePhoto,
         )
       ],
     );
@@ -431,6 +451,7 @@ class _RegisterCarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleRegisterState>(context, listen: true);
     final mainState = Provider.of<MainState>(context, listen: false);
+    final locale = AppLocalizations.of(context)!;
 
     Future<void> onPressed() async {
       if (!state.formState.currentState!.validate()) {
@@ -448,7 +469,7 @@ class _RegisterCarButton extends StatelessWidget {
 
     return AppLargeButton(
       onPressed: onPressed,
-      text: state.editing ? 'Update vehicle' : 'Register Vehicle',
+      text: !state.editing ? locale.registerVehicle : locale.updateVehicle,
     );
   }
 }

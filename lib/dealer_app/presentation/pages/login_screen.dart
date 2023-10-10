@@ -50,11 +50,11 @@ class _LoginScreenStructure extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 50),
                       child: AppTitle(
-                        title: AppLocalizations.of(context)!.welcome,
+                        title: AppLocalizations.of(context)!.loginWelcome,
                       ),
                     ),
                     AppHeader(
-                      header: AppLocalizations.of(context)!.username,
+                      header: AppLocalizations.of(context)!.headerUsername,
                     ),
                     const Padding(
                       padding: EdgeInsets.only(
@@ -64,7 +64,7 @@ class _LoginScreenStructure extends StatelessWidget {
                       child: _UsernameTextField(),
                     ),
                     AppHeader(
-                      header: AppLocalizations.of(context)!.password,
+                      header: AppLocalizations.of(context)!.headerPassword,
                     ),
                     const Padding(
                       padding: EdgeInsets.only(

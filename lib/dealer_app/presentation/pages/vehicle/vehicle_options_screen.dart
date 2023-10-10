@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -169,8 +170,10 @@ class _DetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppHeader(
-      header: 'CAR DETAILS',
+    final locale = AppLocalizations.of(context)!;
+
+    return AppHeader(
+      header: locale.carDetails,
       fontSize: 1.2,
     );
   }
@@ -183,6 +186,8 @@ class _CarDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Padding(
@@ -190,7 +195,7 @@ class _CarDetails extends StatelessWidget {
             bottom: 8,
           ),
           child: AtributesTable(
-            label: 'Year built',
+            label: locale.builtYearHeader,
             value: vehicle.builtYear.toString(),
           ),
         ),
@@ -199,7 +204,7 @@ class _CarDetails extends StatelessWidget {
             bottom: 8,
           ),
           child: AtributesTable(
-            label: 'Model year',
+            label: locale.modelYearHeader,
             value: vehicle.modelYear.toString(),
           ),
         ),
@@ -208,7 +213,7 @@ class _CarDetails extends StatelessWidget {
             bottom: 8,
           ),
           child: AtributesTable(
-            label: 'Plate',
+            label: locale.plateHeader,
             value: vehicle.plate,
           ),
         ),
@@ -217,7 +222,7 @@ class _CarDetails extends StatelessWidget {
             bottom: 8,
           ),
           child: AtributesTable(
-            label: 'Purchased',
+            label: locale.datePurchaseHeader,
             value: DateFormat('d/M/y').format(
               vehicle.purchasedWhen,
             ),
@@ -228,7 +233,7 @@ class _CarDetails extends StatelessWidget {
             bottom: 8,
           ),
           child: AtributesTable(
-            label: 'Price paid',
+            label: locale.priceHeader,
             value: NumberFormat('###,###,###.00').format(
               vehicle.pricePaid,
             ),
@@ -247,11 +252,13 @@ class _ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleOptionsState>(context, listen: true);
+    final locale = AppLocalizations.of(context)!;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppSmallButton(
-          text: 'Edit',
+          text: locale.editCar,
           padding: 50,
           onPressed: () async {
             await Navigator.of(context)
@@ -265,15 +272,15 @@ class _ActionButtons extends StatelessWidget {
           },
         ),
         AppSmallButton(
-          text: 'Delete',
+          text: locale.deleteCar,
           padding: 40,
           onPressed: () async {
             await showDialog(
               context: context,
               builder: (context) {
                 return AppAlertDialog(
-                  title: 'Are you sure?',
-                  message: 'Do you really want to delete this car?',
+                  title: locale.alertTitle,
+                  message: locale.carAlertMessage,
                   buttons: [
                     TextButton(
                       onPressed: () {
@@ -281,11 +288,11 @@ class _ActionButtons extends StatelessWidget {
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Yes'),
+                      child: Text(locale.yes),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
+                      child: Text(locale.cancel),
                     )
                   ],
                 );
@@ -304,11 +311,14 @@ class _SellButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainState = Provider.of<MainState>(context, listen: false);
-    final vehicleState =
-        Provider.of<VehicleOptionsState>(context, listen: false);
+    final vehicleState = Provider.of<VehicleOptionsState>(
+      context,
+      listen: false,
+    );
+    final locale = AppLocalizations.of(context)!;
 
     return AppLargeButton(
-      text: 'Sell',
+      text: locale.sellButton,
       onPressed: () async {
         await showDialog(
           context: context,
@@ -320,7 +330,7 @@ class _SellButton extends StatelessWidget {
               ),
               child: Consumer<SaleRegisterState>(
                 builder: (context, state, child) {
-                  return const _SalePopUp();
+                  return _SalePopUp(locale);
                 },
               ),
             );
@@ -332,25 +342,30 @@ class _SellButton extends StatelessWidget {
 }
 
 class _SalePopUp extends StatelessWidget {
-  const _SalePopUp();
+  const _SalePopUp(this.locale);
+
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<SaleRegisterState>(context, listen: true);
 
     return AlertDialog(
-      title: const Row(
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppHeader(
-            header: 'Sell Vehicle',
+            header: locale.sellCarTitle,
             fontSize: 1,
             padLeft: 8.0,
           ),
-          AppCloseeButton(),
+          const AppCloseeButton(),
         ],
       ),
-      content: SaleForm(state: state),
+      content: SaleForm(
+        state: state,
+        locale: locale,
+      ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
@@ -365,7 +380,7 @@ class _SalePopUp extends StatelessWidget {
                   ..pop();
               }
             },
-            text: 'Sold!',
+            text: locale.soldCar,
           ),
         ),
       ],

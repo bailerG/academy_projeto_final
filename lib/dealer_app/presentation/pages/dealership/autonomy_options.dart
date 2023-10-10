@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../entities/autonomy_level.dart';
@@ -37,6 +38,8 @@ class _AutonomyOptionsStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(
         left: 32,
@@ -47,7 +50,7 @@ class _AutonomyOptionsStructure extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const AppTitle(title: 'Here are all the Autonomys:'),
+            AppTitle(title: locale.autonomyListTitle),
             ListView.builder(
               padding: const EdgeInsets.only(
                 top: 24,
@@ -81,20 +84,28 @@ class _AutonomyListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return InkWell(
       onTap: () async {
         state.setControllerValues(autonomyLevel);
         await showDialog(
           context: context,
           builder: (context) {
-            return _EditPopUp(state, autonomyLevel);
+            return _EditPopUp(
+              state,
+              autonomyLevel,
+              locale,
+            );
           },
         );
       },
       child: ListTile(
         title: Text(autonomyLevel.name),
         subtitle: AppHeader(
-          header: 'Dealership ${autonomyLevel.dealershipPercentage * 100}%',
+          header: locale.autonomyDealershipPercentage(
+            autonomyLevel.dealershipPercentage * 100,
+          ),
           fontSize: 1.2,
         ),
       ),
@@ -106,23 +117,25 @@ class _EditPopUp extends StatelessWidget {
   const _EditPopUp(
     this.state,
     this.autonomyLevel,
+    this.locale,
   );
 
   final AutonomyOptionsState state;
   final AutonomyLevel autonomyLevel;
+  final AppLocalizations locale;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Row(
+      title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppTitle(
-            title: 'Edit Contribuition',
+            title: locale.autonomyEdit,
             fontSize: 1,
           ),
-          AppCloseeButton(),
+          const AppCloseeButton(),
         ],
       ),
       content: Form(
@@ -131,8 +144,8 @@ class _EditPopUp extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const AppHeader(
-              header: 'Dealership %:',
+            AppHeader(
+              header: locale.dealershipPercentageHeader,
               padLeft: 8,
             ),
             Padding(
@@ -152,7 +165,9 @@ class _EditPopUp extends StatelessWidget {
                 },
               ),
             ),
-            const AppHeader(header: 'Headquarters %:'),
+            AppHeader(
+              header: locale.headquartersPercentageHeader,
+            ),
             Padding(
               padding: const EdgeInsets.only(
                 top: 8,
@@ -179,7 +194,7 @@ class _EditPopUp extends StatelessWidget {
               }
             }
           },
-          text: 'Save',
+          text: locale.saveButton,
         ),
       ],
     );

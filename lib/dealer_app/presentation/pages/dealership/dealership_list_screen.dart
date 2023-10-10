@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../main.dart';
@@ -40,6 +41,7 @@ class _DealershipListStructure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dealershipList = state.dealershipList.reversed.toList();
+    final locale = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -52,8 +54,8 @@ class _DealershipListStructure extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const AppTitle(
-              title: "Here's all the Dealerships:",
+            AppTitle(
+              title: locale.dealershipListTitle,
             ),
             ListView.builder(
               padding: const EdgeInsets.only(

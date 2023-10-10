@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../entities/dealership.dart';
@@ -42,6 +43,8 @@ class _DealershipRegisterStructure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(
         left: 40,
@@ -54,12 +57,12 @@ class _DealershipRegisterStructure extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _NewDealershipTitle(state),
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   top: 32,
                 ),
                 child: AppHeader(
-                  header: 'Name',
+                  header: locale.dealershipNameHeader,
                   padLeft: 8,
                 ),
               ),
@@ -81,8 +84,8 @@ class _DealershipRegisterStructure extends StatelessWidget {
                 ),
                 child: _CNPJTextField(state),
               ),
-              const AppHeader(
-                header: 'Password',
+              AppHeader(
+                header: locale.dealershipPasswordHeader,
                 padLeft: 8,
               ),
               Padding(
@@ -99,8 +102,8 @@ class _DealershipRegisterStructure extends StatelessWidget {
                 ),
                 child: _GeneratePasswordButton(state),
               ),
-              const AppHeader(
-                header: 'Autonomy Level',
+              AppHeader(
+                header: locale.dealershipAutonomyHeader,
                 padLeft: 8,
               ),
               Padding(
@@ -108,7 +111,7 @@ class _DealershipRegisterStructure extends StatelessWidget {
                 child: _AutonomyLevelDropdown(state),
               ),
               _RegisterButton(state),
-              !state.editing ? Container() : _DeactivateButton(state),
+              if (state.editing) _DeactivateButton(state),
             ],
           ),
         ),
@@ -124,14 +127,18 @@ class _NewDealershipTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppTitle(
-          title: state.editing ? 'Edit Existing Dealership' : 'New Dealership?',
+          title: state.editing
+              ? locale.editDealershipTitle
+              : locale.dealershipTitle,
         ),
-        const AppTextDescription(
-          text: 'Fill the fields below:',
+        AppTextDescription(
+          text: locale.dealershipSubtitle,
         ),
       ],
     );
@@ -143,18 +150,21 @@ class _NameTextField extends StatelessWidget {
 
   final DealershipRegisterState state;
 
-  String? validator(String? value) {
-    if (value == null) {
-      return 'Please type a name for the dealership';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.dealershipNameEmpty;
+      }
+      return null;
+    }
+
     return AppTextField(
-      hint: 'Dealership name',
+      hint: locale.dealershipNameHint,
       controller: state.nameController,
+      validator: validator,
     );
   }
 }
@@ -164,20 +174,22 @@ class _CNPJTextField extends StatelessWidget {
 
   final DealershipRegisterState state;
 
-  String? validator(String? value) {
-    if (value == null) {
-      return 'Please type a CNPJ';
-    }
-    if (value.length > 14) {
-      return 'CNPJ can only be 14 digits';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value == null || value.isEmpty) {
+        return locale.dealershipCNPJEmpty;
+      }
+      if (value.length > 14) {
+        return locale.dealershipCNPJLength;
+      }
+      return null;
+    }
+
     return AppTextField(
-      hint: 'Dealership CNPJ',
+      hint: locale.dealershipCNPJHint,
       controller: state.cnpjController,
       validator: validator,
     );
@@ -189,18 +201,20 @@ class _PasswordTextField extends StatelessWidget {
 
   final DealershipRegisterState state;
 
-  String? validator(String? value) {
-    if (value == null) {
-      return 'Please generate a password';
-    }
-    if (value.length < 5) {
-      return 'Password should be at least 5 characters long';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(String? value) {
+      if (value == null) {
+        return locale.dealershipPasswordEmpty;
+      }
+      if (value.length < 5) {
+        return locale.dealershipPasswordShort;
+      }
+      return null;
+    }
+
     return AppTextField(
       controller: state.passwordController,
       validator: validator,
@@ -215,9 +229,12 @@ class _GeneratePasswordButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return AppLargeButton(
       onPressed: state.generatePassword,
-      text: state.editing ? 'Generate New Password' : 'Generate Password',
+      text:
+          state.editing ? locale.generateNewPassword : locale.generatePassword,
     );
   }
 }
@@ -227,15 +244,17 @@ class _AutonomyLevelDropdown extends StatelessWidget {
 
   final DealershipRegisterState state;
 
-  String? validator(Object? value) {
-    if (value == null) {
-      return 'Please select an Autonomy Level';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    String? validator(Object? value) {
+      if (value == null) {
+        return locale.dealershipAutonomyEmpty;
+      }
+      return null;
+    }
+
     void onChanged(value) {
       state.setAutonomyLevel(value);
     }
@@ -255,6 +274,8 @@ class _RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 32,
@@ -273,7 +294,7 @@ class _RegisterButton extends StatelessWidget {
             Navigator.pop(context);
           }
         },
-        text: state.editing ? 'Edit' : 'Register',
+        text: state.editing ? locale.dealershipEdit : locale.dealershipRegister,
       ),
     );
   }
@@ -286,6 +307,8 @@ class _DeactivateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(top: 32, bottom: 32),
       child: AppLargeButton(
@@ -294,8 +317,8 @@ class _DeactivateButton extends StatelessWidget {
             context: context,
             builder: (context) {
               return AppAlertDialog(
-                title: 'Are you sure?',
-                message: 'Do you really want to deactivate this dealership?',
+                title: locale.alertTitle,
+                message: locale.dealershipAlertMessage,
                 buttons: [
                   TextButton(
                     onPressed: () async {
@@ -305,18 +328,18 @@ class _DeactivateButton extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    child: const Text('Yes'),
+                    child: Text(locale.yes),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
+                    child: Text(locale.cancel),
                   ),
                 ],
               );
             },
           );
         },
-        text: 'Deactivate Dealership',
+        text: locale.dealershipDeactivate,
       ),
     );
   }

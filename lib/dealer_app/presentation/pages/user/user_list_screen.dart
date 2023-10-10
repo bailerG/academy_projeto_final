@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../main.dart';
@@ -40,6 +41,7 @@ class _UserListStructure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userList = state.userList.reversed.toList();
+    final locale = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -51,8 +53,8 @@ class _UserListStructure extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const AppTitle(
-              title: "Here's all the associates:",
+            AppTitle(
+              title: locale.userListTitle,
             ),
             ListView.builder(
               padding: const EdgeInsets.only(

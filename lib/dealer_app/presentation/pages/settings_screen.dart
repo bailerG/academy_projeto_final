@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../state/main_state.dart';
@@ -13,6 +14,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<MainState>(context);
+    final locale = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -24,10 +27,10 @@ class SettingsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const _SettingsTitle(),
-              const AppHeader(header: 'Theme:'),
+              AppHeader(header: locale.themeHeader),
               _ThemeDropdown(state),
-              const AppHeader(header: 'Language:'),
-              _LanguageDropdown(),
+              AppHeader(header: locale.languageHeader),
+              const _LanguageDropdown(),
             ],
           ),
         ),
@@ -41,13 +44,15 @@ class _SettingsTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(
+    final locale = AppLocalizations.of(context)!;
+
+    return Padding(
+      padding: const EdgeInsets.only(
         bottom: 56,
         top: 32,
       ),
       child: AppTitle(
-        title: 'Here you can change your settings',
+        title: locale.settingsTitle,
       ),
     );
   }
@@ -62,6 +67,8 @@ class _ThemeDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
     return DropdownButton(
       padding: const EdgeInsets.only(
         bottom: 32,
@@ -72,14 +79,14 @@ class _ThemeDropdown extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       isExpanded: true,
       value: state.lightTheme,
-      items: const [
+      items: [
         DropdownMenuItem(
           value: true,
-          child: Text('Light'),
+          child: Text(locale.lightTheme),
         ),
         DropdownMenuItem(
           value: false,
-          child: Text('Dark'),
+          child: Text(locale.darkTheme),
         ),
       ],
       onChanged: (theme) async {
@@ -102,13 +109,14 @@ class _LanguageDropdown extends StatelessWidget {
       items: const [
         DropdownMenuItem(
           value: 'pt',
-          child: Text('Portugues'),
+          child: Text('Português'),
         ),
         DropdownMenuItem(
-          value: 'eng',
+          value: 'en',
           child: Text('English'),
         ),
       ],
+      //TODO: IMPLEMENT LANGUAGE SELECTOR
       onChanged: (value) {},
     );
   }
