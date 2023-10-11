@@ -6,8 +6,8 @@ import '../../repository/database/sales_table.dart';
 import 'package:intl/intl.dart';
 
 /// The controller for [SalesTable]
-/// .
-/// .
+///
+///
 /// It contains all the methods used to manipulate table's data.
 class SaleTableController {
   /// Inserts the given [sale] into database.

@@ -3,8 +3,8 @@
 import '../../entities/dealership.dart';
 
 /// The database table for [Dealership]
-/// .
-/// .
+///
+///
 /// It stores all variables such as [Dealership.id],[Dealership.cnpj],
 /// [Dealership.name],[Dealership.autonomyLevelId], [Dealership.password],
 /// [Dealership.isActive] inside a .db file.

@@ -5,8 +5,8 @@ import '../../repository/database/autonomy_levels_table.dart';
 import '../../repository/database/database.dart';
 
 /// The controller for [AutonomyLevelsTable]
-/// .
-/// .
+///
+///
 /// It contains all the methods used to manipulate table's data.
 class AutonomyLevelsTableController {
   /// Returns all instances of [AutonomyLevel] saved on database as a list.

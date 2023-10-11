@@ -5,8 +5,8 @@ import '../../repository/database/database.dart';
 import '../../repository/database/users_table.dart';
 
 /// The controller for [UsersTable]
-/// .
-/// .
+///
+///
 /// It contains all the methods used to manipulate table's data.
 class UsersTableController {
   /// Inserts the given [user] into database.

@@ -3,8 +3,8 @@
 import '../../entities/autonomy_level.dart';
 
 /// The database table for [AutonomyLevel]
-/// .
-/// .
+///
+///
 /// It stores all parameters such as [AutonomyLevel.id],[AutonomyLevel.name],
 /// [AutonomyLevel.dealershipPercentage], [AutonomyLevel.safetyPercentage],
 /// [AutonomyLevel.headquartersPercentage] inside a .db file.

@@ -11,8 +11,8 @@ import 'users_table.dart';
 import 'vehicles_table.dart';
 
 /// This opens the database for other methods to access and manipulate.
-/// .
-/// .
+///
+///
 /// If the database isn't created yet, it creates all
 /// tables and makes the necessary raw inserts needed.
 Future<Database> getDatabase() async {

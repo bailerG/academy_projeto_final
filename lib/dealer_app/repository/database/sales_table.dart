@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import '../../entities/sale.dart';
 
 /// The database table for [Sale]
-/// .
-/// .
+///
+///
 /// It stores all variables such as [Sale.id],[Sale.customerCpf],
 /// [Sale.customerName], [Sale.soldWhen], [Sale.priceSold],
 /// [Sale.dealershipPercentage],[Sale.headquartersPercentage],

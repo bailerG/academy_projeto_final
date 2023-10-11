@@ -1,13 +1,14 @@
 // ignore_for_file: avoid_classes_with_only_static_members
 
+import 'package:intl/intl.dart';
+
 import '../../entities/vehicle.dart';
 import '../../repository/database/database.dart';
 import '../../repository/database/vehicles_table.dart';
-import 'package:intl/intl.dart';
 
 /// The controller for [VehiclesTable]
-/// .
-/// .
+///
+///
 /// It contains all the methods used to manipulate table's data.
 class VehiclesTableController {
   /// Inserts the given [vehicle] into database.

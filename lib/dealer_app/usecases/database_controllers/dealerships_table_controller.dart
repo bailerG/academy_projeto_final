@@ -6,8 +6,8 @@ import '../../repository/database/dealerships_table.dart';
 import '../../repository/database/vehicles_table.dart';
 
 /// The controller for [DealershipsTable]
-/// .
-/// .
+///
+///
 /// It contains all the methods used to manipulate table's data.
 class DealershipsTableController {
   /// Inserts the given [dealership] into database.

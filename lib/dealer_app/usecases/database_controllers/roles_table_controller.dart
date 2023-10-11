@@ -5,8 +5,8 @@ import '../../repository/database/database.dart';
 import '../../repository/database/roles_table.dart';
 
 /// The controller for [RolesTable]
-/// .
-/// .
+///
+///
 /// It contains all the methods used to manipulate table's data.
 class RolesTableController {
   /// Returns all instances of [Role] saved on database as a list.

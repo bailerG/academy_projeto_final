@@ -3,8 +3,8 @@
 import '../../entities/role.dart';
 
 /// The database table for [Role]
-/// .
-/// .
+///
+///
 /// It stores all parameters such as [Role.id],
 /// [Role.roleName], inside a .db file.
 class RolesTable {

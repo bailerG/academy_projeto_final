@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import '../../entities/vehicle.dart';
 
 /// The database table for [Vehicle]
-/// .
-/// .
+///
+///
 /// It stores all variables such as [Vehicle.id],[Vehicle.model],
 /// [Vehicle.plate], [Vehicle.brand], [Vehicle.builtYear],
 /// [Vehicle.modelYear],[Vehicle.photos], [Vehicle.pricePaid],

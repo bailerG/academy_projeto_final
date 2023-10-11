@@ -3,8 +3,8 @@
 import '../../entities/user.dart';
 
 /// The database table for [User]
-/// .
-/// .
+///
+///
 /// It stores all variables such as [User.id],[User.username],
 /// [User.password],[User.fullName], [User.dealershipId],
 /// [User.roleId], [User.isActive] inside a .db file.
