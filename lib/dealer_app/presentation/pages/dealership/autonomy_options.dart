@@ -190,7 +190,7 @@ class _EditPopUp extends StatelessWidget {
               await state.updatePercentage(autonomyLevel);
               if (context.mounted) {
                 Navigator.pop(context);
-                Navigator.pop(context);
+                await state.getAutonomyList();
               }
             }
           },

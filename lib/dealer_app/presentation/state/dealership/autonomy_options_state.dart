@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../entities/autonomy_level.dart';
-import '../../../repository/database.dart';
+import '../../../usecases/database_controllers/autonomy_table_controller.dart';
 
 class AutonomyOptionsState with ChangeNotifier {
   AutonomyOptionsState() {

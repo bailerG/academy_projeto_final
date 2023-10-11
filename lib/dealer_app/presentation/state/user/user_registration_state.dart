@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../entities/dealership.dart';
 import '../../../entities/role.dart';
 import '../../../entities/user.dart';
-import '../../../repository/database.dart';
+import '../../../usecases/database_controllers/dealerships_table_controller.dart';
+import '../../../usecases/database_controllers/roles_table_controller.dart';
+import '../../../usecases/database_controllers/users_table_controller.dart';
 
 class UserRegistrationState with ChangeNotifier {
   UserRegistrationState(this.user) {

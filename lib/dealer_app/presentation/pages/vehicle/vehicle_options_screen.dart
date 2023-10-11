@@ -224,7 +224,7 @@ class _CarDetails extends StatelessWidget {
           child: AtributesTable(
             label: locale.datePurchaseHeader,
             value: DateFormat('d/M/y').format(
-              vehicle.purchasedWhen,
+              vehicle.purchasedDate,
             ),
           ),
         ),

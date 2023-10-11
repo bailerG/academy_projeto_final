@@ -9,9 +9,9 @@ import 'package:intl/intl.dart';
 
 import '../../../entities/user.dart';
 import '../../../entities/vehicle.dart';
-import '../../../repository/database.dart';
 import '../../../repository/fipe_api.dart';
 import '../../../repository/internal_storage.dart';
+import '../../../usecases/database_controllers/vehicles_table_controller.dart';
 
 class VehicleRegisterState with ChangeNotifier {
   VehicleRegisterState({
@@ -129,7 +129,7 @@ class VehicleRegisterState with ChangeNotifier {
       pricePaid: double.parse(
         priceController.text.replaceAll(RegExp(r','), ''),
       ),
-      purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
+      purchasedDate: DateFormat('dd/MM/yyyy').parse(dateController.text),
       dealershipId: _loggedUser.dealershipId,
       isSold: false,
     );
@@ -201,7 +201,7 @@ class VehicleRegisterState with ChangeNotifier {
     modelYearController.text = vehicle.modelYear.toString();
     plateController.text = vehicle.plate;
     dateController.text =
-        DateFormat('dd/MM/yyyy').format(vehicle.purchasedWhen);
+        DateFormat('dd/MM/yyyy').format(vehicle.purchasedDate);
     priceController.text = vehicle.pricePaid.toStringAsFixed(2);
     photoController.addAll(vehicle.photos!.split('|'));
 
@@ -219,7 +219,7 @@ class VehicleRegisterState with ChangeNotifier {
       pricePaid: double.parse(
         priceController.text.replaceAll(RegExp(r','), ''),
       ),
-      purchasedWhen: DateFormat('dd/MM/yyyy').parse(dateController.text),
+      purchasedDate: DateFormat('dd/MM/yyyy').parse(dateController.text),
       dealershipId: vehicle!.dealershipId,
       photos: photoController.join('|'),
       isSold: false,

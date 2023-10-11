@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../entities/dealership.dart';
 import '../../../entities/sale.dart';
 import '../../../entities/user.dart';
-import '../../../repository/database.dart';
+import '../../../usecases/database_controllers/dealerships_table_controller.dart';
+import '../../../usecases/database_controllers/sale_table_controller.dart';
 
 class ReportState with ChangeNotifier {
   ReportState(this.loggedUser) {

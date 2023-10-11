@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import '../../entities/dealership.dart';
 import '../../entities/user.dart';
 import '../../entities/vehicle.dart';
-import '../../repository/database.dart';
 import '../../repository/internal_storage.dart';
+import '../../usecases/database_controllers/dealerships_table_controller.dart';
+import '../../usecases/database_controllers/vehicles_table_controller.dart';
 
 class HomeScreenState with ChangeNotifier {
   HomeScreenState(this.loggedUser) {

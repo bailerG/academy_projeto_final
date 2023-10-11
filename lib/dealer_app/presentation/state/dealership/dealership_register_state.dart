@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../entities/autonomy_level.dart';
 import '../../../entities/dealership.dart';
-import '../../../repository/database.dart';
+import '../../../usecases/database_controllers/autonomy_table_controller.dart';
+import '../../../usecases/database_controllers/dealerships_table_controller.dart';
 
 class DealershipRegisterState with ChangeNotifier {
   DealershipRegisterState(this._dealership) {

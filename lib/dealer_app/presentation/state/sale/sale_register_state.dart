@@ -6,7 +6,10 @@ import '../../../entities/autonomy_level.dart';
 import '../../../entities/sale.dart';
 import '../../../entities/user.dart';
 import '../../../entities/vehicle.dart';
-import '../../../repository/database.dart';
+import '../../../usecases/database_controllers/autonomy_table_controller.dart';
+import '../../../usecases/database_controllers/dealerships_table_controller.dart';
+import '../../../usecases/database_controllers/sale_table_controller.dart';
+import '../../../usecases/database_controllers/vehicles_table_controller.dart';
 
 class SaleRegisterState with ChangeNotifier {
   SaleRegisterState(
@@ -94,7 +97,7 @@ class SaleRegisterState with ChangeNotifier {
       photos: vehicle.photos,
       modelYear: vehicle.modelYear,
       pricePaid: vehicle.pricePaid,
-      purchasedWhen: vehicle.purchasedWhen,
+      purchasedDate: vehicle.purchasedDate,
       dealershipId: vehicle.dealershipId,
       isSold: true,
     );

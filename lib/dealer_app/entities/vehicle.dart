@@ -8,7 +8,7 @@ class Vehicle {
   final int modelYear;
   final String? photos;
   final double pricePaid;
-  final DateTime purchasedWhen;
+  final DateTime purchasedDate;
   final int dealershipId;
   final bool isSold;
 
@@ -21,7 +21,7 @@ class Vehicle {
     required this.modelYear,
     this.photos,
     required this.pricePaid,
-    required this.purchasedWhen,
+    required this.purchasedDate,
     required this.dealershipId,
     required this.isSold,
   });

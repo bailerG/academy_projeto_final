@@ -29,7 +29,7 @@ linter:
     - camel_case_extensions
     - library_names
     - file_names
-    # - public_member_api_docs
+    - public_member_api_docs
     - library_prefixes
     - non_constant_identifier_names
     - constant_identifier_names # prefer

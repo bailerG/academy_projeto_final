@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../entities/vehicle.dart';
-import '../../../repository/database.dart';
 import '../../../repository/internal_storage.dart';
+import '../../../usecases/database_controllers/vehicles_table_controller.dart';
 
 class VehicleOptionsState with ChangeNotifier {
   VehicleOptionsState(int vehicleId) {
@@ -19,13 +19,11 @@ class VehicleOptionsState with ChangeNotifier {
   void loadData(int vehicleId) async {
     loading = true;
     final result = await vehicleController.selectSingleVehicle(vehicleId);
-    if (result.length == 1) {
-      vehicle = result.first;
-      loading = false;
-      notifyListeners();
-    } else {
-      throw Exception('The select method returned more than one vehicle');
-    }
+
+    vehicle = result;
+    loading = false;
+
+    notifyListeners();
   }
 
   Future<File> loadVehicleImage(String imageName) async {
