@@ -21,6 +21,7 @@ import 'dealer_app/presentation/pages/vehicle/vehicle_register_screen.dart';
 import 'dealer_app/presentation/state/main_state.dart';
 import 'l10n/l10n.dart';
 
+/// Red color used on numerous elements throughout the app.
 const accentColor = Color.fromRGBO(134, 46, 46, 1);
 
 void main() {
@@ -33,10 +34,14 @@ void main() {
   );
 }
 
+/// Represents the base of the entire app
+///
+/// initializing the [MainState] and instantiating
+/// all routes, locales and theme.
 class MyApp extends StatelessWidget {
+  /// The constructor of [MyApp] with the given [key].
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

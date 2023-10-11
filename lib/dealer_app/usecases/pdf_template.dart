@@ -9,13 +9,19 @@ import 'package:pdf/widgets.dart';
 import '../entities/sale.dart';
 import '../repository/internal_storage.dart';
 
+/// Represents all related PDF generation functionalities.
 class PDFDocument {
   double _totalAmount = 0;
   double _totalDealershipAmount = 0;
   double _totalHeadquartersAmount = 0;
 
+  /// Formats a number to the given standard as a way to better see
+  /// large quantities of money.
   final formatNumber = NumberFormat('###,###,#00.00');
 
+  /// Generates the PDF file,
+  ///
+  /// each element presented on the file is a widget contained in here.
   Future<File> generatePDF(List<Sale> list, AppLocalizations locale) async {
     final localStorage = LocalStorage();
     final pdf = Document();
