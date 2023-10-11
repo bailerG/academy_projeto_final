@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_classes_with_only_static_members
 
+import 'package:intl/intl.dart';
+
 import '../../entities/sale.dart';
 import '../../repository/database/database.dart';
 import '../../repository/database/sales_table.dart';
-import 'package:intl/intl.dart';
 
 /// The controller for [SalesTable]
 ///

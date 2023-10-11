@@ -2,62 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
-List<ModelEndpoint> fipeApiFromJson(String str) =>
-    List<ModelEndpoint>.from(json.decode(str).map(ModelEndpoint.fromJson));
+import '../entities/brand_endpoint.dart';
+import '../entities/model_endpoint.dart';
 
-String fipeApiToJson(List<ModelEndpoint> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-class BrandEndpoint {
-  final String? code;
-  final String? name;
-
-  BrandEndpoint({
-    this.code,
-    this.name,
-  });
-
-  factory BrandEndpoint.fromJson(Map<String, dynamic> json) => BrandEndpoint(
-        code: json['codigo'],
-        name: json['nome'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'codigo': code,
-        'nome': name,
-      };
-
-  @override
-  String toString() {
-    return name!;
-  }
-}
-
-class ModelEndpoint {
-  final int? code;
-  final String? name;
-
-  ModelEndpoint({
-    this.code,
-    this.name,
-  });
-
-  factory ModelEndpoint.fromJson(Map<String, dynamic> json) => ModelEndpoint(
-        code: json['codigo'],
-        name: json['nome'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'codigo': code,
-        'nome': name,
-      };
-
-  @override
-  String toString() {
-    return name!;
-  }
-}
-
+/// Makes a request getting all registered brands
+///
+///
+/// then calls [BrandEndpoint.fromJson] and returns
+/// a list of [BrandEndpoint] instances.
 Future<List<BrandEndpoint>?> getCarBrands() async {
   const url = 'https://parallelum.com.br/fipe/api/v1/carros/marcas/';
   final uri = Uri.parse(url);
@@ -81,6 +33,11 @@ Future<List<BrandEndpoint>?> getCarBrands() async {
   }
 }
 
+/// Makes a request getting all registered models within the given [brandName]
+///
+///
+/// then calls [ModelEndpoint.fromJson] and returns
+/// a list of [ModelEndpoint] instances.
 Future<List<ModelEndpoint>?> getCarModel(String brandName) async {
   final listOfBrands = await getCarBrands();
 
