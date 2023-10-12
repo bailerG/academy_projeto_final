@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// App bar with centered logo.
 PreferredSizeWidget myAppBar(BuildContext context) {
   return AppBar(
     title: Image.asset(

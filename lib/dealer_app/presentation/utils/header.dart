@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../main.dart';
 
+/// Header widget with
+///
+/// [header], [fontWeight], [fontSize], [padLeft],
+/// [padRight], [padTop], [padBottom] parameters.
 class AppHeader extends StatelessWidget {
+  /// Constructs an instance of [AppHeader] with
+  /// the given [header], [fontWeight], [fontSize], [padLeft],
+  /// [padRight], [padTop], [padBottom] parameters.
   const AppHeader({
     super.key,
     required this.header,
@@ -14,12 +21,25 @@ class AppHeader extends StatelessWidget {
     this.padBottom,
   });
 
+  /// String displayed by the widget.
   final String header;
+
+  /// Font thickness.
   final FontWeight? fontWeight;
+
+  /// Font size.
   final double? fontSize;
+
+  /// Padding placed on left of [header].
   final double? padLeft;
+
+  /// Padding placed on right of [header].
   final double? padRight;
+
+  /// Padding placed on top of [header].
   final double? padTop;
+
+  /// Padding placed on bottom of [header].
   final double? padBottom;
 
   @override

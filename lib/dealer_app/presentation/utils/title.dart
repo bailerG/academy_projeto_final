@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../../../main.dart';
 
+/// Title widget of a page with
+///
+/// [title] and [fontSize] parameters.
 class AppTitle extends StatelessWidget {
+  /// Constructs an instance of [AppTitle] with
+  ///
+  /// the given [title] and [fontSize] parameters.
   const AppTitle({
     super.key,
     required this.title,
     this.fontSize,
   });
 
+  /// The text to be displayed as title.
   final String title;
+
+  /// The font size of [title].
   final double? fontSize;
 
   @override

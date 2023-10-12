@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// Text widget intended to use as description of a page
+///
+/// with [text], [fontSize] and [fontWeight] parameters.
 class AppTextDescription extends StatelessWidget {
+  /// Constructs an instance of [AppTextDescription] with
+  ///
+  /// the given [text], [fontSize] and [fontWeight] parameters.
   const AppTextDescription({
     required this.text,
     this.fontSize,
@@ -8,8 +14,13 @@ class AppTextDescription extends StatelessWidget {
     super.key,
   });
 
+  /// String displayed by the widget.
   final String text;
+
+  /// Font size of [text].
   final double? fontSize;
+
+  /// Font thickness of [text].
   final FontWeight? fontWeight;
 
   @override

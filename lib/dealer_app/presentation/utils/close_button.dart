@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Button with a navigator pop functionality
 class AppCloseeButton extends StatelessWidget {
+  /// Constructs an instance of [AppCloseeButton] widget.
   const AppCloseeButton({super.key});
 
   @override
