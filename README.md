@@ -1,16 +1,9 @@
-# desafio_academy_flutter
+# Anderson Automoveis App
 
-A new Flutter project.
+A dealership network management app.
 
-## Getting Started
+# This is a project made throughout the Lince Academy 2023 course.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+It features a flutter app to register and manage dealerships, sales, users, and much more.
+It generates sales reports, users are able to take pictures of cars for sale and Fipe API is
+implemented to give suggestions of Brands and Models of vehicles when registering one.
