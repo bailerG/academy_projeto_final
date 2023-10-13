@@ -293,7 +293,6 @@ class _ActionButtons extends StatelessWidget {
                       onPressed: () {
                         state.deleteVehicle(vehicle);
                         Navigator.of(context).pop();
-                        Navigator.of(context).pop();
                       },
                       child: Text(locale.yes),
                     ),
@@ -304,6 +303,8 @@ class _ActionButtons extends StatelessWidget {
                   ],
                 );
               },
+            ).whenComplete(
+              () => Navigator.pop(context),
             );
           },
         ),
@@ -382,9 +383,7 @@ class _SalePopUp extends StatelessWidget {
                 return;
               } else {
                 state.registerSale();
-                Navigator.of(context)
-                  ..pop()
-                  ..pop();
+                Navigator.of(context).pop();
               }
             },
             text: locale.soldCar,

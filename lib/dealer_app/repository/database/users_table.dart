@@ -9,6 +9,7 @@ import '../../entities/user.dart';
 /// [User.password],[User.fullName], [User.dealershipId],
 /// [User.roleId], [User.isActive] inside a .db file.
 class UsersTable {
+  /// This is a SQLite command for creating this table.
   static const String createTable = '''
     CREATE TABLE $tableName(
       $id           INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

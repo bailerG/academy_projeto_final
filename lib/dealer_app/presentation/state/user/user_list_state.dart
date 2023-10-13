@@ -6,12 +6,16 @@ import '../../../entities/user.dart';
 import '../../../usecases/database_controllers/dealerships_table_controller.dart';
 import '../../../usecases/database_controllers/roles_table_controller.dart';
 import '../../../usecases/database_controllers/users_table_controller.dart';
+import '../../pages/user/user_list_screen.dart';
 
+/// State controller of [UserListScreen] managing the data displayed.
 class UserListState with ChangeNotifier {
+  /// Constructs an instance of [UserListState].
   UserListState() {
     init();
   }
 
+  /// Whether screen data is being loaded or not.
   bool loading = true;
 
   final _userController = UsersTableController();
@@ -19,25 +23,33 @@ class UserListState with ChangeNotifier {
   final _roleController = RolesTableController();
 
   final _userList = <User>[];
+
+  /// All instances of [User] saved on the database.
+  List<User> get userList => _userList;
+
   final _dealershipList = <Dealership>[];
+
+  /// All instances of [Dealership] saved on the database.
+  List<Dealership> get dealershipList => _dealershipList;
+
   final _roleList = <Role>[];
 
-  List<User> get userList => _userList;
-  List<Dealership> get dealershipList => _dealershipList;
+  /// All instances of [Role] saved on the database.
   List<Role> get roleList => _roleList;
 
+  /// Loads all data displayed on [UserListScreen].
   void init() async {
     loading = true;
-    await getUserList();
-    await getDealershipList();
-    await getRoleList();
+    await _getUserList();
+    await _getDealershipList();
+    await _getRoleList();
 
     loading = false;
 
     notifyListeners();
   }
 
-  Future<void> getUserList() async {
+  Future<void> _getUserList() async {
     final result = await _userController.selectAll();
     _userList
       ..clear()
@@ -49,7 +61,7 @@ class UserListState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getDealershipList() async {
+  Future<void> _getDealershipList() async {
     final result = await _dealershipController.selectAll();
     _dealershipList
       ..clear()
@@ -58,7 +70,7 @@ class UserListState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getRoleList() async {
+  Future<void> _getRoleList() async {
     final result = await _roleController.selectAll();
     _roleList
       ..clear()

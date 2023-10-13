@@ -12,13 +12,17 @@ import '../../../entities/vehicle.dart';
 import '../../../repository/fipe_api.dart';
 import '../../../repository/internal_storage.dart';
 import '../../../usecases/database_controllers/vehicles_table_controller.dart';
+import '../../pages/vehicle/vehicle_register_screen.dart';
 
+/// State controller of [VehicleRegisterScreen] managing the data displayed.
 class VehicleRegisterState with ChangeNotifier {
+  /// Constructs an instance of [VehicleRegisterState] with
+  /// the given [user] and [vehicle] parameters.
   VehicleRegisterState({
     required User user,
     this.vehicle,
   }) {
-    init(
+    _init(
       user,
       vehicle,
     );
@@ -26,64 +30,92 @@ class VehicleRegisterState with ChangeNotifier {
 
   late User _loggedUser;
 
-  bool editing = false;
+  bool _editing = false;
 
+  /// Whether there is an instance of [Vehicle] being edited or not.
+  bool get editing => _editing;
+
+  /// An instance of vehicle that will be edited.
   Vehicle? vehicle;
 
+  /// The form controller of this screen.
   final formState = GlobalKey<FormState>();
 
   final _vehicleController = VehiclesTableController();
 
   final _modelController = TextEditingController();
+
+  /// The value inside model text field.
+  TextEditingController get modelController => _modelController;
+
   final _plateController = TextEditingController();
+
+  /// The value inside plate text field.
+  TextEditingController get plateController => _plateController;
+
   final _brandController = TextEditingController();
+
+  /// The value inside brand text field.
+  TextEditingController get brandController => _brandController;
+
   final _builtYearController = TextEditingController();
+
+  /// The value inside year built text field.
+  TextEditingController get builtYearController => _builtYearController;
+
   final _modelYearController = TextEditingController();
+
+  /// The value inside model year text field.
+  TextEditingController get modelYearController => _modelYearController;
+
   final _dateController = TextEditingController();
 
+  /// The value inside date picker.
+  TextEditingController get dateController => _dateController;
+
   final _photoController = <String>[];
+
+  /// The value inside image picker.
+  List<String> get photoController => _photoController;
 
   final _priceController = MoneyMaskedTextController(
     decimalSeparator: '.',
     thousandSeparator: ',',
   );
 
-  TextEditingController get modelController => _modelController;
-  TextEditingController get plateController => _plateController;
-  TextEditingController get brandController => _brandController;
-  TextEditingController get builtYearController => _builtYearController;
-  TextEditingController get modelYearController => _modelYearController;
-  TextEditingController get dateController => _dateController;
+  /// The value inside price text field.
   MoneyMaskedTextController get priceController => _priceController;
 
-  List<String> get photoController => _photoController;
-
+  /// Checks if model field is being utilized or not.
   final modelFieldFocusNode = FocusNode();
 
+  /// All brands returned from Fipe API.
   final allBrands = <String>[];
+
+  /// All models from a given brand returned from Fipe API.
   final allModels = <String>[];
 
-  void init(User user, Vehicle? vehicle) async {
+  void _init(User user, Vehicle? vehicle) async {
     _loggedUser = user;
-    editing = false;
+    _editing = false;
 
     if (vehicle == null) {
-      final result = await getBrandNames();
+      final result = await _getBrandNames();
 
       allBrands.addAll(result ?? []);
 
-      showModels();
+      _showModels();
     } else {
-      editCar(vehicle);
-      editing = true;
+      _editCar(vehicle);
+      _editing = true;
     }
   }
 
-  void showModels() async {
+  void _showModels() async {
     modelFieldFocusNode.addListener(
       () async {
         if (modelFieldFocusNode.hasFocus) {
-          final result = await getModelsByBrand(brandController.text);
+          final result = await _getModelsByBrand(brandController.text);
           allModels.clear();
           allModels.addAll(result!);
           notifyListeners();
@@ -92,7 +124,7 @@ class VehicleRegisterState with ChangeNotifier {
     );
   }
 
-  Future<List<String>?> getBrandNames() async {
+  Future<List<String>?> _getBrandNames() async {
     final brandsList = await getCarBrands();
 
     final brandNames = <String>[];
@@ -105,7 +137,7 @@ class VehicleRegisterState with ChangeNotifier {
     return brandNames;
   }
 
-  Future<List<String>?> getModelsByBrand(String brand) async {
+  Future<List<String>?> _getModelsByBrand(String brand) async {
     final modelsList = await getCarModel(brand);
 
     final modelNames = <String>[];
@@ -118,6 +150,8 @@ class VehicleRegisterState with ChangeNotifier {
     return modelNames;
   }
 
+  /// Registers a new instance of [Vehicle] in the database
+  /// with the inputs given from user.
   Future<void> insert() async {
     final vehicle = Vehicle(
       model: modelController.text,
@@ -145,6 +179,7 @@ class VehicleRegisterState with ChangeNotifier {
     priceController.updateValue(0.00);
   }
 
+  /// Opens up phone's photo gallery so the user can choose images.
   Future<void> pickImage() async {
     try {
       final images = await ImagePicker().pickMultiImage();
@@ -164,6 +199,7 @@ class VehicleRegisterState with ChangeNotifier {
     }
   }
 
+  /// Opens up phone's camera app so the user can take a photo.
   Future<void> takePhoto() async {
     try {
       final imageXFile =
@@ -184,17 +220,19 @@ class VehicleRegisterState with ChangeNotifier {
     }
   }
 
+  /// Loads a given image by its [imageName].
   Future<File> loadVehicleImage(String imageName) async {
     final result = await LocalStorage().loadFileLocal(imageName);
     return result;
   }
 
+  /// Sets the date a vehicle was bought.
   void setPickedDate(String date) {
     _dateController.text = date;
     notifyListeners();
   }
 
-  void editCar(Vehicle vehicle) {
+  void _editCar(Vehicle vehicle) {
     brandController.text = vehicle.brand;
     modelController.text = vehicle.model;
     builtYearController.text = vehicle.builtYear.toString();
@@ -208,6 +246,8 @@ class VehicleRegisterState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates an instance of [Vehicle] saved on the database with
+  /// inputs from user.
   Future<void> update() async {
     final editedCar = Vehicle(
       id: vehicle!.id,

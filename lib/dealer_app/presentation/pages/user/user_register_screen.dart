@@ -35,8 +35,8 @@ class UserRegisterScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: ChangeNotifierProvider(
-        create: (context) => UserRegistrationState(user),
-        child: Consumer<UserRegistrationState>(
+        create: (context) => UserRegistraterState(user),
+        child: Consumer<UserRegistraterState>(
           builder: (context, state, child) {
             return _UserRegistrationStructure(state);
           },
@@ -49,7 +49,7 @@ class UserRegisterScreen extends StatelessWidget {
 class _UserRegistrationStructure extends StatelessWidget {
   const _UserRegistrationStructure(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _UserRegistrationStructure extends StatelessWidget {
 class _NewUserTitle extends StatelessWidget {
   const _NewUserTitle(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +143,7 @@ class _NewUserTitle extends StatelessWidget {
 class _FullNameTextField extends StatelessWidget {
   const _FullNameTextField(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +171,7 @@ class _FullNameTextField extends StatelessWidget {
 class _UsernameTextField extends StatelessWidget {
   const _UsernameTextField(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +199,7 @@ class _UsernameTextField extends StatelessWidget {
 class _DealershipDropdown extends StatelessWidget {
   const _DealershipDropdown(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +227,7 @@ class _DealershipDropdown extends StatelessWidget {
 class _RoleDropdown extends StatelessWidget {
   const _RoleDropdown(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +255,7 @@ class _RoleDropdown extends StatelessWidget {
 class _RegisterButton extends StatelessWidget {
   const _RegisterButton(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +286,7 @@ class _RegisterButton extends StatelessWidget {
 class _DeactivateUser extends StatelessWidget {
   const _DeactivateUser(this.state);
 
-  final UserRegistrationState state;
+  final UserRegistraterState state;
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +310,6 @@ class _DeactivateUser extends StatelessWidget {
                       await state.deactivateUser();
                       if (context.mounted) {
                         Navigator.pop(context);
-                        Navigator.pop(context);
                       }
                     },
                     child: Text(locale.yes),
@@ -322,6 +321,8 @@ class _DeactivateUser extends StatelessWidget {
                 ],
               );
             },
+          ).whenComplete(
+            () => Navigator.pop(context),
           );
         },
         text: locale.userDeactivate,

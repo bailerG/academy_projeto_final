@@ -13,6 +13,7 @@ import '../../entities/vehicle.dart';
 /// [Vehicle.purchasedDate], [Vehicle.dealershipId],
 /// [Vehicle.isSold] inside a .db file.
 class VehiclesTable {
+  /// This is a SQLite command for creating this table.
   static const String createTable = '''
     CREATE TABLE $tableName(
       $id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

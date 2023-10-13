@@ -336,7 +336,6 @@ class _DeactivateButton extends StatelessWidget {
                       await state.deactivateDealership();
                       if (context.mounted) {
                         Navigator.pop(context);
-                        Navigator.pop(context);
                       }
                     },
                     child: Text(locale.yes),
@@ -348,6 +347,8 @@ class _DeactivateButton extends StatelessWidget {
                 ],
               );
             },
+          ).whenComplete(
+            () => Navigator.pop(context),
           );
         },
         text: locale.dealershipDeactivate,

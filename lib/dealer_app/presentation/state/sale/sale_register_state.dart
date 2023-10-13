@@ -10,17 +10,26 @@ import '../../../usecases/database_controllers/autonomy_table_controller.dart';
 import '../../../usecases/database_controllers/dealerships_table_controller.dart';
 import '../../../usecases/database_controllers/sale_table_controller.dart';
 import '../../../usecases/database_controllers/vehicles_table_controller.dart';
+import '../../pages/sale/sales_form_popup.dart';
 
+/// State controller of [SaleForm] managing the data displayed.
 class SaleRegisterState with ChangeNotifier {
+  /// Constructs an instance of [SaleRegisterState] with
+  /// the given [user] and [vehicle] parameters.
   SaleRegisterState(
     this.user,
     this.vehicle,
   ) {
-    init();
+    _init();
   }
 
+  /// The current logged user.
   final User user;
+
+  /// The vehicle being sold.
   final Vehicle vehicle;
+
+  /// The [AutonomyLevel] from the dealership that is selling [vehicle].
   late AutonomyLevel autonomyLevel;
 
   final _salesController = SaleTableController();
@@ -28,26 +37,39 @@ class SaleRegisterState with ChangeNotifier {
   final _autonomyController = AutonomyLevelsTableController();
   final _vehicleController = VehiclesTableController();
 
+  /// The form controller of this screen.
   final formState = GlobalKey<FormState>();
 
   final _cpfController = TextEditingController();
+
+  /// The value inside cpf text field.
+  TextEditingController get cpfController => _cpfController;
+
   final _nameController = TextEditingController();
+
+  /// The value inside name text field.
+  TextEditingController get nameController => _nameController;
+
   final _dateController = TextEditingController();
+
+  /// The value inside date picker.
+  TextEditingController get dateController => _dateController;
+
   final _priceController = MoneyMaskedTextController(
     decimalSeparator: '.',
     thousandSeparator: ',',
   );
 
-  TextEditingController get cpfController => _cpfController;
-  TextEditingController get nameController => _nameController;
-  TextEditingController get dateController => _dateController;
+  /// The value inside price text field.
   MoneyMaskedTextController get priceController => _priceController;
 
-  void init() async {
-    await getAutonomyLevel(vehicle.dealershipId);
+  void _init() async {
+    await _getAutonomyLevel(vehicle.dealershipId);
     notifyListeners();
   }
 
+  /// Registers a new instance of [Sale]
+  /// into the database with the inputs given from user.
   void registerSale() async {
     final sale = Sale(
       customerCpf: int.parse(cpfController.text),
@@ -67,7 +89,7 @@ class SaleRegisterState with ChangeNotifier {
 
     await _salesController.insert(sale);
 
-    setVehicleAsSold();
+    _setVehicleAsSold();
 
     cpfController.clear();
     nameController.clear();
@@ -75,19 +97,20 @@ class SaleRegisterState with ChangeNotifier {
     priceController.updateValue(0.00);
   }
 
-  Future<void> getAutonomyLevel(int dealershipId) async {
+  Future<void> _getAutonomyLevel(int dealershipId) async {
     final dealership = await _dealershipController.selectById(dealershipId);
 
     autonomyLevel =
         await _autonomyController.selectById(dealership.autonomyLevelId);
   }
 
+  /// Sets a new value to [_dateController].
   void setPickedDate(String date) {
     _dateController.text = date;
     notifyListeners();
   }
 
-  void setVehicleAsSold() async {
+  void _setVehicleAsSold() async {
     final soldVehicle = Vehicle(
       id: vehicle.id,
       model: vehicle.model,
