@@ -12,9 +12,20 @@ import '../../utils/text_descriptions.dart';
 import '../../utils/text_field.dart';
 import '../../utils/title.dart';
 
+/// References the user registration page of the app.
+///
+/// It allows admins to create an instance of [User] and
+/// save it on database. Admin needs to provide all
+/// properties inside the respective fields.
+///
+/// It is also used when an instance of user needs to be edited,
+/// its parameters are filled in their respective fields
+/// and admin can change them.
 class UserRegisterScreen extends StatelessWidget {
+  /// Constructs an instance of [UserRegisterScreen].
   const UserRegisterScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/registration';
 
   @override

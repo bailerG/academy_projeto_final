@@ -8,9 +8,15 @@ import '../../state/dealership/dealership_list_state.dart';
 import '../../utils/title.dart';
 import 'dealership_register_screen.dart';
 
+/// References to the view/edit dealerships page.
+///
+/// It allows admins to see a lsit of all
+/// instances of [Dealership] registered and edit them if needed.
 class DealershipListScreen extends StatelessWidget {
+  /// Constructs an instance of [DealershipListScreen].
   const DealershipListScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/dealership_list';
 
   @override

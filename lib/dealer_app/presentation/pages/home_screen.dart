@@ -5,7 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/dealership.dart';
 import '../../entities/vehicle.dart';
+import '../../repository/internal_storage.dart';
 import '../state/home_screen_state.dart';
 import '../state/main_state.dart';
 import '../utils/dropdown.dart';
@@ -13,9 +15,15 @@ import '../utils/header.dart';
 import '../utils/title.dart';
 import 'vehicle/vehicle_options_screen.dart';
 
+/// References the home screen page of the app.
+///
+/// It dosplays the name of logged user, as well as
+/// all [Vehicle] instances registered to a [Dealership].
 class HomeScreen extends StatelessWidget {
+  /// Constructs an instance of [HomeScreen].
   const HomeScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/home_screen';
 
   @override
@@ -168,8 +176,6 @@ class _CarListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<HomeScreenState>(context);
-
     final vehiclePhotos = vehicle.photos!.split('|');
     final numberFormatter = NumberFormat('###,###,###.00');
 
@@ -188,7 +194,7 @@ class _CarListTile extends StatelessWidget {
         ),
         leading: FutureBuilder<File>(
           // ignore: discarded_futures
-          future: state.loadVehicleImage(vehiclePhotos.first),
+          future: LocalStorage().loadFileLocal(vehiclePhotos.first),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Image.file(

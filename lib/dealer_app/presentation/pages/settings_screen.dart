@@ -6,9 +6,15 @@ import '../state/main_state.dart';
 import '../utils/header.dart';
 import '../utils/title.dart';
 
+/// References to the settings page of the app.
+///
+/// It houses all options accessible to users
+/// such as changing theme or language.
 class SettingsScreen extends StatelessWidget {
+  /// Constructs an instance of [SettingsScreen].
   const SettingsScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/settings';
 
   @override

@@ -5,9 +5,16 @@ import '../state/main_state.dart';
 import '../utils/app_bar.dart';
 import 'navigation_bar.dart';
 
+/// References the highest hierarchy page of the app.
+///
+/// It contains the personalized [myAppBar] and [AppNavigationBar],
+/// all pages are shown within this page as it doesn't have a
+/// fixed body property.
 class MainScreen extends StatelessWidget {
+  /// Constructs an instance of [MainScreen].
   const MainScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/main_screen';
 
   @override

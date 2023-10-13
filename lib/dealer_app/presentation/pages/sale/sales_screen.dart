@@ -7,9 +7,15 @@ import '../../utils/large_button.dart';
 import 'report_screen.dart';
 import 'sales_list_screen.dart';
 
+/// References the sales options page.
+///
+/// It shows two button options referencing
+/// to [SalesListScreen] and [ReportGenerationScreen].
 class SalesScreen extends StatelessWidget {
+  /// Constructs an instance of [SalesScreen].
   const SalesScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/sale';
 
   @override

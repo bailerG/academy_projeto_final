@@ -10,9 +10,15 @@ import '../../utils/large_button.dart';
 import '../../utils/text_field.dart';
 import '../../utils/title.dart';
 
+/// References to the edit percentages page.
+///
+/// Allows admins to change contribuition percentages of
+/// [AutonomyLevel] instances.
 class AutonomyOptionsScreen extends StatelessWidget {
+  /// Constructs an instance of [AutonomyOptionsScreen].
   const AutonomyOptionsScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/autonomy_options';
 
   @override

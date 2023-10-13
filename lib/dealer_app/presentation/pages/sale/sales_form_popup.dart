@@ -2,18 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
+import '../../../entities/sale.dart';
 import '../../state/sale/sale_register_state.dart';
 import '../../utils/header.dart';
 import '../../utils/text_field.dart';
 
+/// References the pop up widget of a [Sale] registration.
+///
+/// Users can provide the necessary data to register a sale.
+/// This is not a page, but rather a pop up widget that shows on screen.
 class SaleForm extends StatelessWidget {
+  /// Constructs an instance of [SaleForm].
+  /// [locale] and [state] parameters need to be given.
   const SaleForm({
     super.key,
     required this.locale,
     required this.state,
   });
 
+  /// State controller to manage the form's state.
   final SaleRegisterState state;
+
+  /// Refers to the language being utilized on the app.
   final AppLocalizations locale;
 
   @override

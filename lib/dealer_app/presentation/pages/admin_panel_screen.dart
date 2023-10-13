@@ -8,9 +8,16 @@ import 'dealership/dealership_register_screen.dart';
 import 'user/user_list_screen.dart';
 import 'user/user_register_screen.dart';
 
+/// References the Admin page of the app.
+///
+/// It displays a gridview with clickable container options,
+/// such as registering a new user or dealership, that are
+/// only available to admin users.
 class AdminPanel extends StatelessWidget {
+  /// Constructs an instance of [AdminPanel].
   const AdminPanel({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/admin_panel';
 
   @override

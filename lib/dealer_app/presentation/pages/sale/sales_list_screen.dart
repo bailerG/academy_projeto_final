@@ -13,9 +13,16 @@ import '../../utils/small_button.dart';
 import '../../utils/text_descriptions.dart';
 import '../../utils/title.dart';
 
+/// References the list of sales' page of the app.
+///
+/// It shows a all instances of [Sale] from a certain
+/// date range to the user. It is also possible to mark
+/// a certain sale as uncomplete.
 class SalesListScreen extends StatelessWidget {
+  /// Constructs an instance of [SalesListScreen].
   const SalesListScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/sales_list';
 
   @override

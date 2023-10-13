@@ -10,6 +10,8 @@ import '../entities/sale.dart';
 import '../repository/internal_storage.dart';
 
 /// Represents all related PDF generation functionalities.
+///
+/// It is a .pdf extension document generated with the provided data.
 class PDFDocument {
   double _totalAmount = 0;
   double _totalDealershipAmount = 0;

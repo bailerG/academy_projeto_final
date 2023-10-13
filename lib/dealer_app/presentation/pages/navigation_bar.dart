@@ -5,7 +5,12 @@ import 'package:provider/provider.dart';
 import '../../../main.dart';
 import '../state/main_state.dart';
 
+/// References the navigation bar of the app.
+///
+/// It gives several different icon button options
+/// for the user to chose from to be displayed as pages.
 class AppNavigationBar extends StatelessWidget {
+  /// Constructs an instance of [AppNavigationBar].
   const AppNavigationBar({super.key});
 
   @override

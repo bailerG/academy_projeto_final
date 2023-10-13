@@ -21,9 +21,16 @@ import '../../utils/title.dart';
 import '../sale/sales_form_popup.dart';
 import 'vehicle_register_screen.dart';
 
+/// References to vehicle option page of the app.
+///
+/// It shows all details from a given [Vehicle] that
+/// are available to users. Also has options to edit,
+/// delete or sell the vehicle.
 class VehicleOptionsScreen extends StatelessWidget {
+  /// Constructs an instance of [VehicleOptionsScreen].
   const VehicleOptionsScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/vehicle_options';
 
   @override

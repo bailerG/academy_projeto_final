@@ -8,9 +8,15 @@ import '../../state/user/user_list_state.dart';
 import '../../utils/title.dart';
 import 'user_register_screen.dart';
 
+/// References the view/edit users page of the app.
+///
+/// It allows admins to see a list of all users registered to
+/// the database and edit them.
 class UserListScreen extends StatelessWidget {
+  /// Constructs an instance of [UserListScreen].
   const UserListScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/user_list';
 
   @override

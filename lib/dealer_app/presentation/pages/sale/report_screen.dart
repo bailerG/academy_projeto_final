@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
+import '../../../entities/sale.dart';
 import '../../../entities/user.dart';
 import '../../../usecases/pdf_template.dart';
 import '../../state/sale/report_state.dart';
@@ -14,9 +15,15 @@ import '../../utils/small_button.dart';
 import '../../utils/text_descriptions.dart';
 import '../../utils/title.dart';
 
+/// References to the Report Generation page of the app.
+///
+/// It is where users can set a date range and generate a [PDFDocument]
+/// with all instances of [Sale] within those dates.
 class ReportGenerationScreen extends StatelessWidget {
+  /// Constructs an instance of [ReportGenerationScreen].
   const ReportGenerationScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/report_generation';
 
   @override

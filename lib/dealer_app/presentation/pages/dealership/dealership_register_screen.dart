@@ -12,9 +12,20 @@ import '../../utils/text_descriptions.dart';
 import '../../utils/text_field.dart';
 import '../../utils/title.dart';
 
+/// References the dealership registration page of the app.
+///
+/// It allows admins to create an instance of [Dealership] and
+/// save it on database. Admin needs to provide all
+/// properties inside the respective fields.
+///
+/// It is also used when an instance of dealership needs to be edited,
+/// its parameters are filled in their respective fields
+/// and admin can change them.
 class DealershipRegisterScreen extends StatelessWidget {
+  /// Constructs an instance of [DealershipRegisterScreen].
   const DealershipRegisterScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/dealership_register';
 
   @override

@@ -8,11 +8,19 @@ import '../utils/header.dart';
 import '../utils/large_button.dart';
 import '../utils/text_field.dart';
 import '../utils/title.dart';
+import 'home_screen.dart';
 import 'main_screen.dart';
 
+/// References the login screen page of the app.
+///
+/// It displays a simple page with a welcome title and
+/// two text fields so the user can log in with its username and password.
+/// If everything checks out, user is redirected to [HomeScreen].
 class LoginScreen extends StatelessWidget {
+  /// Constructs an instance of [LoginScreen].
   const LoginScreen({super.key});
 
+  /// Name of route leading to this page.
   static const routeName = '/login';
 
   @override

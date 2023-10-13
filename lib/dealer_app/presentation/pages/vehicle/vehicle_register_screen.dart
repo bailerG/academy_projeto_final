@@ -17,11 +17,22 @@ import '../../utils/text_descriptions.dart';
 import '../../utils/text_field.dart';
 import '../../utils/title.dart';
 
+/// References the vehicle registration page of the app.
+///
+/// It allows users to create an instance of [Vehicle] and
+/// save it on database. User needs to provide all
+/// properties inside the respective fields.
+///
+/// It is also used when an instance of vehicle needs to be edited,
+/// its parameters are filled in their respective fields
+/// and user can change them.
 class VehicleRegisterScreen extends StatelessWidget {
+  /// Constructs an instance of [VehicleRegisterScreen].
   const VehicleRegisterScreen({
     super.key,
   });
 
+  /// Name of route leading to this page.
   static const routeName = '/vehicle_registration';
 
   @override
