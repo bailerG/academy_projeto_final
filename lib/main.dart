@@ -27,6 +27,7 @@ const accentColor = Color.fromRGBO(134, 46, 46, 1);
 void main() {
   runApp(
     const MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: MyApp(),
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<MainState>(
         builder: (context, state, child) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             locale: Locale(state.language),
             supportedLocales: L10n.all,
             localizationsDelegates: const [
