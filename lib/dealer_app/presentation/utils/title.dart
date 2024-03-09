@@ -28,7 +28,7 @@ class AppTitle extends StatelessWidget {
       child: Text(
         title,
         softWrap: true,
-        textScaleFactor: fontSize ?? 2.5,
+        textScaler: const TextScaler.linear(2.5),
         style: const TextStyle(
           color: accentColor,
           fontWeight: FontWeight.w700,
