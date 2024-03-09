@@ -53,7 +53,7 @@ class AppHeader extends StatelessWidget {
       ),
       child: Text(
         header,
-        textScaleFactor: fontSize ?? 1.3,
+        textScaler: const TextScaler.linear(1.3),
         style: TextStyle(
           color: accentColor,
           fontWeight: fontWeight ?? FontWeight.w700,
