@@ -65,44 +65,49 @@ class _OptionsStructure extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = Provider.of<VehicleOptionsState>(context, listen: true);
     final vehicle = state.vehicle;
-    return Column(
-      children: [
-        const _CarouselWidget(),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 40.0,
-            right: 40.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 24,
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(
+        bottom: 40,
+      ),
+      child: Column(
+        children: [
+          const _CarouselWidget(),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 40.0,
+              right: 40.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 16,
+                  ),
+                  child: _VehicleBrandAndYear(vehicle),
                 ),
-                child: _VehicleBrandAndYear(vehicle),
-              ),
-              _VehicleModel(vehicle),
-              const Padding(
-                padding: EdgeInsets.only(top: 32),
-                child: _DetailsHeader(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: _CarDetails(vehicle),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 32),
-                child: _ActionButtons(vehicle),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: _SellButton(),
-              ),
-            ],
+                _VehicleModel(vehicle),
+                const Padding(
+                  padding: EdgeInsets.only(top: 32),
+                  child: _DetailsHeader(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: _CarDetails(vehicle),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: _ActionButtons(vehicle),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: _SellButton(),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
